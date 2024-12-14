@@ -6,7 +6,6 @@
     <?php include 'style.css' ?>
 </style>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,9 +81,111 @@
             <div class = "right-arrow"><i class = "bx bxs-right-arrow"></i></div>
         </div>
         </section>
-        
+        <section class = "thumb">
+            <div class = "box-container"> 
+                <div class = "box"> 
+                    <img src = "assets/image/thumb2.jpg">
+                    <h3>Green Tea</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <i class = "bx bx-chevron-right"></i>
+                </div>
+                <div class = "box"> 
+                <img src = "assets/image/thumb0.jpg">
+                    <h3>Lemon Tea</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <i class = "bx bx-chevron-right"></i>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/thumb1.jpg">
+                    <h3>Green Coffee</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <i class = "bx bx-chevron-right"></i>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/thumb.jpg">
+                    <h3>Green Tea</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <i class = "bx bx-chevron-right"></i>
+                </div>
+            </div>
+        </section>
+        <section class = "container"> 
+            <div class = "box-container"> 
+                <div class = "box"> 
+                    <img src = "assets/image/about-us.jpg">
+                </div> 
+                <div class = "box">
+                    <img src = "assets/image/download.png">
+                    <span>Healthy Tea</span>
+                    <h1>Save up to 50% off</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                </div>
+            </div>
+        </section>
+        <section class = "shop">
+            <div class = "title">
+                <img src = "assets/image/download.png">
+                <h1>Trending Products </h1>
+            </div>
+            <div class = "row"> 
+                <img src = "assets/image/about.jpg">
+                <div class = "row-detail">
+                    <img src = "assets/basil.jpg">
+                    <div class = "top-footer">
+                        <h1>A cup of green tea makes you healthy</h1>
+                    </div>
+                </div>
+            </div>
+            <div class = "box-container"> 
+                <div class = "box"> 
+                    <img src = "assets/image/card.jpg">
+                    <a href = "view_products.php" class = "btn">Shop Now</a>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/card0.jpg">
+                    <a href = "view_products.php" class = "btn">Shop Now</a>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/card1.jpg">
+                    <a href = "view_products.php" class = "btn">Shop Now</a>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/card2.jpg">
+                    <a href = "view_products.php" class = "btn">Shop Now</a>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/card10.jpg">
+                    <a href = "view_products.php" class = "btn">Shop Now</a>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/6.webp">
+                    <a href = "view_products.php" class = "btn">Shop Now</a>
+                </div>
+            </div>
+        </section>
+        <section class = "shop-category">
+            <div class = "box-container">
+                <div class = "box"> 
+                    <img src = "assets/image/6.jpg">
+                    <div class = "detail">
+                        <span>BIG OFFERS</spam>
+                        <h1>Extra 15% off</h1>
+                        <a href = "view_products.php" class = "btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/7.jpg">
+                    <div class = "detail">
+                        <span>NEW IN TASTE</spam>
+                        <h1>COffee House</h1>
+                        <a href = "view_products.php" class = "btn">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
         <?php include 'components/footer.php'; ?>
         <!--Home Slider end-->
+        
 
     </div>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>

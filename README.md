@@ -1,6 +1,3 @@
-Here’s a polished Markdown template for your **Green Coffee Shop** project:
-
-```markdown
 <h1 align="center">☕ Green Tea Coffee Shop ☕</h1>
 
 <p align="center">

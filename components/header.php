@@ -7,10 +7,10 @@
             <a href = "order.php">Order</a>
             <a href = "contact.php">Contact Us</a>
         </nav>
-        <div class = "icon"> 
+        <div class = "icons">
             <i class = "bx bxs-user" id = "user-btn"></i>
-            <a href = "wishlist.php" class = "cart-btn"><i class = "bx bx-heart"></i><sup>0</sup></a>
-            <a href = "cart.php" class = "cart-btn"><i class = "bx bx-cart-download"></i><sup>0</sup></a>
+            <a href = "wishlist.php" class = "cart-btn"><i class = "bx bx-heart"></i><sup style="color: #fff;">0</sup></a>
+            <a href = "cart.php" class = "cart-btn"><i class = "bx bx-cart-download"></i><sup style="color: #fff;">0</sup></a>
             <i class = "bx bx-list-plus" id = "menu-btn" style = "font-size: 2rem;"></i>
         </div>
         <div class = "user-box"> 

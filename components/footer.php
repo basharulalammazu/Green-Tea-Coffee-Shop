@@ -1,5 +1,5 @@
 <div class = "top-footer">
-    <h2><i class = "bx bx-envelope"></i>Sign Up For Newslatter</h2>
+    <h2><i class = "bx bx-envelope"></i>Sign Up For Newsletter</h2>
     <div class = "input-field">
         <input type = "text" name = "" placeholder = "Enter your email">
         <button class = "btn"> Subscribe</button>
@@ -44,8 +44,8 @@
                 </ul>
             </div>
             <div class = "card"> 
-                <h3>Newslattter</h3>
-                <p>Sign Up FOr Newslatter</p>
+                <h3>Newsletter</h3>
+                <p>Sign Up For Newsletter</p>
                 <div class = "social-links"> 
                     <i class = "bx bxl-instagram"></i>
                     <i class = "bx bxl-twitter"></i>

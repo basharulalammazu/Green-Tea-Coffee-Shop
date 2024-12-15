@@ -106,7 +106,7 @@
 
                 if ($select_products -> rowCount() > 0)
                 {
-                    while($fetech_products = $select_products-fetch(PDO::FETCH_ASSOC))
+                    while($fetech_products = $select_products-$fetch(PDO::FETCH_ASSOC))
                     {
         ?>
         <form method = "post">

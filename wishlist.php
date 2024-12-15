@@ -11,7 +11,7 @@
     {
         session_unset();
         session_destroy();
-        header("location: login.php")
+        header("location: login.php");
     }
 
     // Adding product in wishlist
@@ -32,7 +32,7 @@
             $warning_mes[] = 'product already exist in your cart';
         else 
         {
-            $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1")
+            $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
             $select_price -> execute([$product_id]);
             $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
 
@@ -63,7 +63,7 @@
              $warning_mes[] = 'Cart is full';
          else 
          {
-             $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1")
+             $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
              $select_price -> execute([$product_id]);
              $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
  

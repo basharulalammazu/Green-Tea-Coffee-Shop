@@ -10,7 +10,7 @@
 
     function unique_id()
     {
-        $chars = "0123456789abcdefghijklmnopqrstuwvxyzABCDEFGHIJKMNLOPQRSTUWVXYZ"
+        $chars = "0123456789abcdefghijklmnopqrstuwvxyzABCDEFGHIJKMNLOPQRSTUWVXYZ";
         $charLength = strlen($chars);
         $randmonString = '';
 

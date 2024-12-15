@@ -17,7 +17,7 @@
     // Adding product in wishlist
     if(isset($_POST['add_to_wishlist']))
     {
-        //$id = unique_id(); //Function is to be created
+        $id = unique_id(); //Function is to be created
         $product_id = $_POST['product_id'];
 
         $verify_wishlist = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ? AND `Product ID` = ?");
@@ -45,7 +45,7 @@
      // Adding product in cart
      if(isset($_POST['add_to_cart']))
      {
-         //$id = unique_id(); //Function is to be created
+         $id = unique_id(); //Function is to be created
          $product_id = $_POST['product_id'];
 
          $qty = $_POST['qty'];
@@ -99,24 +99,27 @@
     <section class = "products">
         <div class = "box-container">
             <?php 
-                $select_product = $conn->prepare("SELECT * FROM 'Products'");
+            
+               $select_product = $conn->prepare("SELECT * FROM 'Products'");
                 $select_product -> execute();
 
                 if ($select_product -> rowCount() > 0)
                 {
                     while ($fetch_products = $select_product -> fetch(PDO::FETCH_ASSOC)) { 
+
+                    
             ?>
                 <form action = "#" method = "post" class = "box">
                     <img src = "image/<?=$fetch_products['image']; ?>">
                     <div class = "button">
                         <button type = "submit" name = "add_to_cart"><i class = "bx bx-cart"></i></button>
                         <button type = "submit" name = "add_to_wishlist"><i class = "bx bx-heart"></i></button>
-                        <a href = "view_page.php?pid = <?php $fetech_product['id']; ?>"class = "bx bxs-show"></a>
+                        <a href = "view_page.php?pid = <?php $fetch_product['id']; ?>"class = "bx bxs-show"></a>
                     </div>
                     <h3 class = "name"> <?=$fetch_products['name']; ?></h3>
                     <input type = "hidden" name = "product_id" value = "<?=$fetch_products['id']; ?>">
                     <div class = "fles">
-                        <p class = "price">Price $<?=$fetech_product['price']; ?>/-</p>
+                        <p class = "price">Price $<?=$fetch_product['price']; ?>/-</p>
                         <input type = "number" name = "qty" required min = "1" value = "1" max = "99" maxlength = "2" class = "qty">
                     </div>
                     <a href = "checkout.php?get_id=<?=$fetech_products['id']; ?>" class = "btn"> Buy Now </a> 
@@ -126,7 +129,7 @@
             else 
                 echo "<p class = 'empty'>No Products added yet!</p>;"
             ?>
-        </div>
+        </div> 
     </section>
     
     <?php include 'components/footer.php'; ?>

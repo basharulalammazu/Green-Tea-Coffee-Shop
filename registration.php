@@ -11,7 +11,7 @@ if (isset($_SESSION['user_id'])) {
 
 //register user
 if (isset($_POST['submit'])) {
-    //$id = unique_id(); //Function is to be created
+    $id = unique_id(); //Function is to be created
     $name = $_POST['name'];
     $name = filter_var($name, FILTER_SANITIZE_STRING);
     $email = $_POST['email'];
@@ -27,14 +27,16 @@ if (isset($_POST['submit'])) {
 
     if ($select_user->rowCount() > 0) {
         $message[] = 'Email already exists';
+        echo 'Email already exits';
     } else {
         if ($pass != $cpass) {
         $message[] = 'Confirm your password';
+        echo 'Confirm your password';
         } else {
             // Insert user
             $insert_user = $conn->prepare("INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)");
             $insert_user->execute([$id, $name, $email, $pass]);
-
+            header('location: home.php');
             // Select user details after insertion
             $select_user = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
             $select_user->execute([$email, $pass]);

@@ -17,7 +17,7 @@
     // Adding product in wishlist
     if(isset($_POST['add_to_wishlist']))
     {
-        //$id = unique_id(); //Function is to be created
+        $id = unique_id(); //Function is to be created
         $product_id = $_POST['product_id'];
 
         $verify_wishlist = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ? AND `Product ID` = ?");
@@ -45,7 +45,7 @@
      // Adding product in cart
      if(isset($_POST['add_to_cart']))
      {
-         //$id = unique_id(); //Function is to be created
+         $id = unique_id(); //Function is to be created
          $product_id = $_POST['product_id'];
 
          $qty = $_POST['qty'];

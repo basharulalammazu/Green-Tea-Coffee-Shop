@@ -130,7 +130,7 @@
             <div class = "row"> 
                 <img src = "assets/image/about.jpg">
                 <div class = "row-detail">
-                    <img src = "assets/basil.jpg">
+                    <img src = "assets/image/basil.jpg">
                     <div class = "top-footer">
                         <h1>A cup of green tea makes you healthy</h1>
                     </div>
@@ -154,7 +154,7 @@
                     <a href = "view_products.php" class = "btn">Shop Now</a>
                 </div>
                 <div class = "box"> 
-                    <img src = "assets/image/card10.jpg">
+                    <img src = "assets/image/10.jpg">
                     <a href = "view_products.php" class = "btn">Shop Now</a>
                 </div>
                 <div class = "box"> 
@@ -218,7 +218,7 @@
         <section class = "brand">
             <div class = "box-container">
                 <div class = "box"> 
-                    <img src = "assets/image/brand (1).jpg)">
+                    <img src = "assets/image/brand (1).jpg">
                 </div>
                 <div class = "box"> 
                     <img src = "assets/image/brand (2).jpg">
@@ -230,7 +230,7 @@
                     <img src = "assets/image/brand (4).jpg">
                 </div>
                 <div class = "box"> 
-                    <img src = "assets/image/brand (5).jpg)">
+                    <img src = "assets/image/brand (5).jpg">
                 </div>
             </div>
         </section>

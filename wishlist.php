@@ -114,7 +114,7 @@
             <h1>My Wishlist</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span>Wishlist</span>
+            <a href = "home.php">home</a><span> / Wishlist</span>
         </div>
     </div>
     <section class = "products">

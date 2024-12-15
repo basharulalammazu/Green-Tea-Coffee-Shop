@@ -150,7 +150,7 @@
             <h1>Checkout Summery</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span>Checkout Summery</span>
+            <a href = "home.php">home</a><span> / Checkout Summery</span>
         </div>
     </div>
     <section class = "checkout">

@@ -94,7 +94,7 @@
             <h1>Shop</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span>Our Shop</span>
+            <a href = "home.php">home</a><span> / Our Shop</span>
         </div>
     </div>
     <section class = "products">

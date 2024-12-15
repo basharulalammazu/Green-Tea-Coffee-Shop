@@ -35,7 +35,7 @@
             <h1>Contact Us</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span>Contact Us</span>
+            <a href = "home.php">home</a><span> / Contact Us</span>
         </div>
     </div>
     <section class = "services">

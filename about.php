@@ -36,7 +36,7 @@
             <h1>About Us</h1>
         </div>
         <div class="title2">
-            <a href="home.php">home</a><span>about</span>
+            <a href="home.php">home</a><span> / about</span>
         </div>
 
         <!-- About Categories -->

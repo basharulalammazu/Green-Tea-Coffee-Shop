@@ -95,7 +95,7 @@
             <h1>Product Details</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span>Product Details</span>
+            <a href = "home.php">home</a><span> / Product Details</span>
         </div>
     </div>
     <section class = "view_page">

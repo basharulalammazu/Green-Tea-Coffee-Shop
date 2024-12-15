@@ -1,5 +1,5 @@
 <?php
-    include 'components/connection.php';
+    //include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -11,13 +11,13 @@
     {
         session_unset();
         session_destroy();
-        header("location: login.php")
+        header("location: login.php");
     }
 
     // Adding product in wishlist
     if(isset($_POST['add_to_wishlist']))
     {
-        $id = unique_id();
+        //$id = unique_id(); //Function is to be created
         $product_id = $_POST['product_id'];
 
         $verify_wishlist = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ? AND `Product ID` = ?");
@@ -32,7 +32,7 @@
             $warning_mes[] = 'product already exist in your cart';
         else 
         {
-            $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1")
+            $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
             $select_price -> execute([$product_id]);
             $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
 
@@ -45,10 +45,10 @@
      // Adding product in cart
      if(isset($_POST['add_to_cart']))
      {
-         $id = unique_id();
+         //$id = unique_id(); //Function is to be created
          $product_id = $_POST['product_id'];
 
-         $qty = $_POST['qty']
+         $qty = $_POST['qty'];
          $qty = filter_var($qty, FILTER_SANITIZE_STRING);
 
          $verify_cart = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ? AND `Product ID` = ?");
@@ -63,7 +63,7 @@
              $warning_mes[] = 'Cart is full';
          else 
          {
-             $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1")
+             $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
              $select_price -> execute([$product_id]);
              $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
  
@@ -106,7 +106,7 @@
 
                 if ($select_products -> rowCount() > 0)
                 {
-                    while($fetech_products = $select_products-fetch(PDO::FETCH_ASSOC))
+                    while($fetech_products = $select_products-$fetch(PDO::FETCH_ASSOC))
                     {
         ?>
         <form method = "post">

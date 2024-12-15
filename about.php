@@ -137,7 +137,7 @@
                     </p>
                 </div> 
                 <div class = "testimonial-item active">
-                    <img src = "assets/image/013jpg">
+                    <img src = "assets/image/03.jpg">
                     <h1>Sara Smith</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus illum, 
                         in vel enim laborum rem porro iusto ad, voluptatem fugiat itaque odio. Debitis, 

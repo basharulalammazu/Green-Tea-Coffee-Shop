@@ -183,6 +183,57 @@
                 </div>
             </div>
         </section>
+        <section class = "services">
+        <div class = "box-container">
+                <div class = "box"> 
+                    <img src = "assets/icon/icon2.png">
+                    <div class = "detail">
+                        <h3>Great Savings</h3>
+                        <p>Save Big by Every Order</p>
+                    </div>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/icon/icon1.png">
+                    <div class = "detail">
+                        <h3>24*7 Support</h3>
+                        <p>One-On-One Support</p>
+                    </div>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/icon/icon0.png">
+                    <div class = "detail">
+                        <h3>Gift Voucher</h3>
+                        <p>Voucher on every festivals</p>
+                    </div>
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/icon/icon.png">
+                    <div class = "detail">
+                        <h3>Worldwide Delivery</h3>
+                        <p>Dropship Worldwide</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class = "brand">
+            <div class = "box-container">
+                <div class = "box"> 
+                    <img src = "assets/image/brand (1).jpg)">
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/brand (2).jpg">
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/brand (3).jpg">
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/brand (4).jpg">
+                </div>
+                <div class = "box"> 
+                    <img src = "assets/image/brand (5).jpg)">
+                </div>
+            </div>
+        </section>
         <?php include 'components/footer.php'; ?>
         <!--Home Slider end-->
         

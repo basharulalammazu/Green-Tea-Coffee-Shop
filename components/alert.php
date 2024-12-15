@@ -1,25 +1,25 @@
 <?php
-    if (isset($succcess_mes))
+    if (isset($succcess_msg))
     {
-        foreach ($succcess_mes as $succcess_mes)
-            echo '<script>swal("'.$succcess_mes.'", "", " success");</script>';
+        foreach ($succcess_msg as $succcess_msg)
+            echo '<script>swal("'.$succcess_msg.'", "", " success");</script>';
     }
 
-    if (isset($warning_mess))
+    if (isset($warning_msg))
     {
-        foreach ($warning_mess as $warning_mess)
-            echo '<script>swal("'.$warning_mess.'", "", " success");</script>';
+        foreach ($warning_msg as $warning_msg)
+            echo '<script>swal("'.$warning_msg.'", "", " success");</script>';
     }
 
-    if (isset($info_mess))
+    if (isset($info_msg))
     {
-        foreach ($info_mess as $info_mess)
-            echo '<script>swal("'.$info_mess.'", "", " success");</script>';
+        foreach ($info_msg as $info_msg)
+            echo '<script>swal("'.$info_msg.'", "", " success");</script>';
     }
 
-    if (isset($error_mess))
+    if (isset($error_msg))
     {
-        foreach ($error_mess as $error_mess)
-            echo '<script>swal("'.$error_mess.'", "", " success");</script>';
+        foreach ($error_msg as $error_msg)
+            echo '<script>swal("'.$error_msg.'", "", " success");</script>';
     }
 ?>

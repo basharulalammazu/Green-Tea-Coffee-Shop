@@ -1,5 +1,5 @@
 <?php
-    // include 'components/connection.php';
+    /* include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -92,6 +92,7 @@
         else 
             $warning_msg[] = "Wish item already deleted";
      }
+            */
 ?>
 
 <style type = "text/css">

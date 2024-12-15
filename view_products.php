@@ -1,5 +1,5 @@
 <?php
-    //include 'components/connection.php';
+    /*include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -70,8 +70,9 @@
              $insert_cart = $conn->prepare("INSERT INTO `Cart` (`ID`, `User ID`, `Product ID`, `Price`, `Quantity`) VALUES (?, ?, ?, ?, ?)");
              $insert_cart -> execute([$id, $user_id, $product_id, $fetch_price['price']], $qty);
              $success_mess[] = 'product added to wishlist successfully';
-         }
-     }
+        }
+    }
+    */
 ?>
 
 <style type = "text/css">

@@ -1,5 +1,6 @@
 <?php
-   // include 'components/connection.php';
+   /*
+    include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -69,7 +70,7 @@
             $warning_msg[] = 'cart item already deleted';             // If there are no items in the cart, display a warning message
         
     }
-
+*/
 ?>
 
 <style type = "text/css">

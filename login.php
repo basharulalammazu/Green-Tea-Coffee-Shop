@@ -1,5 +1,6 @@
 <?php
-//include 'components/connection.php';
+/*
+include 'components/connection.php';
 
 session_start();
 
@@ -31,7 +32,7 @@ if (isset($_POST['submit'])) {
         $message[] = 'Incorrect username or password';
     }
 }
-
+*/
 ?>
 
 

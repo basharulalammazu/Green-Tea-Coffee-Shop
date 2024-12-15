@@ -1,5 +1,6 @@
 <?php
-    //include 'components/connection.php';
+    /*
+    include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -127,7 +128,7 @@
         } 
     
     }
-    
+    */
 ?>
 
 <style type = "text/css">

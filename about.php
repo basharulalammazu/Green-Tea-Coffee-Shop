@@ -41,6 +41,14 @@
                 </div>
             </div>
             <div class = "box">
+                <img src = "assets/image/10.jpg">
+                <div class = "detail">
+                    <span>Coffee</span>
+                    <h1>Lemon Green</h1>
+                    <a href = "view_products.php" class = "btn">Shop Now</a>
+                </div>
+            </div>
+            <div class = "box">
                 <img src = "assets/image/1.webp">
                 <div class = "detail">
                     <span>Coffee</span>
@@ -104,7 +112,7 @@
                         with 
                         some one of a kinf living decor, Blossom with Love can help.
                     </p>
-                    <a href = "view_products.php">Shop Now</a>
+                    <a href = "view_products.php" class="btn">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -122,27 +130,21 @@
                     <img src = "assets/image/01.jpg">
                     <h1>Sara Smith</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus illum, 
-                        in vel enim laborum rem porro iusto ad, voluptatem fugiat itaque odio. Debitis, 
-                        quam nulla nisi dolore ipsum quibusdam neque. Lorem ipsum dolor sit amet 
-                        consectetur adipisicing elit. 
+                        in vel enim  
                     </p>
                 </div> 
-                <div class = "testimonial-item active">
+                <div class = "testimonial-item">
                     <img src = "assets/image/02.jpg">
                     <h1>Jason Smith</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus illum, 
-                        in vel enim laborum rem porro iusto ad, voluptatem fugiat itaque odio. Debitis, 
-                        quam nulla nisi dolore ipsum quibusdam neque. Lorem ipsum dolor sit amet 
-                        consectetur adipisicing elit. 
+                        in vel enim laborum rsadadw dasd
                     </p>
                 </div> 
-                <div class = "testimonial-item active">
+                <div class = "testimonial-item">
                     <img src = "assets/image/03.jpg">
-                    <h1>Sara Smith</h1>
+                    <h1>Selena Ansari</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus illum, 
-                        in vel enim laborum rem porro iusto ad, voluptatem fugiat itaque odio. Debitis, 
-                        quam nulla nisi dolore ipsum quibusdam neque. Lorem ipsum dolor sit amet 
-                        consectetur adipisicing elit. 
+                        in vel enim laborum rem onsectetur adipisicing elit.
                     </p>
                 </div> 
                 <div class = "left-arrow" onclick = "nextSlide()"><i class = "bx bxs-left-arrow-alt"></i></div>

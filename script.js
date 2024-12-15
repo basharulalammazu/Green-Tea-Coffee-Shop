@@ -22,36 +22,37 @@ userBtn.addEventListener('click', function() {
 
 /*--------------------home slider--------------------*/
 
-"use strict"
+"use strict";
+
 const leftArrow = document.querySelector('.left-arrow .bxs-left-arrow'),
-    rightArrow = document.querySelector('.right-arrow.bxs-right-arrow'),
+    rightArrow = document.querySelector('.right-arrow .bxs-right-arrow'),
     slider = document.querySelector('.slider');
 
 /*-----------------scroll to right-----------------------------*/
 
-function scrollRight(){
+function scrollRight() {
     if (slider.scrollWidth - slider.clientWidth === slider.scrollLeft) {
         slider.scrollTo({
             left: 0,
             behavior: "smooth"
         });
-    }
-    else {
+    } else {
         slider.scrollBy({
             left: window.innerWidth,
             behavior: "smooth"
-        })
+        });
     }
 }
 
 /*-----------------scroll to left---------------------------*/
 
-function scrollLeft(){
+function scrollLeft() {
     slider.scrollBy({
         left: -window.innerWidth,
         behavior: "smooth"
-    })
+    });
 }
+
 let timerId = setInterval(scrollRight, 7000);
 
 /*----------------reset timer to scroll right--------------*/
@@ -59,20 +60,34 @@ let timerId = setInterval(scrollRight, 7000);
 function resetTimer() {
     clearInterval(timerId);
     timerId = setInterval(scrollRight, 7000);
-  }
-  
-  //--------------- scroll event---------------------------//
+}
 
-  slider.addEventListener('click', function(ev) {
-    if (ev.target === leftArrow) {
-      scrollLeft();
-      resetTimer();
-    }
-  })
-  
-  slider.addEventListener('click', function(ev) {
-    if (ev.target === rightArrow) {
-      scrollRight();
-      resetTimer();
-    }
-  })
+/*----------------Fixing event listener---------------------*/
+
+// Use separate event listeners for left and right arrows
+leftArrow.addEventListener('click', function () {
+    scrollLeft();
+    resetTimer();
+});
+
+rightArrow.addEventListener('click', function () {
+    scrollRight();
+    resetTimer();
+});
+
+/*------------------testimonial slider----------------------*/
+
+let slides = document.querySelectorAll('.testimonial-item');
+let index = 0;
+
+function nextSlide() {
+  slides[index].classList.remove('active');
+  index = (index + 1) % slides.length;
+  slides[index].classList.add('active');
+}
+
+function prevSlide() {
+  slides[index].classList.remove('active');
+  index = (index - 1 + slides.length) % slides.length;
+  slides[index].classList.add('active');
+}

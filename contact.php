@@ -64,22 +64,22 @@
                 <h1>Leave a message</h1>
             </div>
             <div class = "input-field">
-                <p>Your Name<sup>*</sup></p>
+                <p>Your Name</p>
                 <input type = "text" name = "name">
             </div>
             <div class = "input-field">
-                <p>Email<sup>*</sup></p>
+                <p>Email</p>
                 <input type = "text" name = "email">
             </div>
             <div class = "input-field">
-                <p>Phone Number<sup>*</sup></p>
+                <p>Phone Number</p>
                 <input type = "text" name = "number">
             </div>
             <div class = "input-field">
-                <p>Message<sup>*</sup></p>
+                <p>Message</p>
                 <textarea name = "message"></textarea>
             </div>
-            <button type = "submit" name = "submit-btn" clas = "btn">Send a message</button>
+            <button type = "submit" name = "submit-btn" class = "btn">Send a message</button>
         </form>
     </div>
     <div class = "address">
@@ -90,21 +90,21 @@
         </div>
         <div class = "box-container">
             <div class = "box">
-                <i class = "bx bxs-map-pin"></pin>
+                <i class = "bx bxs-map-pin"></i>
                 <div>
                     <h4>Address</h4>
                     <p>408/1 (Old KA 66/1), Kuratoli, Khilkhet, Dhaka 1229, Bangladesh</p>
                 </div>
             </div>
             <div class = "box">
-                <i class = "bx bxs-phone-cell"></pin>
+                <i class = "bx bxs-phone-call"></i>
                 <div>
                     <h4>Phone Number</h4>
                     <p> +88 02 841 4046-9</p>
                 </div>
             </div>
             <div class = "box">
-                <i class = "bx bxs-map-pin"></pin>
+                <i class = "bx bxs-map-pin"></i>
                 <div>
                     <h4>Email</h4>
                     <p>info@aiub.edu</p>

@@ -1,5 +1,5 @@
 <?php
-    include 'components/connection.php';
+   // include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -11,7 +11,7 @@
     {
         session_unset();
         session_destroy();
-        header("location: login.php")
+        header("location: login.php");
     }
 
     //Update cart
@@ -127,7 +127,7 @@
                         $grand_total += $sub_total;
                         }
                         else 
-                            echo "<p class = 'empty'>Products was not found</p>;"
+                            echo "<p class = 'empty'>Products was not found</p>";
                     }
                 }
                 else 

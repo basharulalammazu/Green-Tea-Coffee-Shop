@@ -97,11 +97,49 @@
         </div>
     </div>
     <section class = "view_page">
-        
+        <?php 
+            if (isset($_GET['pid']))
+            {
+                $pid = $_GET['pid'];
+                $select_products = $conn -> prepare("SELECT * FROM `Product` WHERE ID = '$pid'");
+                $select_products -> execute();
+
+                if ($select_products -> rowCount() > 0)
+                {
+                    while($fetech_products = $select_products-fetch(PDO::FETCH_ASSOC))
+                    {
+        ?>
+        <form method = "post">
+            <img src = "image/<?php echo $fetech_products['images']; ?>">
+            <div class = "detail">
+                <div class = "price"><?php echo $fetech_products['price']; ?></div>
+                <div class = "name"><?php echo $fetech_products['name']; ?></div>
+                <div class = "detail">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, 
+                        vel quis sed possimus veniam facere repellat ea voluptatibus culpa 
+                        officia dignissimos expedita laudantium nam rerum repudiandae 
+                        consequatur suscipit dolor non? Lorem ipsum dolor, sit amet consectetur 
+                        adipisicing elit. Corrupti, ratione eum tenetur culpa delectus molestiae 
+                        saepe iusto repudiandae voluptatum et facere hic excepturi cumque mollitia 
+                        cupiditate quam eveniet porro explicabo.
+                    </p>
+                </div>
+                <input type = "hidden" name = "product_id" value = "<?php echo $fetech_products['id']; ?>">;
+                <div class = "button">
+                    <button type = "submit" name = "add_to_wishlist" class = "btn">Add to wishlist<i class = "bx bx-heart"></i><button>
+                    <input type = "hidden" name = "qty" value = "1" min = "0" class = "quantity">
+                    <button type = "submit" name = "add_to_cart" class = "btn">Add to wishlist<i class = "bx bx-cart"></i><button>
+                </div>
+        </form>
+        <?php 
+                    }
+                }
+            }
+        ?>
     </section>
     
     <?php include 'components/footer.php'; ?>
-    <!--Home Slider end-->
         
 
     </div>

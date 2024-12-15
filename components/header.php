@@ -65,8 +65,8 @@
 
         <!-- User Information Box -->
         <div class = "user-box"> 
-            <p>User Name: <span><?php echo $_SESSION['user_name']; ?></span></p>
-            <p>Email: <span><?php echo $_SESSION['user_email']; ?></span></p>
+            <p>User Name: <span><?php //echo $_SESSION['user_name']; ?></span></p>
+            <p>Email: <span><?php //echo $_SESSION['user_email']; ?></span></p>
             <a href = "login.php" class = "btn">login</a>
             <a href = "registration.php" class = "btn">register</a>
 

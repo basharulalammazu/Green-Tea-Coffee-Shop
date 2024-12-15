@@ -1,23 +1,24 @@
 <?php
-    $connectionString = mysqli_connect("localhost", "root", " ", "coffee_shop");
+    // Database Connection
+    $connectionString = mysqli_connect("localhost", "root", "", "coffee_shop");
 
-    if (!$connectionString)
+    if (!$connectionString) 
     {
-        echo "Databsae not connected (components/Connection.php)";
+        echo "Database not connected (components/Connection.php)";
         return;
     }
 
-
-    function unique_id()
+    // Unique ID Generator Function
+    function unique_id() 
     {
-        $chars = "0123456789abcdefghijklmnopqrstuwvxyzABCDEFGHIJKMNLOPQRSTUWVXYZ";
+        $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $charLength = strlen($chars);
-        $randmonString = '';
+        $randomString = '';
 
-        for ($i = 0; $i < 20; $i++)
-            $randmonString = $chars[mt_rand(0, $charLength-1)];
+        for ($i = 0; $i < 20; $i++) 
+            $randomString .= $chars[mt_rand(0, $charLength - 1)];
+        
 
-        return $randmonString;
+        return $randomString;
     }
-    
 ?>

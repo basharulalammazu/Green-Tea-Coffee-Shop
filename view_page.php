@@ -114,7 +114,7 @@
         <form method = "post">
             <img src = "image/<?php echo $fetech_products['images']; ?>">
             <div class = "detail">
-                <div class = "price"><?php echo $fetech_products['price']; ?></div>
+                <div class = "price">$<?php echo $fetech_products['price']; ?>/-</div>
                 <div class = "name"><?php echo $fetech_products['name']; ?></div>
                 <div class = "detail">
                     <p>

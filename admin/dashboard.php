@@ -5,7 +5,7 @@
     $admin_id = $_SESSION['admin_id'];
 
     if(!isset($admin_id))
-        header("location:http://localhost/demoh/login.php");
+        header("Location: ../login.php");
 
 ?>
 <!DOCTYPE html>

@@ -82,7 +82,7 @@ if (isset($_POST['register']))
                         <input type="file" name="image" accept="image/*">
                     </div>
                     <button type="submit" name="register" class="btn">Register now</button>
-                    <p>Already have an account?<a href = "login.php">Login now</a></p>
+                    <p>Already have an account?<a href="../login.php">Login now</a></p>
                 </form>
             </div>
         </section>

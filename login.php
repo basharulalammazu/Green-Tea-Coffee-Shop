@@ -1,14 +1,13 @@
 <?php
-
 include 'components/connection.php';
 
 session_start();
 
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id'])) 
     $user_id = $_SESSION['user_id'];
-} else {
+else 
     $user_id = '';
-}
+
 
 //register user
 if (isset($_POST['submit'])) {
@@ -19,26 +18,27 @@ if (isset($_POST['submit'])) {
     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
    
 
-    $select_user = $conn->prepare("SELECT * FROM `admin` WHERE Email = ? AND Password = ?");
+    $select_user = $conn->prepare("SELECT * FROM `Users` WHERE Email = ? AND Password = ?");
     $select_user->execute([$email, $pass]);
     $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
     if ($select_user->rowCount() > 0) 
     {
+        $message[] = 'User Found!';
         $_SESSION['user_id'] = $row['ID'];
         $_SESSION['user_name'] = $row['Name'];
         $_SESSION['user_email'] = $row['Email'];
-
-       /* if ($row['User Type'] == "Customer")
+        /*
+        if ($row['User Type'] == "Customer")
             header('location: home.php');
         else if ($row['User Type'] == "Admin")*/
-            header('location: ../admin/dashboard.php');
+        header('location: admin/home.php');
+        exit();  
     }
     else 
         $message[] = 'Incorrect username or password';
     
 }
-
 ?>
 
 

@@ -100,15 +100,13 @@
     <section class = "products">
         <div class = "box-container">
             <?php 
-            
                $select_product = $conn->prepare("SELECT * FROM 'Products'");
                 $select_product -> execute();
 
                 if ($select_product -> rowCount() > 0)
                 {
-                    while ($fetch_products = $select_product -> fetch(PDO::FETCH_ASSOC)) { 
-
-                    
+                    while ($fetch_products = $select_product -> fetch(PDO::FETCH_ASSOC)) 
+                    { 
             ?>
                 <form action = "#" method = "post" class = "box">
                     <img src = "image/<?=$fetch_products['image']; ?>">

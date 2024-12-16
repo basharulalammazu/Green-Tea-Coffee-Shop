@@ -53,11 +53,11 @@ if (isset($_POST['register']))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
-    <link rel="stylesheet" href="admin_styles.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="admin_style.css?v=<?php echo time(); ?>">
     <title>Green Coffee Admin - Register Page</title>
 </head>
 <body>
-    <div class = "main-container">
+    <div class = "main_container">
         <section class = "main">
             <div class = "form-container" id = "admin_login">
                 <form action = "#" method = "post" enctype = "multipart/form-data">

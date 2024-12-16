@@ -96,5 +96,9 @@ if (isset($_POST['submit'])) {
             </form>
         </section>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
+    <script src = "script.js"></script>
+    <?php include 'components/alert.php'; ?>
 </body>
 </html>

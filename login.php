@@ -1,5 +1,5 @@
 <?php
-/*
+
 include 'components/connection.php';
 
 session_start();
@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
    
 
-    $select_user = $conn->prepare("SELECT * FROM `Users` WHERE Email = ? AND Password = ?");
+    $select_user = $conn->prepare("SELECT * FROM `admin` WHERE Email = ? AND Password = ?");
     $select_user->execute([$email, $pass]);
     $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
@@ -29,16 +29,16 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_name'] = $row['Name'];
         $_SESSION['user_email'] = $row['Email'];
 
-        if ($row['User Type'] == "Customer")
+       /* if ($row['User Type'] == "Customer")
             header('location: home.php');
-        else if ($row['User Type'] == "Admin"))
-            header('location: admin/home.php');
+        else if ($row['User Type'] == "Admin")*/
+            header('location: ../admin/dashboard.php');
     }
     else 
         $message[] = 'Incorrect username or password';
     
 }
-*/
+
 ?>
 
 

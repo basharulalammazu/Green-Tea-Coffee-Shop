@@ -117,7 +117,7 @@
                     </div>
                     <h3 class = "name"> <?=$fetch_products['name']; ?></h3>
                     <input type = "hidden" name = "product_id" value = "<?=$fetch_products['id']; ?>">
-                    <div class = "fles">
+                    <div class = "flex">
                         <p class = "price">Price $<?=$fetch_product['price']; ?>/-</p>
                         <input type = "number" name = "qty" required min = "1" value = "1" max = "99" maxlength = "2" class = "qty">
                     </div>
@@ -126,7 +126,7 @@
                 }
             }
             else 
-                echo "<p class = 'empty'>No Products added yet!</p>;"
+                echo "<p class = 'empty'>No Products added yet!</p>";
             ?>
         </div> 
     </section>

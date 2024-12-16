@@ -1,5 +1,5 @@
 <?php
-/*
+
 session_start(); 
 include '../components/connection.php';
 
@@ -44,7 +44,7 @@ if (isset($_POST['register']))
         }
     }
 }
-*/
+
 ?>
 
 <!DOCTYPE html>

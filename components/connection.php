@@ -1,6 +1,6 @@
 <?php
     // Database Connection
-    $db_name = 'mysql:host=localhost;dbname=green_coffee';
+    $db_name = 'mysql:host=localhost;dbname=coffeeshop';
     $user_name = 'root';
     $user_password = '';
 

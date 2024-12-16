@@ -1,8 +1,12 @@
 <?php
     // Database Connection
-    $connectionString = mysqli_connect("localhost", "root", "", "coffee_shop");
+    $db_name = 'mysql:host=localhost;dbname=green_coffee';
+    $user_name = 'root';
+    $user_password = '';
 
-    if (!$connectionString) 
+    $conn = new PDO($db_name, $user_name, $user_password);
+
+    if (!$conn) 
     {
         echo "Database not connected (components/Connection.php)";
         return;

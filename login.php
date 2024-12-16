@@ -19,18 +19,24 @@ if (isset($_POST['submit'])) {
     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
    
 
-    $select_user = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
+    $select_user = $conn->prepare("SELECT * FROM `Users` WHERE Email = ? AND Password = ?");
     $select_user->execute([$email, $pass]);
     $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
-    if ($select_user->rowCount() > 0) {
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['user_name'] = $row['name'];
-        $_SESSION['user_email'] = $row['email'];
-        header('location: home.php');
-    } else {
-        $message[] = 'Incorrect username or password';
+    if ($select_user->rowCount() > 0) 
+    {
+        $_SESSION['user_id'] = $row['ID'];
+        $_SESSION['user_name'] = $row['Name'];
+        $_SESSION['user_email'] = $row['Email'];
+
+        if ($row['User Type'] == "Customer")
+            header('location: home.php');
+        else if ($row['User Type'] == "Admin"))
+            header('location: admin/home.php');
     }
+    else 
+        $message[] = 'Incorrect username or password';
+    
 }
 */
 ?>

@@ -100,7 +100,7 @@
     <section class = "products">
         <div class = "box-container">
             <?php 
-               $select_product = $conn->prepare("SELECT * FROM 'Products'");
+               $select_product = $conn->prepare("SELECT * FROM `Products`");
                 $select_product -> execute();
 
                 if ($select_product -> rowCount() > 0)

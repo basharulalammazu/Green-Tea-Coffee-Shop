@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
    
 
-    $select_user = $conn->prepare("SELECT * FROM `Users` WHERE Email = ? AND Password = ?");
+    $select_user = $conn->prepare("SELECT * FROM `admin` WHERE Email = ? AND Password = ?");
     $select_user->execute([$email, $pass]);
     $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
@@ -62,7 +62,7 @@ if (isset($_POST['submit'])) {
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quo voluptatum repellat 
                 </p>
             </div>
-            <form action = "#" method = "post">
+            <form action = "about.php" method = "post">
                 <div class = "input-field">
                     <p>Email</p>
                     <input type = "text" name = "email" placeholder = "Enter your email" maxlength = "50" oninput = "this.value = this.value.replace(/\s/g,'')" required >

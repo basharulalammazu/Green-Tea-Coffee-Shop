@@ -1,5 +1,5 @@
 <?php
-    /* include 'components/connection.php';
+     include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -82,7 +82,7 @@
         $verify_delete_items = $conn->prepare("SELECT * FROM `Wishlist' WHERE ID = ?");
         $verify_delete_items->execute([$wishlist_id]);
 
-        if ($verify_delete_items -> rowsCount()>0)
+        if ($verify_delete_items -> rowCount()>0)
         {
             $delete_wishlist_id = $conn -> prepare("DELETE FROM `Wishlist` WHERE ID = ?");
             $delete_wishlist_id -> execute([$wishlist_id]);
@@ -92,7 +92,7 @@
         else 
             $warning_msg[] = "Wish item already deleted";
      }
-            */
+            
 ?>
 
 <style type = "text/css">
@@ -122,21 +122,21 @@
         <div class = "box container">
             <?php
                 $grand_total = 0;
-                $select_wishlist = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ?");
+                $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE `User_ID` = ?");
                 $select_wishlist->execute([$user_id]);
                 if ($select_wishlist->rowCount() > 0)
                 {
                     while($fetech_wishlist = $select_wishlist->fetch(PDO::FETCH_ASSOC))
                     {
-                        $select_products = $conn->prepare("SELECT * FROM `Products` WHERE `User ID` = ?");
-                        $select_products->execute([$fetech_wishlist['product_id']]);
+                        $select_products = $conn->prepare("SELECT * FROM `products` WHERE `User_ID` = ?");
+                        $select_products->execute([$fetech_wishlist['Product_ID']]);
                         if($select_products->rowCount() > 0)
                         {
-                            $fetch_products = $select_products->fetech(PDO::FETCH_ASSOC);
+                            $fetch_products = $select_products->fetch(PDO::FETCH_ASSOC);
                 ?>
                 <form class = "box" action ="#" method = "post">
-                    <input type = "hidden" name = "wishlist_id" value = "<?=$fetech_wishlist['id']; ?>">
-                    <img src = "image/<?=$fetch_products['image']; ?>">
+                    <input type = "hidden" name = "wishlist_id" value = "<?=$fetech_wishlist['ID']; ?>">
+                    <img src = "image/<?=$fetch_products['Image']; ?>">
                     <div class = "button">
                         <button type = "submit" name = "add_to_cart"><i class = "bx bx-cart"></i></button>
                         <a href = "view_page.php?pid = <?php $fetech_product['id']; ?>"class = "bx bxs-show"></a>

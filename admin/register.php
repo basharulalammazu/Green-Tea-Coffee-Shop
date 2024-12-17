@@ -7,8 +7,6 @@ $success_msg = []; // Initialize success message array
 
 if (isset($_POST['register'])) 
 {
-    $id = unique_id(); // Generate a unique ID (if needed, though not used in query)
-
     // Sanitize inputs
     $name = $_POST['name'];
     $name = filter_var($name, FILTER_SANITIZE_STRING);
@@ -16,10 +14,12 @@ if (isset($_POST['register']))
     $email = $_POST['email'];
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-    $pass = sha1($_POST['password']);
+   // $pass = sha1($_POST['password']);
+   $pass = $_POST['password'];
     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
 
-    $cpass = sha1($_POST['cpassword']);
+    // $cpass = sha1($_POST['cpassword']);
+    $cpass = $_POST['cpassword'];
     $cpass = filter_var($cpass, FILTER_SANITIZE_STRING);
 
 
@@ -38,12 +38,13 @@ if (isset($_POST['register']))
             $warning_msg[] = 'Confirm password not matched';
         else 
         {
+            $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
             try 
             {
                 // Insert new user
                 $insert_admin = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
                 $user_type = "Admin";
-                $insert_admin->bind_param("ssss", $name, $email, $pass, $user_type);
+                $insert_admin->bind_param("ssss", $name, $email, $hashed_pass, $user_type);
                 $insert_admin->execute();
 
                 // Get the last inserted ID

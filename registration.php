@@ -17,9 +17,9 @@ if (isset($_POST['submit']))
     $cpass = filter_var($_POST['cpass'], FILTER_SANITIZE_STRING);
 
     // Validate email format
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $message[] = 'Please enter a valid email address';
-    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
+        $error_msg[] = 'Please enter a valid email address';
+    
 
     // Check if email already exists
     $select_user = $conn->prepare("SELECT * FROM users WHERE email = ?");
@@ -28,20 +28,18 @@ if (isset($_POST['submit']))
     $result = $select_user->get_result(); // Get the result from the executed query
 
     if ($result->num_rows > 0) 
-    {
-        $message[] = 'Email already exists';
-    }
+        $error_msg[] = 'Email already exists';
+    
     else 
     {
         // Check if passwords match
         if ($pass != $cpass) 
-        {
-            $message[] = 'Confirm your password';
-        }
+            $error_msg[] = 'Confirm your password';
+        
         else 
         {
             // Hash the password for security
-            $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+           $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
 
             // Create the user_type variable
             $user_type = "Customer"; 
@@ -82,7 +80,7 @@ if (isset($_POST['submit']))
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quo voluptatum repellat 
                 </p>
             </div>
-            <form action = "#" method = "post">
+            <form action = "" method = "post">
                 <div class = "input-field">
                     <p>Your Name</p>
                     <input type = "text" name = "name" placeholder = "Enter your name" maxlength = "50" required>

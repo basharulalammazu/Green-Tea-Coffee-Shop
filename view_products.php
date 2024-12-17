@@ -17,9 +17,7 @@
     // Adding product in wishlist
     if(isset($_POST['add_to_wishlist']))
     {
-        $id = unique_id(); //Function is to be created
         $product_id = $_POST['product_id'];
-
         $verify_wishlist = $conn->prepare("SELECT * FROM wishlist WHERE user_id = ? AND product_id = ?");
         $verify_wishlist -> execute([$user_id, $product_id]);
 

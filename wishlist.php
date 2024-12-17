@@ -110,59 +110,56 @@
 <body>
     <?php include 'components/header.php'; ?>
     <div class = "main">
-    <div class = "banner">
-            <h1>My Wishlist</h1>
+        <div class = "banner">
+                <h1>My Wishlist</h1>
+            </div>
+            <div class = "title2">
+                <a href = "home.php">home</a><span> / Wishlist</span>
+            </div>
         </div>
-        <div class = "title2">
-            <a href = "home.php">home</a><span> / Wishlist</span>
-        </div>
-    </div>
-    <section class = "products">
-        <h1 class = "title">Product added in wishlist</h1>
-        <div class = "box container">
-            <?php
-                $grand_total = 0;
-                $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE `User_ID` = ?");
-                $select_wishlist->execute([$user_id]);
-                if ($select_wishlist->num_rows > 0)
-                {
-                    while($fetech_wishlist = $select_wishlist->fetch(PDO::FETCH_ASSOC))
-                    {
-                        $select_products = $conn->prepare("SELECT * FROM `products` WHERE `User_ID` = ?");
-                        $select_products->execute([$fetech_wishlist['Product_ID']]);
-                        if($select_products->num_rows > 0)
-                        {
-                            $fetch_products = $select_products->fetch(PDO::FETCH_ASSOC);
-                ?>
-                <form class = "box" action ="#" method = "post">
-                    <input type = "hidden" name = "wishlist_id" value = "<?=$fetech_wishlist['ID']; ?>">
-                    <img src = "image/<?=$fetch_products['Image']; ?>">
-                    <div class = "button">
-                        <button type = "submit" name = "add_to_cart"><i class = "bx bx-cart"></i></button>
-                        <a href = "view_page.php?pid = <?php $fetech_product['id']; ?>"class = "bx bxs-show"></a>
-                        <button type = "submit" name = "delete_item" onclick = "return confirm('Delete this item?');"><i class = "bx bx-heart"></i></button>
-                    </div>
-                    <h3 class = "name"><?=$fetch_products['name'];?></h3>
-                    <input type = "hidden" name = "product_id" value = "<?=$fetch_products['id']; ?>">
-                    <div class = "flex">
-                        <p class = "price">Price $<?=$fetch_products['price']; ?>/-</p>
-                    </div>
-                    <a href = "checkout.php?get_id=<?=$fetech_products['id']; ?>" class = "btn"> Buy Now </a> 
-                </form>
+        <section class = "products">
+            <h1 class = "title">Product added in wishlist</h1>
+            <div class = "box container">
                 <?php
-                        $grand_total += $fetech_wishlist['price'];
+                    $grand_total = 0;
+                    $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE `User_ID` = ?");
+                    $select_wishlist->execute([$user_id]);
+                    if ($select_wishlist->num_rows > 0)
+                    {
+                        while($fetech_wishlist = $select_wishlist->fetch(PDO::FETCH_ASSOC))
+                        {
+                            $select_products = $conn->prepare("SELECT * FROM `products` WHERE `User_ID` = ?");
+                            $select_products->execute([$fetech_wishlist['Product_ID']]);
+                            if($select_products->num_rows > 0)
+                            {
+                                $fetch_products = $select_products->fetch(PDO::FETCH_ASSOC);
+                    ?>
+                                <form class = "box" action ="#" method = "post">
+                                    <input type = "hidden" name = "wishlist_id" value = "<?=$fetech_wishlist['ID']; ?>">
+                                    <img src = "image/<?=$fetch_products['Image']; ?>">
+                                    <div class = "button">
+                                        <button type = "submit" name = "add_to_cart"><i class = "bx bx-cart"></i></button>
+                                        <a href = "view_page.php?pid = <?php $fetech_product['id']; ?>"class = "bx bxs-show"></a>
+                                        <button type = "submit" name = "delete_item" onclick = "return confirm('Delete this item?');"><i class = "bx bx-heart"></i></button>
+                                    </div>
+                                    <h3 class = "name"><?=$fetch_products['name'];?></h3>
+                                    <input type = "hidden" name = "product_id" value = "<?=$fetch_products['id']; ?>">
+                                    <div class = "flex">
+                                        <p class = "price">Price $<?=$fetch_products['price']; ?>/-</p>
+                                    </div>
+                                    <a href = "checkout.php?get_id=<?=$fetech_products['id']; ?>" class = "btn"> Buy Now </a> 
+                                </form>
+                    <?php
+                                $grand_total += $fetech_wishlist['price'];
+                            }
                         }
                     }
-                }
-                else 
-                echo "<p class = 'empty'>No Products added yet!</p>;"
-            ?>
-        </div>
-    </section>
-    
-    <?php include 'components/footer.php'; ?>
-        
-
+                    else 
+                        echo "<p class = 'empty'>No Products added yet!</p>;"
+                ?>
+            </div>
+        </section>
+        <?php include 'components/footer.php'; ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>

@@ -1,11 +1,13 @@
 <?php
-
+/*
     include './components/connection.php';
+
     session_start();
     $admin_id = $_SESSION['admin_id'];
 
     if(!isset($admin_id))
         header("Location: ../login.php");
+    */
 
 ?>
 <!DOCTYPE html>
@@ -14,11 +16,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="admin_style.css?v=<?php echo time(); ?>">
     <title>Green Coffee Admin Panel - Dashboard Page</title>
 </head>
 <body>
-    <?php include 'http://localhost/demoh/components/admin_header.php';?>
+    <?php // include 'components/admin_header.php';?>
     <div class="main">
         <dib class="banner">
             <h1>Dashboard</h1>
@@ -31,14 +33,16 @@
             <div class="box-container">
                 <div class="box">
                     <h3>WEelcome!</h3>
-                    <p><?=$fetch_profile['Name'];?></p>
+                    <p><?=$fetch_profile['name'];?></p>
                     <a href="" class="btn">Profile</a>
                 </div>
                 <div class="box">
                     <?php 
                         $select_product = $conn->prepare("SELECT * FROM `products`");
                         $select_product->execute();
-                        $num_of_products = $select_product->rowCount();
+                        
+                        $result = $select_product->get_result(); 
+                        $num_of_products = $result->num_rows;                    
                     ?>
                     <h3><?=  $num_of_products ;?></h3>
                     <p>Product added</p>

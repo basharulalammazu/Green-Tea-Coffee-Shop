@@ -1,5 +1,4 @@
 <?php
-/*
 include 'components/connection.php';
 
 session_start();
@@ -9,49 +8,58 @@ if (isset($_SESSION['user_id']))
 else 
     $user_id = '';
 
+if (isset($_POST['submit'])) 
+{
+    // Sanitize and assign user inputs
+    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $pass = filter_var($_POST['pass'], FILTER_SANITIZE_STRING);
+    $cpass = filter_var($_POST['cpass'], FILTER_SANITIZE_STRING);
 
-//register user
-if (isset($_POST['submit'])) {
-    $id = unique_id(); //Function is to be created
-    $name = $_POST['name'];
-    $name = filter_var($name, FILTER_SANITIZE_STRING);
-    $email = $_POST['email'];
-    $email = filter_var($email, FILTER_SANITIZE_STRING);
-    $pass = $_POST['pass'];
-    $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-    $cpass = $_POST['cpass'];
-    $cpass = filter_var($cpass, FILTER_SANITIZE_STRING);
+    // Validate email format
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $message[] = 'Please enter a valid email address';
+    }
 
+    // Check if email already exists
     $select_user = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $select_user->execute([$email]);
-    $row = $select_user->fetch(PDO::FETCH_ASSOC);
+    $select_user->bind_param("s", $email); // Binding parameters in MySQLi
+    $select_user->execute();
+    $result = $select_user->get_result(); // Get the result from the executed query
 
-    if ($select_user->rowCount() > 0) {
+    if ($result->num_rows > 0) 
+    {
         $message[] = 'Email already exists';
-        echo 'Email already exits';
-    } else {
-        if ($pass != $cpass) {
-        $message[] = 'Confirm your password';
-        echo 'Confirm your password';
-        } else {
-            // Insert user
-            $insert_user = $conn->prepare("INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)");
-            $insert_user->execute([$id, $name, $email, $pass]);
-            header('location: home.php');
-            // Select user details after insertion
-            $select_user = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
-            $select_user->execute([$email, $pass]);
-            $row = $select_user->fetch(PDO::FETCH_ASSOC);
-            if ($select_user->rowCount() > 0) {
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['user_name'] = $row['name'];
-                $_SESSION['user_email'] = $row['email'];
-            }
+    }
+    else 
+    {
+        // Check if passwords match
+        if ($pass != $cpass) 
+        {
+            $message[] = 'Confirm your password';
+        }
+        else 
+        {
+            // Hash the password for security
+            $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+
+            // Create the user_type variable
+            $user_type = "Customer"; 
+
+            // Insert new user into the database
+            $insert_user = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
+            $insert_user->bind_param("ssss", $name, $email, $hashed_pass, $user_type); // Binding parameters in MySQLi
+            $insert_user->execute();
+
+            // Redirect after successful registration
+            $message[] = 'Registration successful! Please login.';
+            header('location: login.php');
+            exit; // Ensure the script stops after redirection
         }
     }
 }
-*/
 ?>
+
 
 
 <style type = "text/css">

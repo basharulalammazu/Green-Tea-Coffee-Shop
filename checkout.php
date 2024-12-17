@@ -1,5 +1,4 @@
 <?php
-    /*
     include 'components/connection.php';
 
     session_start();
@@ -15,7 +14,8 @@
         header("location: login.php");
     }
 
-    if (isset($_POST['place_order'])) {
+    if (isset($_POST['place_order'])) 
+    {
         $name = $_POST['name'];
         $name = filter_var($name, FILTER_SANITIZE_STRING);
     
@@ -34,12 +34,12 @@
         $method = $_POST['method'];
         $method = filter_var($method, FILTER_SANITIZE_STRING);
     
-        $varify_cart = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ?");
+        $varify_cart = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ?");
         $varify_cart->execute([$user_id]);
     
         if (isset($_GET['get_id'])) 
         {
-            $get_product = $conn->prepare("SELECT * FROM `Products` WHERE `ID` = ? LIMIT 1");
+            $get_product = $conn->prepare("SELECT * FROM `products` WHERE `id` = ? LIMIT 1");
             $get_product->execute([$_GET['get_id']]);
         
             if ($get_product->rowCount() > 0) 
@@ -49,8 +49,8 @@
                     // Prepare the SQL query
                     $insert_order = $conn->prepare(
                         "INSERT INTO `Orders` 
-                        (ID, `User ID`, Name, number, Email, Address, Address_type, Method, `Product ID`, Price, Quantity) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                        (`user_id`, name, number, email, address, address_type, method, product_id, price, quantity) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                     );
                     
                     // Execute the query with the proper parameters
@@ -79,7 +79,7 @@
             while ($f_cart = $varify_cart->fetch(PDO::FETCH_ASSOC)) 
             {
                 // Check if the product exists in the Products table
-                $select_products = $conn->prepare("SELECT * FROM `Products` WHERE ID = ?");
+                $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
                 $select_products->execute([$f_cart['product_id']]);
             
                 if ($select_products->rowCount() > 0) 
@@ -89,12 +89,11 @@
                     // Insert data into the Orders table
                     $insert_order = $conn->prepare(
                         "INSERT INTO `Orders` 
-                        (ID, `User ID`, Name, Number, Email, Address, `Address Type`, Method, `Product ID`, `Price`, `Quantity`) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                        (user_ID, name, number, email, address, address_type, method, product_id, price, quantity) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                     );
             
                     $result = $insert_order->execute([
-                        uniqid(), // Use `uniqid()` for unique ID generation
                         $user_id, 
                         $name, 
                         $number, 
@@ -110,7 +109,7 @@
                     if ($result) 
                     {
                         // Delete the user's cart after order placement
-                        $delete_cart_id = $conn->prepare("DELETE FROM `Cart` WHERE `User ID` = ?");
+                        $delete_cart_id = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
                         $delete_cart_id->execute([$user_id]);
             
                         // Redirect the user to the order page
@@ -128,7 +127,7 @@
         } 
     
     }
-    */
+    
 ?>
 
 <style type = "text/css">

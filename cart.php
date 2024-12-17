@@ -1,5 +1,4 @@
 <?php
-   /*
     include 'components/connection.php';
 
     session_start();
@@ -24,7 +23,7 @@
         $qty = $_POST['qty'];
         $qty = filter_var($qty, FILTER_SANITIZE_STRING);
     
-        $update_qty = $conn->prepare("UPDATE `Cart` SET `Quantity` = ? WHERE `ID` = ?");
+        $update_qty = $conn->prepare("UPDATE `cart` SET `quantity` = ? WHERE `id` = ?");
         $update_qty->execute([$qty, $cart_id]);
     
         $success_msg[] = 'cart quantity updated successfully';
@@ -38,12 +37,12 @@
         $cart_id = $_POST['cart_id'];
         $cart_id = filter_var($cart_id, FILTER_SANITIZE_STRING);
 
-        $verify_delete_items = $conn->prepare("SELECT * FROM `Cart' WHERE ID = ?");
+        $verify_delete_items = $conn->prepare("SELECT * FROM `cart' WHERE id = ?");
         $verify_delete_items->execute([$cart_id]);
 
         if ($verify_delete_items -> rowsCount()>0)
         {
-            $delete_cart_id = $conn -> prepare("DELETE FROM `Cart` WHERE ID = ?");
+            $delete_cart_id = $conn -> prepare("DELETE FROM `cart` WHERE id = ?");
             $delete_cart_id -> execute([$cart_id]);
             $success_msg[] = "Cart item successfully deleted";
         }
@@ -56,13 +55,13 @@
     if (isset($_POST['empty_cart'])) {
 
         // Prepare a SELECT statement to check if there are any items in the cart for the current user
-        $verify_empty_item = $conn->prepare("SELECT * FROM `Cart` WHERE u`User ID` = ?"); 
+        $verify_empty_item = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ?"); 
         $verify_empty_item->execute([$user_id]); 
 
         // If there are items in the cart, proceed with deletion
         if ($verify_empty_item->rowCount() > 0) 
         {
-            $delete_cart_id = $conn->prepare("DELETE FROM `Cart` WHERE `User ID` = ?");
+            $delete_cart_id = $conn->prepare("DELETE FROM `cart` WHERE `user_id` = ?");
             $delete_cart_id->execute([$user_id]);
             $success_msg[] = "empty successfully"; 
         } 
@@ -100,13 +99,13 @@
         <div class = "box-container">
         <?php
                 $grand_total = 0;
-                $select_cart = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ?");
+                $select_cart = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ?");
                 $select_cart->execute([$user_id]);
                 if ($select_cart->rowCount() > 0)
                 {
                     while($fetech_cart = $select_cart->fetch(PDO::FETCH_ASSOC))
                     {
-                        $select_products = $conn->prepare("SELECT * FROM `Products` WHERE `User ID` = ?");
+                        $select_products = $conn->prepare("SELECT * FROM `products` WHERE `user _id` = ?");
                         $select_products->execute([$fetech_cart['product_id']]);
                         if($select_products->rowCount() > 0)
                         {

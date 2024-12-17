@@ -20,10 +20,10 @@
         $id = unique_id();
         $product_id = $_POST['product_id'];
 
-        $verify_wishlist = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ? AND `Product ID` = ?");
+        $verify_wishlist = $conn->prepare("SELECT * FROM wishlist` WHERE user_id = ? AND product_id = ?");
         $verify_wishlist -> execute([$user_id, $product_id]);
 
-        $cart_num = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ? AND `Product ID` = ?");
+        $cart_num = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
         $cart_num -> execute([$user_id, $product_id]);
 
         if ($verify_wishlist->rowCount() > 0)
@@ -32,12 +32,12 @@
             $warning_mes[] = 'product already exist in your cart';
         else 
         {
-            $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
+            $select_price = $_conn->prepare("SELECT * FROM products WHERE id = ? LIMIT 1");
             $select_price -> execute([$product_id]);
             $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
 
-            $insert_wishlist = $conn->prepare("INSERT INTO `Wishlist` (`ID`, `User ID`, `Product ID`, `Price`) VALUES (?, ?, ?, ?)");
-            $insert_wishlist -> execute([$id, $user_id, $product_id, $fetch_price['price']]);
+            $insert_wishlist = $conn->prepare("INSERT INTO wishlist (user_id, product_id, price) VALUES (?, ?, ?)");
+            $insert_wishlist -> execute([$user_id, $product_id, $fetch_price['price']]);
             $success_mess[] = 'product added to wishlist successfully';
         }
     }
@@ -51,10 +51,10 @@
          $qty = 1;
          $qty = filter_var($qty, FILTER_SANITIZE_STRING);
 
-         $verify_cart = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ? AND `Product ID` = ?");
+         $verify_cart = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
          $verify_cart -> execute([$user_id, $product_id]);
  
-         $max_cart_items = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ?");
+         $max_cart_items = $conn->prepare("SELECT * FROM cart WHERE user_id = ?");
          $max_cart_items -> execute([$user_id]);
  
          if ($verify_cart->rowCount() > 0)
@@ -63,12 +63,12 @@
              $warning_mes[] = 'Cart is full';
          else 
          {
-             $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
+             $select_price = $_conn->prepare("SELECT * FROM products WHERE id = ? LIMIT 1");
              $select_price -> execute([$product_id]);
              $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
  
-             $insert_cart = $conn->prepare("INSERT INTO `Cart` (`ID`, `User ID`, `Product ID`, `Price`, `Quantity`) VALUES (?, ?, ?, ?, ?)");
-             $insert_cart -> execute([$id, $user_id, $product_id, $fetch_price['price']], $qty);
+             $insert_cart = $conn->prepare("INSERT INTO `cart` (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
+             $insert_cart -> execute([$user_id, $product_id, $fetch_price['price']], $qty);
              $success_mess[] = 'product added to wishlist successfully';
          }
      }
@@ -79,12 +79,12 @@
         $wishlist_id = $_POST['wishlist_id'];
         $wishlist_id = filter_var($wishlist_id, FILTER_SANITIZE_STRING);
 
-        $verify_delete_items = $conn->prepare("SELECT * FROM `Wishlist' WHERE ID = ?");
+        $verify_delete_items = $conn->prepare("SELECT * FROM `wishlist' WHERE id = ?");
         $verify_delete_items->execute([$wishlist_id]);
 
         if ($verify_delete_items -> rowCount()>0)
         {
-            $delete_wishlist_id = $conn -> prepare("DELETE FROM `Wishlist` WHERE ID = ?");
+            $delete_wishlist_id = $conn -> prepare("DELETE FROM `wishlist` WHERE id = ?");
             $delete_wishlist_id -> execute([$wishlist_id]);
             $success_msg[] = "Wishlist item successfully deleted";
         }
@@ -124,13 +124,13 @@
                 $grand_total = 0;
                 $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE `User_ID` = ?");
                 $select_wishlist->execute([$user_id]);
-                if ($select_wishlist->rowCount() > 0)
+                if ($select_wishlist->num_rows > 0)
                 {
                     while($fetech_wishlist = $select_wishlist->fetch(PDO::FETCH_ASSOC))
                     {
                         $select_products = $conn->prepare("SELECT * FROM `products` WHERE `User_ID` = ?");
                         $select_products->execute([$fetech_wishlist['Product_ID']]);
-                        if($select_products->rowCount() > 0)
+                        if($select_products->num_rows > 0)
                         {
                             $fetch_products = $select_products->fetch(PDO::FETCH_ASSOC);
                 ?>

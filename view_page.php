@@ -103,7 +103,7 @@
             if (isset($_GET['pid']))
             {
                 $pid = $_GET['pid'];
-                $select_products = $conn -> prepare("SELECT * FROM `Product` WHERE ID = '$pid'");
+                $select_products = $conn -> prepare("SELECT * FROM `product` WHERE pid = '$pid'");
                 $select_products -> execute();
 
                 if ($select_products -> rowCount() > 0)

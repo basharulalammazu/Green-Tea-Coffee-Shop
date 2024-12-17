@@ -1,16 +1,17 @@
 <?php
-    // Database Connection
-    $db_name = 'mysql:host=localhost;dbname=coffeeshop';
-    $user_name = 'root';
-    $user_password = '';
+    /// Database Connection
+    $db_host = 'localhost';
+    $db_user = 'root';
+    $db_password = '';
+    $db_name = 'coffeeshop';
 
-    $conn = new PDO($db_name, $user_name, $user_password);
+    // Create a MySQLi connection
+    $conn = new mysqli($db_host, $db_user, $db_password, $db_name);
 
-    if (!$conn) 
-    {
-        echo "Database not connected (components/Connection.php)";
-        return;
-    }
+    // Check connection
+    if ($conn->connect_error) 
+        die("Database connection failed: " . $conn->connect_error);
+    
 
     // Unique ID Generator Function
     function unique_id() 
@@ -22,7 +23,6 @@
         for ($i = 0; $i < 20; $i++) 
             $randomString .= $chars[mt_rand(0, $charLength - 1)];
         
-
         return $randomString;
     }
 ?>

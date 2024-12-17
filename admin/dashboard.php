@@ -56,7 +56,7 @@
                 </div>
                 <div class="box">
                     <?php 
-                        $select_deactive_product = $conn->prepare("SELECT * FROM `products` WHERE status=?");
+                        $select_deactive_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
                         $select_deactive_product->execute(['active']);
                         $num_of_deactive_products = $select_deactive_product->rowCount();
                     ?>

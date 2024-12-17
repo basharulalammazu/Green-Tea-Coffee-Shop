@@ -1,5 +1,4 @@
 <?php 
-/*
 include './components/connection.php';
 session_start();
 if (isset($_SESSION['user_id'])) 
@@ -11,7 +10,7 @@ if(isset($_POST['logout'])) {
     session_destroy();
     header("location: login.php");
 }
-*/
+
 ?>
 <style type="text/css">
     <?php include 'style.css'; ?>
@@ -44,13 +43,13 @@ if(isset($_POST['logout'])) {
             <!-- </div> -->
                 <div class="box-container">
                     <?php
-                        $select_orders = $conn->prepare("SELECT * FROM `Orders` WHERE `User ID` = ? ORDER BY date DESC");
+                        $select_orders = $conn->prepare("SELECT * FROM `orders` WHERE user_id = ? ORDER BY date DESC");
                         $select_orders->execute([$user_id]);
                         if ($select_orders->rowCount() > 0) 
                         {
                             while ($fetch_order = $select_orders->fetch(PDO::FETCH_ASSOC)) 
                             {
-                                $select_products = $conn->prepare("SELECT * FROM `Products` WHERE ID = ?");
+                                $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
                                 $select_products->execute([$fetch_order['product_id']]);
                                 if ($select_products->rowCount() > 0) 
                                 {

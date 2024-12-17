@@ -1,5 +1,4 @@
 <?php 
-/*
     include './components/connection.php';
     session_start();
     if (isset($_SESSION['user_id'])) 
@@ -25,7 +24,6 @@
         $update_order->execute(['canceled', $get_id]);
         header("location: order.php");
     }
-*/
 ?>
 <style type="text/css">
     <?php include 'style.css'; ?>

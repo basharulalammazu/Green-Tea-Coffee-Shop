@@ -1,5 +1,4 @@
 <?php
-    /*
     include 'components/connection.php';
 
     session_start();
@@ -13,7 +12,6 @@
         session_destroy();
         header("location: login.php");
     }
-    */
 ?>
 
 <style type = "text/css">

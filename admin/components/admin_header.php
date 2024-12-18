@@ -1,11 +1,39 @@
 <?php
     include '../components/connection.php';
-    if (!isset($_SESSION['admin_id'])) 
+
+    $admin_id = $_SESSION['user_id'];
+
+    if (!isset($admin_id)) 
     {
-        header("Location: login.php");
+        header("Location: ../login.php");
+
         exit();
     }
-    $admin_id = $_SESSION['admin_id'];
+        
+
+
+    // Define the directory and base file name
+    $imageDir = "../image/admin/";
+    $imageBase = $fetch_profile['id']; // ID of the admin
+
+    // Supported file extensions
+    $supportedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+    // Find the correct file
+    $imagePath = null;
+    foreach ($supportedExtensions as $extension) 
+    {
+        $filePath = $imageDir . $imageBase . '.' . $extension;
+        if (file_exists($filePath)) 
+        {
+            $imagePath = $filePath;
+            break;
+        }
+}
+
+// If no valid file exists, use a default image
+if (!$imagePath) 
+    $imagePath = $imageDir . "default.png"; // Replace with your placeholder image
 ?>
 <header class="header">
     <div class="flex">
@@ -22,20 +50,24 @@
         </div>
         <div class="profile-detail">
             <?php
-                $select_profile = $conn->prepare("SELECT * FROM `admin` WHERE iID=? ");
-                $select_profile->execute([$admin_id]);
+                $select_profile = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
+                $select_profile->bind_param("i", $admin_id); 
 
-                if ($select_profile->num_rows> 0) 
+                $select_profile->execute();
+
+                $result = $select_profile->get_result();
+
+                if ($result->num_rows > 0) 
                 {
-                    $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
+                    $fetch_profile = $result->fetch_assoc();
             ?>
                 <div class="profile">
-                    <img src="../image/<?= ($fetch_profile['Profile']) ?>" alt="Profile Image" class="logo-img">
-                    <p><?= $fetch_profile['name']; ?></p>
+                    <img src="<?= $imagePath ?>" alt="Profile Image">
+                    <p><?= htmlspecialchars($fetch_profile['name']); ?></p>
                 </div>
                 <div class="flex-btn">
                     <a href="profile.php" class="btn">Profile</a><br>
-                    <a href="../components/admin_logout.php" onclick="return confirm('Logout?');" class="btn">Logout</a>
+                    <a href="../login.php" onclick="return confirm('Logout?');" class="btn">Logout</a>
                 </div>
             <?php 
                 } 

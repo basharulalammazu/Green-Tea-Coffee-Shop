@@ -6,16 +6,16 @@
     session_start();
     $admin_id = $_SESSION['user_id'];
 
+    
     if(!isset($admin_id))
         header("Location: ../login.php");
-
-        if ($admin_id) {
-            $stmt = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
-            $stmt->bind_param("i", $admin_id); // Bind the admin ID as an integer
-            $stmt->execute();
-            $result = $stmt->get_result(); // Get the result set
-            $fetch_profile = $result->fetch_assoc(); // Fetch as an associative array
-        }
+    
+    $stmt = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
+    $stmt->bind_param("i", $admin_id); // Bind the admin ID as an integer
+    $stmt->execute();
+    $result = $stmt->get_result(); // Get the result set
+    $fetch_profile = $result->fetch_assoc(); // Fetch as an associative array
+    
 
 ?>
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
     <title>Green Coffee Admin Panel - Dashboard Page</title>
 </head>
 <body>
-    <?php // include 'components/admin_header.php';?>
+    <?php include 'components/admin_header.php';?>
     <div class="main">
         <dib class="banner">
             <h1>Dashboard</h1>
@@ -54,88 +54,133 @@
                     ?>
                     <h3><?=  $num_of_products ;?></h3>
                     <p>Product added</p>
-                    <a href="admin/dd_product.php" class="btn">Add new product</a>
+                    <a href="admin/add_product.php" class="btn">Add new product</a>
                 </div>
                 <div class="box">
                     <?php 
                         $select_active_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
                         $select_active_product -> execute(['active']);
-                        $num_of_active_products = $select_active_product->rowCount();
+                        $num_of_active_products = $select_active_product->num_rows;
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
                     <p>Total active products</p>
                     <a href="admin/view_product.php" class="btn">View active product</a>
                 </div>
                 <div class="box">
-                    <?php 
-                        $select_deactive_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
-                        $select_deactive_product->execute(['active']);
-                        $num_of_deactive_products = $select_deactive_product->rowCount();
+                    <?php
+                    // Select deactivated products
+                    $select_deactive_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
+                    $status = 'deactivated';
+                    $select_deactive_product->bind_param("s", $status);
+                    $select_deactive_product->execute();
+                    $result = $select_deactive_product->get_result();
+                    $num_of_deactive_products = $result->num_rows;
+                    $result->free();
+                    $select_deactive_product->close();
                     ?>
-                    <h3><?=  $num_of_deactive_products ;?></h3>
+                    <h3><?= $num_of_deactive_products; ?></h3>
                     <p>Total deactive products</p>
-                    <a href="admin/view_product.php" class="btn">View deactive product</a>
+                    <a href="admin/view_product.php" class="btn">View deactive products</a>
                 </div>
+
                 <div class="box">
-                    <?php 
-                        $select_user = $conn->prepare("SELECT * FROM `users`");
-                        $select_user->execute();
-                        $num_of_users = $select_user->rowCount();
+                    <?php
+                    // Select users with user_type 'Customer'
+                    $select_user = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
+                    $user_type = 'Customer';
+                    $select_user->bind_param("s", $user_type);
+                    $select_user->execute();
+                    $result = $select_user->get_result();
+                    $num_of_users = $result->num_rows;
+                    $result->free();
+                    $select_user->close();
                     ?>
-                    <h3><?=  $num_of_users ;?></h3>
-                    <p>Rregistered ysers</p>
+                    <h3><?= $num_of_users; ?></h3>
+                    <p>Registered users</p>
                     <a href="admin/user_account.php" class="btn">View users</a>
                 </div>
+
                 <div class="box">
-                    <?php 
-                        $select_admin = $conn->prepare("SELECT * FROM `admin`");
-                        $select_admin->execute();
-                        $num_of_admin = $select_admin->rowCount();
+                    <?php
+                    // Select users with user_type 'Admin'
+                    $select_admin = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
+                    $user_type = 'Admin';
+                    $select_admin->bind_param("s", $user_type);
+                    $select_admin->execute();
+                    $result = $select_admin->get_result();
+                    $num_of_admin = $result->num_rows;
+                    $result->free();
+                    $select_admin->close();
                     ?>
-                    <h3><?=  $num_of_admin ;?></h3>
-                    <p>Registered admin</p>
-                    <a href="admin/user_account.php" class="btn">View admin</a>
+                    <h3><?= $num_of_admin; ?></h3>
+                    <p>Registered admins</p>
+                    <a href="admin/user_account.php" class="btn">View admins</a>
                 </div>
+
                 <div class="box">
-                    <?php 
-                        $select_message = $conn->prepare("SELECT * FROM `message`");
-                        $select_message->execute();
-                        $num_of_message = $select_message->rowCount();
+                    <?php
+                    // Select all messages
+                    $select_message = $conn->prepare("SELECT * FROM `message`");
+                    $select_message->execute();
+                    $result = $select_message->get_result();
+                    $num_of_message = $result->num_rows;
+                    $result->free();
+                    $select_message->close();
                     ?>
-                    <h3><?=  $num_of_message ;?></h3>
-                    <p>Unread message</p>
-                    <a href="admin/admin_message.php" class="btn">View message</a>
+                    <h3><?= $num_of_message; ?></h3>
+                    <p>Unread messages</p>
+                    <a href="admin/admin_message.php" class="btn">View messages</a>
                 </div>
+
                 <div class="box">
-                    <?php 
-                        $select_orders = $conn->prepare("SELECT * FROM `orders`");
-                        $select_orders->execute();
-                        $num_of_orders = $select_orders->rowCount();
+                    <?php
+                    // Select all orders
+                    $select_orders = $conn->prepare("SELECT * FROM `orders`");
+                    $select_orders->execute();
+                    $result = $select_orders->get_result();
+                    $num_of_orders = $result->num_rows;
+                    $result->free();
+                    $select_orders->close();
                     ?>
-                    <h3><?=  $num_of_orders ;?></h3>
-                    <p>totle orders placed</p>
+                    <h3><?= $num_of_orders; ?></h3>
+                    <p>Total orders placed</p>
                     <a href="admin/order.php" class="btn">View orders</a>
                 </div>
+
                 <div class="box">
-                    <?php 
-                        $select_confirm_orders = $conn->prepare("SELECT * FROM `orders` WHERE status = ?");
-                        $select_confirm_orders->execute(['in progress']);
-                        $num_of_confirm_orders = $select_confirm_orders->rowCount();
+                    <?php
+                    // Select confirmed orders
+                    $select_confirm_orders = $conn->prepare("SELECT * FROM `orders` WHERE status = ?");
+                    $status = 'in progress';
+                    $select_confirm_orders->bind_param("s", $status);
+                    $select_confirm_orders->execute();
+                    $result = $select_confirm_orders->get_result();
+                    $num_of_confirm_orders = $result->num_rows;
+                    $result->free();
+                    $select_confirm_orders->close();
                     ?>
-                    <h3><?=  $num_of_confirm_orders ;?></h3>
-                    <p>Total confirm orders</p>
-                    <a href="admin/order.php" class="btn">View confirm orders</a>
+                    <h3><?= $num_of_confirm_orders; ?></h3>
+                    <p>Total confirmed orders</p>
+                    <a href="admin/order.php" class="btn">View confirmed orders</a>
                 </div>
+
                 <div class="box">
-                    <?php 
-                        $select_canceled_orders = $conn->prepare("SELECT * FROM `orders` WHERE status = ?");
-                        $select_canceled_orders->execute(['canceled']);
-                        $num_of_canceled_orders = $select_canceled_orders->rowCount();
+                    <?php
+                    // Select canceled orders
+                    $select_canceled_orders = $conn->prepare("SELECT * FROM `orders` WHERE status = ?");
+                    $status = 'canceled';
+                    $select_canceled_orders->bind_param("s", $status);
+                    $select_canceled_orders->execute();
+                    $result = $select_canceled_orders->get_result();
+                    $num_of_canceled_orders = $result->num_rows;
+                    $result->free();
+                    $select_canceled_orders->close();
                     ?>
-                    <h3><?=  $num_of_canceled_orders ;?></h3>
+                    <h3><?= $num_of_canceled_orders; ?></h3>
                     <p>Total canceled orders</p>
-                    <a href="admin/order.php" class="btn">view canceled orders</a>
+                    <a href="admin/order.php" class="btn">View canceled orders</a>
                 </div>
+
             </div>
         </section>
     </div>

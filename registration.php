@@ -34,7 +34,7 @@ if (isset($_POST['submit']))
     {
         // Check if passwords match
         if ($pass != $cpass) 
-            $error_msg[] = 'Confirm your password';
+            $error_msg[] = 'Password doesnt match';
         
         else 
         {
@@ -50,9 +50,8 @@ if (isset($_POST['submit']))
             $insert_user->execute();
 
             // Redirect after successful registration
-            $message[] = 'Registration successful! Please login.';
+            $succcess_msg[] = 'Registration successful! Please login.';
             header('location: login.php');
-            exit; // Ensure the script stops after redirection
         }
     }
 }

@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
     $select_user->bind_param("s", $email); 
     $select_user->execute();
 
-    /*
+    
     $result = $select_user->get_result(); 
     $row = $result->fetch_assoc();
 
@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
             exit();
         } 
     }
-    */
+    /*
     
 
     $result = $select_user->get_result(); 
@@ -75,6 +75,7 @@ if (isset($_POST['submit'])) {
     else 
         // No user found with that email
         $error_msg[] = 'Incorrect username or password 74';
+        */
 }
 ?>
 

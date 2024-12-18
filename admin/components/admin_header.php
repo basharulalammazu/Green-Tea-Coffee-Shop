@@ -1,5 +1,5 @@
 <?php
-    include 'connection.php';
+    include '../components/connection.php';
     if (!isset($_SESSION['admin_id'])) 
     {
         header("Location: login.php");
@@ -25,13 +25,13 @@
                 $select_profile = $conn->prepare("SELECT * FROM `admin` WHERE iID=? ");
                 $select_profile->execute([$admin_id]);
 
-                if ($select_profile->rowCount() > 0) 
+                if ($select_profile->num_rows> 0) 
                 {
                     $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
             ?>
                 <div class="profile">
                     <img src="../image/<?= ($fetch_profile['Profile']) ?>" alt="Profile Image" class="logo-img">
-                    <p><?= $fetch_profile['Name']; ?></p>
+                    <p><?= $fetch_profile['name']; ?></p>
                 </div>
                 <div class="flex-btn">
                     <a href="profile.php" class="btn">Profile</a><br>

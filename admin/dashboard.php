@@ -1,13 +1,21 @@
 <?php
-/*
-    include './components/connection.php';
+
+    include '../components/connection.php';
+
 
     session_start();
-    $admin_id = $_SESSION['admin_id'];
+    $admin_id = $_SESSION['user_id'];
 
     if(!isset($admin_id))
         header("Location: ../login.php");
-    */
+
+        if ($admin_id) {
+            $stmt = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
+            $stmt->bind_param("i", $admin_id); // Bind the admin ID as an integer
+            $stmt->execute();
+            $result = $stmt->get_result(); // Get the result set
+            $fetch_profile = $result->fetch_assoc(); // Fetch as an associative array
+        }
 
 ?>
 <!DOCTYPE html>

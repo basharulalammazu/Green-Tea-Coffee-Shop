@@ -42,7 +42,7 @@ if (isset($_POST['delete']))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="admin_style.css?v=<?php echo time(); ?>">
     <title>Green Coffee Admin - Read Product Page</title>
 </head>
 <body>

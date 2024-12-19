@@ -60,36 +60,33 @@
                     <?php 
                         $select_active_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
                         $select_active_product -> execute(['active']);
-                        $num_of_active_products = $select_active_product->num_rows;
+                        $result = $select_active_product->get_result();
+                        $num_of_active_products = $result->num_rows;
+                        $result->free();
+                        $select_active_product->close();
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
                     <p>Total active products</p>
                     <a href="admin/view_product.php" class="btn">View active product</a>
                 </div>
                 <div class="box">
-                    <?php
-                    // Select deactivated products
-                    $select_deactive_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
-                    $status = 'deactivated';
-                    $select_deactive_product->bind_param("s", $status);
-                    $select_deactive_product->execute();
-                    $result = $select_deactive_product->get_result();
-                    $num_of_deactive_products = $result->num_rows;
-                    $result->free();
-                    $select_deactive_product->close();
+                    <?php 
+                        $select_active_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
+                        $select_active_product -> execute(['in progress']);
+                        $result = $select_active_product->get_result();
+                        $num_of_active_products = $result->num_rows;
+                        $result->free();
+                        $select_active_product->close();
                     ?>
-                    <h3><?= $num_of_deactive_products; ?></h3>
-                    <p>Total deactive products</p>
-                    <a href="admin/view_product.php" class="btn">View deactive products</a>
+                    <h3><?=  $num_of_active_products;?></h3>
+                    <p>Total active products</p>
+                    <a href="admin/view_product.php" class="btn">View deactive product</a>
                 </div>
-
                 <div class="box">
                     <?php
                     // Select users with user_type 'Customer'
                     $select_user = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
-                    $user_type = 'Customer';
-                    $select_user->bind_param("s", $user_type);
-                    $select_user->execute();
+                    $select_user->execute(['Customer']);
                     $result = $select_user->get_result();
                     $num_of_users = $result->num_rows;
                     $result->free();
@@ -104,9 +101,7 @@
                     <?php
                     // Select users with user_type 'Admin'
                     $select_admin = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
-                    $user_type = 'Admin';
-                    $select_admin->bind_param("s", $user_type);
-                    $select_admin->execute();
+                    $select_admin->execute(['Admin']);
                     $result = $select_admin->get_result();
                     $num_of_admin = $result->num_rows;
                     $result->free();

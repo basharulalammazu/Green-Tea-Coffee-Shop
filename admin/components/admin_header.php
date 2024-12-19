@@ -14,11 +14,11 @@ $select_profile->bind_param("i", $admin_id);
 $select_profile->execute();
 $result = $select_profile->get_result();
 
-if ($result->num_rows > 0) {
+if ($result->num_rows > 0) 
     $fetch_profile = $result->fetch_assoc(); // Fetch the admin's data
-} else {
+else 
     $fetch_profile = null; // Set to null if no profile data exists
-}
+
 
 // Define the directory and base file name
 $imageDir = "../image/admin/";
@@ -29,18 +29,19 @@ $supportedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
 // Find the correct file
 $imagePath = null;
-foreach ($supportedExtensions as $extension) {
+foreach ($supportedExtensions as $extension) 
+{
     $filePath = $imageDir . $imageBase . '.' . $extension;
-    if (file_exists($filePath)) {
+    if (file_exists($filePath)) 
+    {
         $imagePath = $filePath;
         break;
     }
 }
 
 // If no valid file exists, use a default image
-if (!$imagePath) {
+if (!$imagePath) 
     $imagePath = $imageDir . "default.png"; // Replace with your placeholder image
-}
 ?>
 <header class="header">
     <div class="flex">
@@ -57,7 +58,8 @@ if (!$imagePath) {
         </div>
         <div class="profile-detail">
             <?php
-            if ($fetch_profile) { // Check if the profile data is available
+            if ($fetch_profile) 
+            { 
             ?>
                 <div class="profile">
                     <img src="<?= htmlspecialchars($imagePath); ?>" alt="Profile Image">
@@ -68,9 +70,9 @@ if (!$imagePath) {
                     <a href="../login.php" onclick="return confirm('Logout?');" class="btn">Logout</a>
                 </div>
             <?php 
-            } else { 
+            } 
+            else  
                 echo "<p>Profile not found. Please log in again.</p>";
-            }
             ?>
         </div>
     </div>

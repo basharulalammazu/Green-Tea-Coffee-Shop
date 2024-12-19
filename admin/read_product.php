@@ -1,7 +1,7 @@
 <?php
 include '../components/connection.php';
 session_start();
-$admin_id = $_SESSION['admin_id'];
+$admin_id = $_SESSION['user_id'];
 
 if (!isset($admin_id)) 
 {
@@ -23,22 +23,21 @@ if (isset($_POST['delete']))
     $p_id = $_POST['product_id'];
     $p_id = filter_var($p_id, FILTER_SANITIZE_STRING);
 
-    $delete_image = $conn->prepare("SELECT FROM `products` WHERE id=?");
+    $delete_image = $conn->prepare("SELECT FROM `products` WHERE id = ?");
     $delete_image->execute([$p_id]);
 
     $fetch_delete_image = $delete_image->fetch(PDO::FETCH_ASSOC);
     if($fetch_delete_image['image'] !="")
         unlink('../image/product/'.$fetch_delete_image['image']);
 
-    $delete_product = $conn->prepare("DELETE * FROM `products` WHERE id=''");
+    $delete_product = $conn->prepare("DELETE * FROM `products` WHERE id = ''");
     $delete_product->execute([$p_id]);
     
     header("location:../admin/view_product.php");
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang = "en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +45,6 @@ if (isset($_POST['delete']))
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <title>Green Coffee Admin - Read Product Page</title>
 </head>
-
 <body>
     <?php include '../admin/components/admin_header.php'; ?>
     <div class="main">

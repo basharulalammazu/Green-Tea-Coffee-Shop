@@ -40,7 +40,7 @@
             <h1 class="heading">Dashboard</h1>
             <div class="box-container">
                 <div class="box">
-                    <h3>WEelcome!</h3>
+                    <h3>Welcome!</h3>
                     <p><?=$fetch_profile['name'];?></p>
                     <a href="" class="btn">Profile</a>
                 </div>

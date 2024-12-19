@@ -24,9 +24,9 @@
         $cart_num = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
         $cart_num -> execute([$user_id, $product_id]);
 
-        if ($verify_wishlist->rowCount() > 0)
+        if ($verify_wishlist -> num_rows > 0)
             $warning_mes[] = 'Producct already exist in you wishlist';
-        else if ($cart_num  -> rowCount() > 0)
+        else if ($cart_num  -> num_rows > 0)
             $warning_mes[] = 'product already exist in your cart';
         else 
         {
@@ -55,9 +55,9 @@
          $max_cart_items = $conn->prepare("SELECT * FROM cart WHERE user_id = ?");
          $max_cart_items -> execute([$user_id]);
  
-         if ($verify_cart->rowCount() > 0)
+         if ($verify_cart -> num_rows > 0)
              $warning_mes[] = 'Producct already exist in you wishlist';
-         else if ($max_cart_items -> rowCount() > 20)
+         else if ($max_cart_items -> num_rows > 20)
              $warning_mes[] = 'Cart is full';
          else 
          {
@@ -66,7 +66,7 @@
              $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
  
              $insert_cart = $conn->prepare("INSERT INTO `cart` (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
-             $insert_cart -> execute([$id, $user_id, $product_id, $fetch_price['price']], $qty);
+             $insert_cart -> execute([$id, $user_id, $product_id, $fetch_price['price'], $qty]);
              $success_mess[] = 'product added to wishlist successfully';
         }
     }
@@ -92,14 +92,14 @@
             <h1>Shop</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span> / Our Shop</span>
+            <a href = "home.php">Home</a><span> / Our Shop</span>
         </div>
     </div>
     <section class="products">
     <div class="box-container">
         <?php 
             // Prepare SQL query to select products
-            $select_product = $conn->prepare("SELECT * FROM `Products`");
+            $select_product = $conn->prepare("SELECT * FROM `products`");
             $select_product->execute();
             $result = $select_product->get_result(); // Fetch result set
 
@@ -111,7 +111,7 @@
                 { 
         ?>
                     <form action="" method="post" class="box">
-                       < <img src="image/<?= htmlspecialchars($fetch_products['image']); ?>" alt="Product Image">
+                        <img src="image/<?= htmlspecialchars($fetch_products['image']); ?>" alt="Product Image">
                 
                         <!-- Buttons -->
                         <div class="button">
@@ -152,6 +152,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
     <script src = "script.js"></script>
-    <?php include 'components/alert.php'; ?>
+    <?php include '../components/alert.php'; ?>
 </body>
 </html>

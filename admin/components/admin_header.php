@@ -41,7 +41,7 @@ foreach ($supportedExtensions as $extension)
 
 // If no valid file exists, use a default image
 if (!$imagePath) 
-    $imagePath = $imageDir . "default.png"; // Replace with your placeholder image
+    $imagePath = "../image/default_user.jpg"; 
 ?>
 <header class="header">
     <div class="flex">

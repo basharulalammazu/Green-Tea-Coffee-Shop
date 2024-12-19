@@ -54,7 +54,7 @@
                     ?>
                     <h3><?=  $num_of_products ;?></h3>
                     <p>Product added</p>
-                    <a href="admin/add_product.php" class="btn">Add new product</a>
+                    <a href="../admin/add_products.php" class="btn">Add new product</a>
                 </div>
                 <div class="box">
                     <?php 
@@ -67,7 +67,7 @@
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
                     <p>Total active products</p>
-                    <a href="admin/view_product.php" class="btn">View active product</a>
+                    <a href="../admin/view_products.php" class="btn">View active product</a>
                 </div>
                 <div class="box">
                     <?php 
@@ -80,7 +80,7 @@
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
                     <p>Total active products</p>
-                    <a href="admin/view_product.php" class="btn">View deactive product</a>
+                    <a href="../admin/view_product.php" class="btn">View deactive product</a>
                 </div>
                 <div class="box">
                     <?php
@@ -94,7 +94,7 @@
                     ?>
                     <h3><?= $num_of_users; ?></h3>
                     <p>Registered users</p>
-                    <a href="admin/user_account.php" class="btn">View users</a>
+                    <a href="../admin/user_account.php" class="btn">View users</a>
                 </div>
 
                 <div class="box">
@@ -109,7 +109,7 @@
                     ?>
                     <h3><?= $num_of_admin; ?></h3>
                     <p>Registered admins</p>
-                    <a href="admin/user_account.php" class="btn">View admins</a>
+                    <a href="../admin/user_account.php" class="btn">View admins</a>
                 </div>
 
                 <div class="box">
@@ -124,7 +124,7 @@
                     ?>
                     <h3><?= $num_of_message; ?></h3>
                     <p>Unread messages</p>
-                    <a href="admin/admin_message.php" class="btn">View messages</a>
+                    <a href="../admin/admin_message.php" class="btn">View messages</a>
                 </div>
 
                 <div class="box">
@@ -139,7 +139,7 @@
                     ?>
                     <h3><?= $num_of_orders; ?></h3>
                     <p>Total orders placed</p>
-                    <a href="admin/order.php" class="btn">View orders</a>
+                    <a href="../admin/order.php" class="btn">View orders</a>
                 </div>
 
                 <div class="box">
@@ -156,7 +156,7 @@
                     ?>
                     <h3><?= $num_of_confirm_orders; ?></h3>
                     <p>Total confirmed orders</p>
-                    <a href="admin/order.php" class="btn">View confirmed orders</a>
+                    <a href="../admin/order.php" class="btn">View confirmed orders</a>
                 </div>
 
                 <div class="box">
@@ -173,7 +173,7 @@
                     ?>
                     <h3><?= $num_of_canceled_orders; ?></h3>
                     <p>Total canceled orders</p>
-                    <a href="admin/order.php" class="btn">View canceled orders</a>
+                    <a href="../admin/order.php" class="btn">View canceled orders</a>
                 </div>
 
             </div>

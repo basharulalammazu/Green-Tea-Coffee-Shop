@@ -45,7 +45,7 @@ if (!$imagePath)
 ?>
 <header class="header">
     <div class="flex">
-        <a href="dashboard.php" class="logo"><img src="./assets/image/logo.jpg" alt="Logo"></a>
+        <a href="dashboard.php" class="logo"><img src="../assets/image/logo.jpg" alt="Logo"></a>
         <nav class="navbar">
             <a href="dashboard.php">Dashboard</a>
             <a href="add_products.php">Add Product</a>

@@ -48,7 +48,7 @@ if (isset($_POST['delete']))
 </head>
 
 <body>
-    <?php include '../components/admin_header.php'; ?>
+    <?php include '../admin/components/admin_header.php'; ?>
     <div class="main">
         <div class="banner">
             <h1>Read Product</h1>

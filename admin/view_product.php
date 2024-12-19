@@ -1,7 +1,7 @@
 <?php
     include '../components/connection.php';
     session_start();
-    $admin_id = $_SESSION['admin_id'];
+    $admin_id = $_SESSION['user_id'];
 
     if (!isset($admin_id)) 
         header("location:../login.php");
@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <?php include '../components/admin_header.php'; ?>
+    <?php include '../admin/components/admin_header.php'; ?>
     <div class="main">
         <dib class="banner">
             <h1>All Products</h1>
@@ -38,7 +38,7 @@
             <a href="../admin/dashboard.php">Dashboard</a><span> / All Products</span>
         </div>
         <section class="show-post">
-            <h1 class="heading">all products</h1>
+            <h1 class="heading">All Products</h1>
             <div class="box-container">
             <?php
                 // Fetch all products from the database
@@ -50,39 +50,55 @@
                 {
                     while ($fetch_products = $result->fetch_assoc()) 
                     {
+                        $productId = $fetch_products['id'];
+                        $imagePath = "";
+                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']; // Possible image extensions
+                        
+                        // Search for the image in the directory
+                        foreach ($allowedExtensions as $extension) 
+                        {
+                            $path = "../image/product/{$productId}.{$extension}";
+                            if (file_exists($path)) 
+                            {
+                                $imagePath = $path;
+                                break;
+                            }
+                        }
             ?>
                         <form action="" method="post" class="box" enctype="multipart/form-data">
                             <input type="hidden" name="product_id" value="<?= $fetch_products['id']; ?>">
-                            <?php 
-                                if ($fetch_products['image'] != "") 
+            <?php 
+                                if (!empty($imagePath)) 
                                 { 
-                            ?>
-                                    <img src="../image/<?= $fetch_products['image']; ?>" class="image">
-                            <?php 
+            ?>
+                                <img src="<?= $imagePath; ?>" class="image" alt="Product Image">
+            <?php 
                                 } 
-                            ?>
+                                else 
+                                    echo '<p>No Image Available</p>';
+            ?>
                             <div class="status" style="color:<?php if ($fetch_products['status'] == 'active') { echo "green"; } else { echo "red"; } ?>">
                                 <?= $fetch_products['status']; ?>
-                            </div>
-                            <div class="price">$<?= $fetch_products['price']; ?>/-</div>
-                            <div class="title"><?= $fetch_products['name']; ?></div>
-                            <div class="flex-btn">
-                                <a href="edit_product.php?id=<?= $fetch_products['id']; ?>" class="btn">Edit</a>
-                                <button type = "submit" name = "delete" class = "btn" onclick = "return confirm('Delete this product?');">Delete</button>
-                                <a href="../admin/read_product.php?id=<?= $fetch_products['id']; ?>" class="btn">View</a>
-                            </div>
-                        </form>
-                        <?php
-                    }
+                        </div>
+                        <div class="price">$<?= $fetch_products['price']; ?>/-</div>
+                        <div class="title"><?= $fetch_products['name']; ?></div>
+                        <div class="flex-btn">
+                            <a href="../admin/edit_product.php?id=<?= $fetch_products['id']; ?>" class="btn">Edit</a>
+                            <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
+                            <a href="../admin/read_product.php?id=<?= $fetch_products['id']; ?>" class="btn">View</a>
+                        </div>
+                    </form>
+                    <?php
                 }
-                else 
-                {
-                    '<div class="empty">
+            } 
+            else 
+            {
+                echo '<div class="empty">
                         <p>No product added yet <br> <a href="../admin/add_product.php" style="margin-top:1.5rem" class="btn">Add Product</a></p>
                     </div>';
-                }
-                        ?>
-            </div>
+            }
+            ?>
+        </div>
         </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

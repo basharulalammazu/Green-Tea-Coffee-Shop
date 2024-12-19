@@ -31,27 +31,26 @@ if (!isset($admin_id))
             <h1 class="heading">Register User's</h1>
             <div class="box-container">
                 <?php
-                $select_users = $conn->prepare("SELECT * FROM `users`");
-                $select_users->execute();
+                // Select all users from the database
+                $select_users = $conn->query("SELECT * FROM `users` WHERE user_type = 'Customer'");
 
-                if ($select_users->num_rows > 0) 
-                {
-                    while ($fetch_users = $select_users->fetch(PDO::FETCH_ASSOC)) 
+                // Check if there are any users
+                if ($select_users->num_rows > 0) {
+                    while ($fetch_users = $select_users->fetch_assoc()) 
                     {
                         $user_id = $fetch_users['id'];
                         ?>
                         <div class="box">
-                            <p>user id : <span><?= $user_id; ?></span></p>
-                            <p>user name : <span><?= $fetch_users['name']; ?></span></p>
-                            <p>user emai : <span><?= $fetch_users['email']; ?></span></p>
+                            <p>user id : <span><?= ($user_id); ?></span></p>
+                            <p>user name : <span><?= ($fetch_users['name']); ?></span></p>
+                            <p>user email : <span><?= ($fetch_users['email']); ?></span></p>
                         </div>
                         <?php
                     }
                 } 
-                
                 else 
                 {
-                    echo ' <div class="empty">
+                    echo '<div class="empty">
                             <p>no users registered yet</p>
                         </div>';
                 }

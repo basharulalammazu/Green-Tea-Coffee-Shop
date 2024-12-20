@@ -60,7 +60,6 @@
     
     // Adding product to cart
     if (isset($_POST['add_to_cart'])) {
-        $id = uniqid(); // Generate unique ID for the cart entry
         $product_id = $_POST['product_id'];
         $qty = filter_var($_POST['qty'], FILTER_SANITIZE_NUMBER_INT);
     
@@ -114,57 +113,56 @@
 </style>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href = 'https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel = 'stylesheet'>
-    <title>Green Coffee - Shop Page</title>
+    <link href="https://unpkg.com/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <title>Green Coffee - View Product Page</title>
 </head>
 <body>
     <?php include 'components/header.php'; ?>
-    <div class = "main">
-    <div class = "banner">
+    <div class="main">
+        <div class="banner">
             <h1>Shop</h1>
         </div>
-        <div class = "title2">
-            <a href = "home.php">Home</a><span> / Our Shop</span>
+        <div class="title2">
+            <a href="home.php">Home</a><span> / Our Shop</span>
         </div>
     </div>
+    
     <section class="products">
-    <div class="box-container">
-        <?php 
-            // Prepare SQL query to select products
-            $select_product = $conn->prepare("SELECT * FROM `products`");
-            $select_product->execute();
-            $result = $select_product->get_result(); // Fetch result set
+        <div class="box-container">
+            <?php 
+                // Prepare SQL query to select products
+                $select_product = $conn->prepare("SELECT * FROM `products`");
+                $select_product->execute();
+                $result = $select_product->get_result(); // Fetch result set
 
-            // Check if there are any products
-            if ($result->num_rows > 0) 
-            {
-                while ($fetch_products = $result->fetch_assoc()) 
-                {
-                    $product_id = $fetch_products['id'];
-                    
-                    // Check for the existence of the product image file
-                    $image_formats = ['jpg', 'png', 'jpeg', 'gif']; // Supported formats
-                    $image_path = "image/default.jpg"; // Default placeholder image
-                    
-                    foreach ($image_formats as $format) {
-                        $image_file = "image/product/{$product_id}.{$format}";
-                        if (file_exists($image_file)) 
-                        {
-                            $image_path = $image_file; // Set the correct image path
-                            break;
+                // Check if there are any products
+                if ($result->num_rows > 0) {
+                    while ($fetch_products = $result->fetch_assoc()) {
+                        $product_id = $fetch_products['id'];
+                        
+                        // Check for the existence of the product image file
+                        $image_formats = ['jpg', 'png', 'jpeg', 'gif']; // Supported formats
+                        $image_path = "image/default.jpg"; // Default placeholder image
+                        
+                        foreach ($image_formats as $format) {
+                            $image_file = "image/product/{$product_id}.{$format}";
+                            if (file_exists($image_file)) {
+                                $image_path = $image_file; // Set the correct image path
+                                break;
+                            } else {
+                                $image_path = "image/default_product.png"; // Set the default image path
+                            }
                         }
-                        else 
-                            $image_path = "image/default_product.png"; // Set the default image path
-                    }
             ?>
                     <form action="" method="post" class="box">
-                        <img src="<?= ($image_path); ?>" alt="Product Image">
+                        <!-- Product Image -->
+                        <div class="img">
+                            <img src="<?= ($image_path); ?>" alt="Product Image">
+                        </div>
                         
-                        <!-- Buttons -->
+                        <!-- Buttons (Add to Cart, Add to Wishlist, View More) -->
                         <div class="button">
                             <button type="submit" name="add_to_cart"><i class="bx bx-cart"></i></button>
                             <button type="submit" name="add_to_wishlist"><i class="bx bx-heart"></i></button>
@@ -185,24 +183,20 @@
                         <a href="checkout.php?get_id=<?= ($product_id); ?>" class="btn">Buy Now</a> 
                     </form>
             <?php
+                    }
+                } else {
+                    echo "<p class='empty'>No Products added yet!</p>";
                 }
-            } 
-            else 
-                echo "<p class='empty'>No Products added yet!</p>";
-        
-        ?>
-    </div> 
-</section>
+            ?>
+        </div> 
+    </section>
 
-    
     <?php include 'components/footer.php'; ?>
-    <!--Home Slider end-->
-        
-
-    </div>
+    
+    <!-- Include SweetAlert and Custom Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
-    <script src = "script.js"></script>
-    <?php include '../components/alert.php'; ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
+    <script src="script.js"></script>
+    <?php include 'components/alert.php'; ?>
 </body>
 </html>

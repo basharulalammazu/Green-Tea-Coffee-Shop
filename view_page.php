@@ -1,5 +1,4 @@
 <?php
-    /*
     include 'components/connection.php';
 
     session_start();
@@ -73,7 +72,7 @@
              $success_mess[] = 'product added to wishlist successfully';
          }
      }
-         */
+         
 ?>
 
 <style type = "text/css">
@@ -103,10 +102,10 @@
             if (isset($_GET['pid']))
             {
                 $pid = $_GET['pid'];
-                $select_products = $conn -> prepare("SELECT * FROM `product` WHERE pid = '$pid'");
+                $select_products = $conn -> prepare("SELECT * FROM `products` WHERE id = '$pid'");
                 $select_products -> execute();
 
-                if ($select_products -> rowCount() > 0)
+                if ($select_products -> num_rows > 0)
                 {
                     while($fetech_products = $select_products-$fetch(PDO::FETCH_ASSOC))
                     {

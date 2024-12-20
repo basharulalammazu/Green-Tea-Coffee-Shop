@@ -950,100 +950,104 @@ footer .bottom-footer {
 /*-------------------------view product--------------------------*/
 
 .products .box-container {
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); /* Adjust grid size */
+  gap: 1rem;
+  justify-items: center;
+  padding: 2rem;
 }
 
 .products .box-container .box {
   box-shadow: var(--box-shadow);
-  border-radius: 5rem;
-  padding: 2rem 1rem;
+  border-radius: 1rem;
+  padding: 2rem;
   margin: 1rem;
   position: relative;
+  width: 100%;
+  max-width: 300px; /* Limit the max width of the product box */
+  background-color: #fff; /* Ensure the background is white */
+  left: 33%; 
+  transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.products .box-container .box:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
 .products .box-container .box .img {
-  width: 80%;
-  height: auto;
+  width: 100%;               /* Ensures image takes the full width of its container */
+  height: 200px;             /* Set fixed height for the image */
+  object-fit: cover;         /* Ensures the image maintains its aspect ratio */
+  border-radius: 1rem;       /* Optional: rounded corners for the image */
 }
+
+.products .box-container .box .img img {
+  width: 100%;               /* Make the image stretch to fill the container */
+  height: 100%;              /* Ensure the image covers the entire container height */
+  object-fit: cover;         /* Make sure the image covers the area proportionally */
+  border-radius: 1rem;       /* Optional: rounded corners */
+}
+
 
 .products .box-container .box .name {
   font-size: 1.2rem;
   color: #555;
   text-transform: capitalize;
+  margin-top: 1rem;
 }
 
 .products .box-container .box .button {
   text-align: center;
   position: absolute;
-  bottom: 30%; 
-  right: 7%;
+  bottom: 2%; 
+  right: 4%;
   border-radius: 20px;
   background: var(--light-green);
-  padding: .5rem 1.5rem;
+  padding: .5rem 1rem;
+  transition: background 0.3s ease;
 }
 
 .products .box-container .box .button i,
 .products .box-container .box .button a {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  margin-right: 5rem;
+  margin-right: 1rem;
   color: #000;
+}
+
+.products .box-container .box .button:hover {
+  background: var(--green); /* Darker on hover */
 }
 
 .products .box-container .box .flex {
   padding-bottom: 1rem;
   display: flex;
-  margin-right: auto;
+  justify-content: space-between; /* Space out price and quantity */
 }
 
 .products .box-container .box .price {
   font-size: 1.1rem;
   color: var(--green);
-  margin-right: auto;
+  font-weight: bold;
+}
+
+.products .box-container .box .qty {
+  border-radius: .5rem;
+  padding: .5rem 1rem;
+  width: 4rem;
+  font-size: 1rem;
+  color: #000;
 }
 
 .products .box-container .box .btn {
   position: absolute;
-  top: 5%;
-}
-
-.products .box-container .box .flex .qty {
-  border-radius: .5rem;
-  padding: .5rem 1rem;
-  width: 4.5rem;
-  font-size: 1.1rem;
-  color: #000;
-}
-
-.products .box-container .box .flex .fa-edit {
-  border-radius: .5rem;
-  font-size: 1.7rem;
+  top: 87%;
+  right: 62%;
+  background-color: var(--green);
   color: #fff;
-  height: 2.7rem;
-  width: 4.5rem;
-  cursor: pointer;
-  background: var(--green);
-  margin-left: .5rem;
-}
-
-.products .box-container .box .flex .fa-edit:hover {
-  background: var(--light-green);
-  color: #000;
-}
-
-.products .box-container .box .sub-total {
-  padding-bottom: 1rem;
-  font-size: 1.7rem;
-  color: gray;
-}
-
-.products .box-container .box .sub-total span {
-  color: red;
-}
-
-.products .box-container .box .button {
-  align-items: center;
+  padding: 0.5rem 1.2rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
 }
 
 .products .cart-total {
@@ -1055,9 +1059,10 @@ footer .bottom-footer {
   padding: 2rem;
 }
 
-.products .cart-total p span{
+.products .cart-total p span {
   color: var(--green);
 }
+
 
 /*------------------------view product---------------------------*/
 
@@ -1117,32 +1122,36 @@ footer .bottom-footer {
 
 /*------------------------checkout page--------------------------*/
 
+/* Base layout */
 .checkout .row {
   display: flex;
   flex-direction: column;
-  flex-flow: column-reverse; 
+  flex-flow: column-reverse;
+  margin: 0 auto;
 }
+
+
 
 .checkout .row form,
 .checkout .summary {
   box-shadow: var(--box-shadow);
   border-radius: .5rem;
-  width: 1000px;
+  max-width: 1000px;
+  width: 100%;
   padding: 1rem;
   margin: 1rem auto;
 }
 
 .checkout h3 {
   font-size: 2rem;
-  color: #000;
+  color: var(--green);
   padding-bottom: 1rem;
   text-align: center;
   text-transform: capitalize;
-  color: var(--green); 
 }
 
 .checkout .row form .input {
-  width: 100%;
+  width: 95%;
   box-shadow: var(--box-shadow);
   padding: 1rem;
   color: #000;
@@ -1152,12 +1161,16 @@ footer .bottom-footer {
 
 .checkout .row form .flex {
   display: flex;
-  column-gap: 1.5rem;
+  column-gap: 0.1rem;
   flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
+
+
 .checkout .row form .flex .box {
-  flex: 1 1 20rem; 
+  flex: 1 1 20rem;
+  min-width: 200px; /* Ensure it is responsive */
 }
 
 .checkout .row form p {
@@ -1171,8 +1184,18 @@ footer .bottom-footer {
   color: red;
 }
 
-.checkout .row form .btn{
+.checkout .row form .btn {
   width: 100%;
+  padding: 1rem;
+  background-color: var(--green);
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.checkout .row form .btn:hover {
+  background-color: #004d00;
 }
 
 .summary .title {
@@ -1188,19 +1211,19 @@ footer .bottom-footer {
   border-radius: .5rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   grid-template-columns: 1.5rem;
   padding: 1rem;
-  margin: .4rem;
+  margin: .4rem 0;
+  flex-wrap: wrap;
 }
 
 .summary .flex img {
   box-shadow: var(--box-shadow);
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  padding: 4rem;
-  margin-right: 2rem;
+  width: 80px;
+  height: 80px;
+  margin-right: 1rem;
 }
 
 .summary .flex .name {
@@ -1223,7 +1246,7 @@ footer .bottom-footer {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin-top: 1.5rem;
   text-transform: capitalize;
 }
@@ -1235,6 +1258,68 @@ footer .bottom-footer {
 .summary .grand-total p {
   color: red;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .checkout .row {
+      flex-direction: column;
+  }
+
+  .checkout .row form,
+  .checkout .summary {
+      width: 90%;
+      margin: 1rem;
+  }
+
+  .checkout .row form .flex {
+      flex-direction: column;
+  }
+
+  .checkout .row form .flex .box {
+      width: 100%;
+  }
+
+  .summary .flex {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem 0;
+  }
+
+  .summary .flex img {
+      width: 60px;
+      height: 60px;
+  }
+
+  .summary .grand-total {
+      font-size: 1.6rem;
+  }
+
+  .checkout .row form .input {
+      width: 100%;
+      font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout h3 {
+      font-size: 1.8rem;
+  }
+
+  .summary .grand-total {
+      font-size: 1.4rem;
+  }
+
+  .checkout .row form .input {
+      font-size: 0.9rem;
+  }
+
+  .summary .flex .name,
+  .summary .flex .price {
+      font-size: 1rem;
+  }
+}
+
 
 /*-------------------------view product--------------------------*/
 
@@ -1477,6 +1562,13 @@ footer .bottom-footer {
     justify-content: center;
   }
 }
+
+@media (max-width: 768px) {
+  .products .box-container .box .img {
+    height: 150px; 
+  }
+}
+
 
 @media (max-width: 600px) {
   footer .inner-footer .card h3 {

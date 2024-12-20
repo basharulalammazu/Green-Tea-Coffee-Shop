@@ -144,8 +144,8 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
                 <input type="file" name="image" accept="image/" required>
             </div>
             <div class="flex-btn">
-                <button type="submit" name="publish" class="btn">publish product</button>
-                <button type="submit" name="draft" class="btn">save as draft</button>
+                <a type="submit" name="publish" class="btn" style = "justify-content: center">publish product</a>
+                <a type="submit" name="draft" class="btn" style = "justify-content: center">save as draft</a>
             </div>
            </form>
         </section>

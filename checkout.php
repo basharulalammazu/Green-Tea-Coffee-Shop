@@ -148,22 +148,21 @@ if (isset($_POST['place_order'])) {
             <h1>checkout summary</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum deserunt minus veniam tenetur</p>
         </div>
-            <form method="post">
-                <div class="row">
-                <h3>billing details</h3>
+        <form method="post">
+                <h3>Billing Details</h3>
                 <div class="flex">
                     <div class="box">
                         <div class="input-field">
                             <p>your name <span>*</span></p>
-                            <input type="text" name="name" required maxlength="50" placeholder="Enter Your name" class="input">
+                            <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="input">
                         </div>
                         <div class="input-field">
                             <p>your number <span>*</span></p>
-                            <input type="number" name="number" required maxlength="11" placeholder="Enter Your number" class="input">
+                            <input type="number" name="number" required maxlength="10" placeholder="Enter your number" class="input">
                         </div>
                         <div class="input-field">
                             <p>your email <span>*</span></p>
-                            <input type="email" name="email" required maxlength="50" placeholder="Enter Your email" class="input">
+                            <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="input">
                         </div>
                         <div class="input-field">
                             <p>payment method <span>*</span></p>
@@ -171,10 +170,11 @@ if (isset($_POST['place_order'])) {
                                 <option value="cash on delivery">cash on delivery</option>
                                 <option value="credit or debit card">credit or debit card</option>
                                 <option value="net banking">net banking</option>
+                                <option value="mobile banking">mobile banking</option>
                             </select>
                         </div>
                         <div class="input-field">
-                            <p>address type <span>*</span></p>
+                        <p>address type <span>*</span></p>
                             <select name="address_type" class="input">
                                 <option value="home">home</option>
                                 <option value="office">office</option>
@@ -184,27 +184,27 @@ if (isset($_POST['place_order'])) {
                     <div class="box">
                         <div class="input-field">
                             <p>address line 01 <span>*</span></p>
-                            <input type="text" name="flat" required maxlength="50" placeholder="e.g flat & building number" class="input">
+                            <input type="text" name="flat" required maxlength="50" placeholder="e.g flat %building number" class="input">
                         </div>
                         <div class="input-field">
                             <p>address line 02 <span>*</span></p>
                             <input type="text" name="street" required maxlength="50" placeholder="e.g street name" class="input">
                         </div>
                         <div class="input-field">
-                            <p>city name <span>*</span></p>
-                            <input type="text" name="city" required maxlength="50" placeholder="Enter your city name" class="input">
+                            <p>City name <span>*</span></p>
+                            <input type="text" name="city" required maxlength="50" placeholder="e.g Enter your city name" class="input">
                         </div>
                         <div class="input-field">
-                            <p>country name <span>*</span></p>
-                            <input type="text" name="country" required maxlength="50" placeholder="Enter your country name" class="input">
+                            <p>Country name <span>*</span></p>
+                            <input type="text" name="country" required maxlength="50" placeholder="e.g Enter your country name" class="input">
                         </div>
                         <div class="input-field">
-                            <p>pincode <span>*</span></p>
-                            <input type="text" name="pincode" required maxlength="6" placeholder="110022" min="0" max="999999" class="input">
+                            <p>Pincode <span>*</span></p>
+                            <input type="text" name="pincode" required maxlength="6" placeholder="e.g 110022" min="0" max="999999" class="input">
                         </div>
                     </div>
                 </div>
-                <button type="submit" name="place_order" class="btn">Place Order</button>
+                <button type="submit" name="place_order" class="btn">place order</button>
             </form>
             <div class="summary">
                 <h3>my bag</h3>

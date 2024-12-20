@@ -6,35 +6,50 @@ $admin_id = $_SESSION['user_id'];
 if (!isset($admin_id)) {
     header("location:../login.php");
 }
+
 // deleted order
-if(isset($_POST['delete_order'])){
+if (isset($_POST['delete_order'])) {
     $order_id = $_POST['order_id'];
-    $order_id = filter_var($order_id,FILTER_SANITIZE_STRING);
+    $order_id = filter_var($order_id, FILTER_SANITIZE_STRING);
 
-    $verify_order = $conn->prepare("SELECT * FROM `orders` WHERE id=?");
-    $verify_order->execute([$order_id]);
+    // Using MySQLi to check if the order exists
+    $verify_order = mysqli_prepare($conn, "SELECT * FROM `orders` WHERE id = ?");
+    mysqli_stmt_bind_param($verify_order, 's', $order_id);
+    mysqli_stmt_execute($verify_order);
+    $result = mysqli_stmt_get_result($verify_order);
 
-    if($verify_order->rowCount()>0){
-        $delete_order = $conn->prepare("DELETE FROM `orders` WHERE id=?");
-        $delete_order->execute([$order_id]);
-        $success_msg[]='order deleted';
-    }
-    else{
-        $warning_msg[]='order already deleted';
-    }
+    if (mysqli_num_rows($result) > 0) {
+        // Using MySQLi to delete the order
+        $delete_order = mysqli_prepare($conn, "DELETE FROM `orders` WHERE id=?");
+        mysqli_stmt_bind_param($delete_order, 's', $order_id);
+        mysqli_stmt_execute($delete_order);
+        $success_msg[] = 'Order deleted';
+    } 
+    else 
+        $warning_msg[] = 'Order already deleted';
+    
 }
+
 // update order
-if(isset($_POST['update_order'])){
-    $order_id = $_POST['$order_id'];
-    $order_id =filter_var($order_id,FILTER_SANITIZE_STRING);
+if (isset($_POST['update_order'])) {
+    $order_id = $_POST['order_id'];
+    $order_id = filter_var($order_id, FILTER_SANITIZE_STRING);
 
-    $update_payment = $_POST['update_payment'];
-    $update_payment = filter_var($update_payment,FILTER_SANITIZE_STRING);
+    // Check if update_payment is set
+    if (isset($_POST['update_payment'])) {
+        $update_payment = $_POST['update_payment'];
+        $update_payment = filter_var($update_payment, FILTER_SANITIZE_STRING);
 
-    $update_pay = $conn->prepare("UPDATE `orders` SET payment_status=? WHERE id=?");
-    $update_pay->execute([$update_payment,$order_id]);
+        // Using MySQLi to update the payment status
+        $update_pay = mysqli_prepare($conn, "UPDATE `orders` SET payment_status=? WHERE id=?");
+        mysqli_stmt_bind_param($update_pay, 'ss', $update_payment, $order_id);
+        mysqli_stmt_execute($update_pay);
 
-    $success_msg[]='order updated';
+        $success_msg[] = 'Order updated';
+    } 
+    else 
+        $error_msg[] = 'Payment status not selected';
+    
 }
 ?>
 <!DOCTYPE html>
@@ -51,9 +66,9 @@ if(isset($_POST['update_order'])){
 <body>
     <?php include '../admin/components/admin_header.php'; ?>
     <div class="main">
-        <dib class="banner">
-            <h1>order placed</h1>
-        </dib>
+        <div class="banner">
+            <h1>Order Placed</h1>
+        </div>
         <div class="title2">
             <a href="dashboard.php">Dashboard</a><span> / Order Placed</span>
         </div>
@@ -61,35 +76,38 @@ if(isset($_POST['update_order'])){
             <h1 class="heading">Order Placed</h1>
             <div class="box-container">
                 <?php
-                $select_orders = $conn->prepare("SELECT * FROM `orders`");
-                $select_orders->execute();
+                // Using MySQLi to select orders
+                $select_orders = mysqli_query($conn, "SELECT * FROM `orders`");
 
-                if ($select_orders->num_rows > 0) {
-                    while ($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)) {
+                if (mysqli_num_rows($select_orders) > 0) {
+                    while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
                         ?>
                         <div class="box">
-                            <div class="status" style="color:<?php if($fetch_orders['status']=='in progress'){echo 'green';}else{ echo 'red';}?>"><?= $fetch_orders['status'];?></div>
+                            <div class="status" style="color:<?php if ($fetch_orders['status'] == 'in progress') {
+                                                                    echo 'green';
+                                                                } else {
+                                                                    echo 'red';
+                                                                } ?>"><?= $fetch_orders['status']; ?></div>
                             <div class="detail">
-                                <p>user name: <span><?= $fetch_orders['name'];?></span></p>
-                                <p>user id: <span><?= $fetch_orders['id'];?></span></p>
-                                <p>placed no: <span><?= $fetch_orders['date'];?></span></p>
-                                <p>user number: <span><?= $fetch_orders['number'];?></span></p>
-                                <p>user emai;: <span><?= $fetch_orders['email'];?></span></p>
-                                <p>totle price: <span><?= $fetch_orders['price'];?></span></p>
-                                <p>method: <span><?= $fetch_orders['method'];?></span></p>
-                                <p>user address: <span><?= $fetch_orders['address'];?></span></p>
+                                <p>User name: <span><?= $fetch_orders['name']; ?></span></p>
+                                <p>User id: <span><?= $fetch_orders['id']; ?></span></p>
+                                <p>Placed no: <span><?= $fetch_orders['date']; ?></span></p>
+                                <p>User number: <span><?= $fetch_orders['number']; ?></span></p>
+                                <p>User email: <span><?= $fetch_orders['email']; ?></span></p>
+                                <p>Total price: <span><?= $fetch_orders['price']; ?></span></p>
+                                <p>Method: <span><?= $fetch_orders['method']; ?></span></p>
+                                <p>User address: <span><?= $fetch_orders['address']; ?></span></p>
                             </div>
                             <form method="post">
-                                <input type="hidden" name="order_id" value="<?= $fetch_orders['id'];?>">
-                                <select name="update_payment" >
-                                    <option disabled selected><?= $fetch_orders['payment_status'];?></option>
-                                    <option value="pending">pending</option>
-                                    <option value="complete">complete</option>
+                                <input type="hidden" name="order_id" value="<?= $fetch_orders['id']; ?>">
+                                <select name="update_payment">
+                                    <option disabled selected><?= $fetch_orders['payment_status']; ?></option>
+                                    <option value="pending">Pending</option>
+                                    <option value="complete">Complete</option>
                                 </select>
                                 <div class="flex-btn">
-                                    <button type="submit" name="update_order" class="btn">update payment</button>
-                                    <button type="submit" name="delete_order" class="btn">delete order</button>
-                                    
+                                    <button type="submit" name="update_order" class="btn">Update Payment</button>
+                                    <button type="submit" name="delete_order" class="btn">Delete Order</button>
                                 </div>
                             </form>
                         </div>
@@ -97,7 +115,7 @@ if(isset($_POST['update_order'])){
                     }
                 } else {
                     echo ' <div class="empty">
-             <p>no order takes placed yet</p>
+             <p>No order has been placed yet</p>
          </div>';
                 }
                 ?>
@@ -105,11 +123,11 @@ if(isset($_POST['update_order'])){
             </div>
         </section>
     </div>
-    <!-- sweetalert cdn link -->
+    <!-- SweetAlert CDN link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <!-- custom js link -->
+    <!-- Custom JS link -->
     <script src="script.js" type="text/javascript"></script>
-    <!-- alert -->
+    <!-- Alert -->
     <?php include '../components/alert.php'; ?>
 
 </body>

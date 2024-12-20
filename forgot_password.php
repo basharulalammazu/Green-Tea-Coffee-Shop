@@ -16,7 +16,8 @@ if (isset($_POST['send_otp'])) {
     $check_email->execute();
     $result = $check_email->get_result();
 
-    if ($result && $result->num_rows > 0) {
+    if ($result && $result->num_rows > 0) 
+    {
         // Generate a 6-digit OTP
         $otp = rand(100000, 999999);
         
@@ -27,22 +28,26 @@ if (isset($_POST['send_otp'])) {
         // Simulate sending OTP (In real application, use mail or SMS API)
         $message[] = "OTP sent to your email: $otp (Mocked for demo).";
         $otp_sent = true;
-    } else {
-        $message[] = "No account associated with this email. Please check your email address.";
-    }
+    } 
+    else 
+        $warning_msg[] = "No account associated with this email. Please check your email address.";
+    
 }
 
-if (isset($_POST['verify_otp'])) {
+if (isset($_POST['verify_otp'])) 
+{
     // Retrieve and sanitize OTP input
     $entered_otp = filter_var($_POST['otp'], FILTER_SANITIZE_NUMBER_INT);
 
     // Verify the OTP
-    if ($entered_otp == $_SESSION['otp']) {
-        $message[] = "OTP verified. You can now reset your password.";
+    if ($entered_otp == $_SESSION['otp']) 
+    {
+        $warning_msg[] = "OTP verified. You can now reset your password.";
         $_SESSION['otp_verified'] = true;
-    } else {
-        $message[] = "Invalid OTP. Please try again.";
     }
+    else 
+        $warning_msg[] = "Invalid OTP. Please try again.";
+    
 }
 
 if (isset($_POST['change_password'])) {
@@ -56,15 +61,16 @@ if (isset($_POST['change_password'])) {
 
         // Update the password in the database
         $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE email = ?");
-        $update_password->bind_param("ss", $hashed_password, $_SESSION['email']);
+        $update_password->bind_param("ss", $new_password, $_SESSION['email']);
         $update_password->execute();
 
         // Clear session variables and redirect
         unset($_SESSION['otp'], $_SESSION['otp_verified'], $_SESSION['email']);
-        $message[] = "Password updated successfully. <a href='login.php'>Login now</a>";
-    } else {
-        $message[] = "Passwords do not match. Please try again.";
-    }
+        $success_msg[] = "Password updated successfully. <a href='login.php'>Login now</a>";
+    } 
+    else 
+        $warning_msg[] = "Passwords do not match. Please try again.";
+    
 }
 ?>
 
@@ -87,7 +93,9 @@ if (isset($_POST['change_password'])) {
                 <p>Follow the steps to reset your password.</p>
             </div>
 
-            <?php if (!isset($_SESSION['otp_verified'])): ?>
+            <?php 
+            if (!isset($_SESSION['otp_verified'])): 
+            ?>
                 <form action="" method="post">
                     <?php if (!$otp_sent): ?>
                         <!-- Step 1: Enter Email -->

@@ -1,7 +1,6 @@
 <?php
 include '../components/connection.php';
 
-
 $admin_id = $_SESSION['user_id'] ?? null;
 
 if (!$admin_id) {
@@ -38,6 +37,13 @@ foreach ($supportedExtensions as $extension) {
 if (!$imagePath) {
     $imagePath = "../image/default_user.jpg";
 }
+
+// Logout functionality
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: ../login.php");
+    exit();
+}
 ?>
 <header class="header">
     <div class="flex">
@@ -50,23 +56,17 @@ if (!$imagePath) {
         </nav>
         <div class="icons">
             <i class="bx bxs-user" id="user-btn"></i>
-            <i class="bx bx-list-plus" id="menu-btn"></i>
+            <i class="bx bx-list-plus" id="menu-btn" style="font-size: 2rem;"></i>
         </div>
-        <div class="profile-detail">
-            <?php if ($fetch_profile): ?>
-                <div class="profile">
-                    <img src="<?= ($imagePath); ?>" alt="Profile Image">
-                    <p><?= ($fetch_profile['name']); ?></p>
-                </div>
-                <div class="flex-btn">
-                    <a href="../admin/profile.php" class="btn">Profile</a><br>
-                    <a href="../login.php" onclick="return confirm('Logout?');" class="btn">Logout</a>
-                </div>
-            <?php else: ?>
-                <p>Profile not found. Please log in again.</p>
-            <?php endif; ?>
+        <div class="user-box" id="user-box">
+            <p>Username : <span><?= isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest'; ?></span></p>
+            <p>Email : <span><?= isset($_SESSION['user_email']) ? $_SESSION['user_email'] : 'Not logged in'; ?></span></p>
+            <form action="" method="post">
+                <button type="submit" name="logout" class="logout-btn">Log out</button>
+            </form>
         </div>
     </div>
 </header>
+<link rel="stylesheet" href="../admin/style.css">
+<script src="../admin/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-<script src="script.js" type="text/javascript"></script>

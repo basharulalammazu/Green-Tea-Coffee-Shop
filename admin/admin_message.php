@@ -43,37 +43,35 @@ if(isset($_POST['delete']))
             <h1>Unread Message's</h1>
         </dib>
         <div class="title2">
-            <a href="../admin/dashboard.php">Dashboard</a><span>Unread Message's</span>
+            <a href="../admin/dashboard.php">Dashboard</a><span> / Unread Message's</span>
         </div>
         <section class="account">
-            <h1 class="heading">Unread Message's</h1>
+            <h1 class="heading">Unread Messages</h1>
             <div class="box-container">
                 <?php
+                // Fetch all messages from the database
                 $select_message = $conn->prepare("SELECT * FROM `message`");
                 $select_message->execute();
+                $result = $select_message->get_result(); // Fetch result for MySQLi
 
-                if ($select_message->num_rows > 0) 
-                {
-                    while ($fetch_message = $select_message->fetch(PDO::FETCH_ASSOC)) 
-                    {
+                if ($result->num_rows > 0) {
+                    while ($fetch_message = $result->fetch_assoc()) {
                         ?>
                         <div class="box">
-                            <h3 class="name"><?= $fetch_message['name'];?></h3>
-                            <h4><?= $fetch_message['subject'];?></h4>
-                            <p><?= $fetch_message['message'];?></p>
+                            <h3 class="name"><?= htmlspecialchars($fetch_message['name']); ?></h3>
+                            <h4><?= htmlspecialchars($fetch_message['subject']); ?></h4>
+                            <p><?= htmlspecialchars($fetch_message['message']); ?></p>
                             <form action="" method="post" class="flex-btn">
-                                <input type="hidden" name="delete_id" value="<? $fetch_message['id'];?>">
-                                <button type="submit" name="delete" class="btn" onclick="return confirm('delete this message');">Delete Message</button>
+                                <input type="hidden" name="delete_id" value="<?= $fetch_message['id']; ?>">
+                                <a type="submit" name="delete" class="btn" onclick="return confirm('Delete this message?');">Delete Message</a>
                             </form>
                         </div>
                         <?php
                     }
-                } 
-                else 
-                {
-                    echo ' <div class="empty">
-                                <p>no users registered yet</p>
-                            </div>';
+                } else {
+                    echo '<div class="empty">
+                            <p>No messages available</p>
+                        </div>';
                 }
                 ?>
             </div>

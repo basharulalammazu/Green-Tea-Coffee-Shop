@@ -9,13 +9,8 @@ if (!isset($admin_id))
     exit;
 }
 
-if (isset($_GET['post_id'])) 
-    $get_id = $_GET['post_id'];
-else 
-{
-    echo 'No product ID specified.';
-    exit;
-}
+if (isset($_GET['id'])) 
+    $get_id = $_GET['id'];
 
 // delete product
 if (isset($_POST['delete'])) 
@@ -39,11 +34,12 @@ if (isset($_POST['delete']))
 <!DOCTYPE html>
 <html lang = "en">
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
+    <link href = 'https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel = 'stylesheet'>
     <link rel="stylesheet" href="admin_style.css?v=<?php echo time(); ?>">
-    <title>Green Coffee Admin - Read Product Page</title>
+
+    <title>Green Coffee - Shop Page</title>
 </head>
 <body>
     <?php include '../admin/components/admin_header.php'; ?>
@@ -52,7 +48,7 @@ if (isset($_POST['delete']))
             <h1>Read Product</h1>
         </div>
         <div class="title2">
-            <a href="../admin/dashboard.php">Dashboard</a><span>/Read Product</span>
+            <a href="../admin/dashboard.php">Dashboard</a><span> / Read Product</span>
         </div>
         <section class="read-post">
             <h1 class="heading">Read Product</h1>
@@ -67,7 +63,7 @@ if (isset($_POST['delete']))
                     while ($fetch_product = $result->fetch_assoc()) 
                     {
                         $productId = $fetch_product['id'];
-                        $imageExtension = pathinfo($fetch_product['image'], PATHINFO_EXTENSION);
+                        $imageExtension = pathinfo($fetch_product['id'], PATHINFO_EXTENSION);
                         $imagePath = "../image/product/{$productId}.{$imageExtension}";
             ?>
                         <form action="" method="post" enctype="multipart/form-data">
@@ -85,7 +81,7 @@ if (isset($_POST['delete']))
             ?>
                             <div class="title"><?= $fetch_product['name']; ?></div>
                             <div class="price">$<?= $fetch_product['price']; ?>/-</div>
-                            <div class="content"><?= $fetch_product['product_detail']; ?></div>
+                            <div class="content"><?= $fetch_product['product_details']; ?></div>
                             <div class="flex-btn">
                                 <a href="edit_product.php?id=<?= $fetch_product['id']; ?>" class="btn">Edit</a>
                                 <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
@@ -105,10 +101,9 @@ if (isset($_POST['delete']))
             ?>
         </section>
     </div>
-    <!-- Sweetalert CDN link -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <!-- Custom JS link -->
-    <script src="script.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
+    <script src = "script.js"></script>
 
 </body>
 

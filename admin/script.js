@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Check if the elements exist before adding event listeners
     let header = document.querySelector('.header');
 
     function fixedNavbar() {
@@ -10,27 +11,29 @@ document.addEventListener("DOMContentLoaded", function() {
     fixedNavbar();
     window.addEventListener('scroll', fixedNavbar);
 
-    let menuBtn = document.querySelector('#menu-btn');
-    if (menuBtn) {
-        menuBtn.addEventListener('click', function() {
-            let navbar = document.querySelector('.navbar');
-            if (navbar) {
-                navbar.classList.toggle('active');
-            }
-        });
-    }
+    const userBtn = document.getElementById("user-btn");
+    const userBox = document.getElementById("user-box");
 
-    let userBtn = document.querySelector('#user-btn');
-    if (userBtn) {
-        userBtn.addEventListener('click', function() {
-            let userBox = document.querySelector('.profile-detail');
-            if (userBox) {
-                userBox.classList.toggle('active');
-            }
-        });
-    }
+    // Add click event to toggle the visibility of the user box
+    userBtn.addEventListener("click", () => {
+        if (userBox.style.display === "none" || userBox.style.display === "") {
+            userBox.style.display = "block";
+        } else {
+            userBox.style.display = "none";
+        }
+    });
+
+    // Optional: Close the user box when clicking outside of it
+    document.addEventListener("click", (e) => {
+        if (!userBox.contains(e.target) && e.target !== userBtn) {
+            userBox.style.display = "none";
+        }
+    });
 });
 
+
+
+// Function to toggle edit mode
 function toggleEditMode() {
     const displayMode = document.querySelector('.display-mode');
     const editMode = document.querySelector('.edit-mode');

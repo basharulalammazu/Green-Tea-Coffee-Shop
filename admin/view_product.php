@@ -10,7 +10,7 @@
     if(isset($_POST['delete']))
     {
         $product_id = $_POST['product_id'];
-        $product_id = filter_var($product_id,FILTER_SANITIZE_STRING);
+        $product_id = filter_var($product_id, FILTER_SANITIZE_STRING);
 
         $delete_product = $conn->prepare("DELETE FROM `products` WHERE id = ?");
         $delete_product->execute([$product_id]);
@@ -18,7 +18,7 @@
         $success_msg[] = 'Product Deleted Successfully';
     }
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,65 +37,75 @@
         <section class="show-post">
             <h1 class="heading">All Products</h1>
             <div class="box-container">
-            <?php
+                <?php
                 // Fetch all products from the database
                 $select_products = $conn->prepare("SELECT * FROM `products`");
                 $select_products->execute();
                 $result = $select_products->get_result();
 
-                if ($result->num_rows > 0) 
-                {
-                    while ($fetch_products = $result->fetch_assoc()) 
-                    {
+                if ($result->num_rows > 0) {
+                    while ($fetch_products = $result->fetch_assoc()) {
                         $productId = $fetch_products['id'];
                         $imagePath = "";
                         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']; // Possible image extensions
-                        
+
                         // Search for the image in the directory
-                        foreach ($allowedExtensions as $extension) 
-                        {
+                        foreach ($allowedExtensions as $extension) {
                             $path = "../image/product/{$productId}.{$extension}";
-                            if (file_exists($path)) 
-                            {
+                            if (file_exists($path)) {
                                 $imagePath = $path;
                                 break;
                             }
                         }
-            ?>
+
+                        // If no product image is found, use a default image
+                        if (empty($imagePath)) {
+                            $imagePath = "../image/default_product.png";
+                        }
+                ?>
                         <form action="" method="post" class="box" enctype="multipart/form-data">
                             <input type="hidden" name="product_id" value="<?= $fetch_products['id']; ?>">
-            <?php 
-                                if (!empty($imagePath)) 
-                                { 
-            ?>
-                                <img src="<?= $imagePath; ?>" class="image" alt="Product Image">
-            <?php 
-                                } 
-                                else 
-                                    echo '<p>No Image Available</p>';
-            ?>
-                            <div class="status" style="color:<?php if ($fetch_products['status'] == 'active') { echo "green"; } else { echo "red"; } ?>">
+                            <img src="<?= $imagePath; ?>" class="image" alt="Product Image">
+
+                            <div class="status" style="color: <?= ($fetch_products['status'] === 'active') ? 'green' : 'red'; ?>">
                                 <?= $fetch_products['status']; ?>
-                        </div>
-                        <div class="price">$<?= $fetch_products['price']; ?>/-</div>
-                        <div class="title"><?= $fetch_products['name']; ?></div>
-                        <div class="flex-btn">
-                            <a href="../admin/edit_product.php?id=<?= $fetch_products['id']; ?>" class="btn">Edit</a>
-                            <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
-                            <a href="../admin/read_product.php?id=<?= $fetch_products['id']; ?>" class="btn">View</a>
-                        </div>
-                    </form>
-                    <?php
+                            </div>
+                            <div class="price">$<?= $fetch_products['price']; ?>/-</div>
+                            <div class="title"><?= $fetch_products['name']; ?></div>
+                            <div class="flex-btn">
+                                <a href="../admin/edit_product.php?id=<?= $fetch_products['id']; ?>" class="btn">Edit</a>
+                                <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
+                                <a href="../admin/read_product.php?id=<?= $fetch_products['id']; ?>" class="btn">View</a>
+                            </div>
+                        </form>
+                <?php
+                    }
+                } else {
+                    echo '<div class="empty">
+                            <p>No product added yet <br> 
+                            <a href="../admin/add_product.php" style="margin-top:1.5rem" class="btn">Add Product</a></p>
+                        </div>';
                 }
-            } 
-            else 
-            {
-                echo '<div class="empty">
-                        <p>No product added yet <br> <a href="../admin/add_product.php" style="margin-top:1.5rem" class="btn">Add Product</a></p>
-                    </div>';
-            }
-            ?>
-        </div>
+
+                // Handle delete request
+                if (isset($_POST['delete'])) {
+                    $product_id = $_POST['product_id'];
+
+                    // Delete the product record
+                    $delete_product = $conn->prepare("DELETE FROM `products` WHERE id = ?");
+                    $delete_product->bind_param("i", $product_id);
+
+                    if ($delete_product->execute()) {
+                        echo "<script>
+                                alert('Product deleted successfully!');
+                                window.location.href = window.location.href; // Refresh the page
+                            </script>";
+                    } else {
+                        echo "<script>alert('Failed to delete the product. Please try again!');</script>";
+                    }
+                }
+                ?>
+            </div>
         </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

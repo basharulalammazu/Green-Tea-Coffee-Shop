@@ -110,7 +110,7 @@ if (isset($_POST['update_image'])) {
                         <p><strong>Name:</strong> <?php echo $admin_data['name']; ?></p>
                         <p><strong>Email:</strong> <?php echo $admin_data['email']; ?></p>
                         <p><strong>Phone:</strong> <?php echo $admin_data['phone_number']; ?></p>
-                        <button onclick="toggleEditMode()" class="btn">Edit Profile</button>
+                        <a onclick="toggleEditMode()" class="btn">Edit Profile</a>
                     </div>
 
                     <!-- Edit Mode (Initially hidden) -->
@@ -132,8 +132,8 @@ if (isset($_POST['update_image'])) {
                                 <label>Profile Image:</label>
                                 <input type="file" name="image">
                             </div>
-                            <button type="submit" name="update_profile" class="btn">Save Changes</button>
-                            <button type="button" onclick="toggleEditMode()" class="btn btn-secondary">Cancel</button>
+                            <a type="submit" name="update_profile" class="btn">Save Changes</a>
+                            <a type="button" onclick="toggleEditMode()" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
                 </div>

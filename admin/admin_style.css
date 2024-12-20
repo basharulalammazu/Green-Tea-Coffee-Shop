@@ -40,23 +40,24 @@ ul {
 }
 
 .btn {
-  line-height: 2;
-  background-color: var(--light-green);
-  padding: 5px 35px;
   display: inline-block;
-  border-radius: 20px;
+  padding: 8px 30px;
+  background-color: var(--light-green);
+  border-radius: 4px;
   color: #000;
-  text-transform: capitalize;
+  text-align: center;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1;
   cursor: pointer;
   user-select: none;
   position: relative;
   overflow: hidden;
   vertical-align: middle;
-  transition: color .3s ease;
+  transition: background-color .3s ease, color .3s ease;
   z-index: 2;
 }
+
 
 .btn::before {
   position: absolute;
@@ -153,16 +154,29 @@ textarea {
 
 .box-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
+  gap: 20px;
   align-items: center;
   justify-content: center;
 }
+
+.box {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  background-color: #fff;
+}
+
+
 
 .box-container .box {
   margin: 1rem;
 }
 
 .heading {
+  margin-top: -9rem;
   text-align: center;
   text-transform: uppercase;
   padding: 1rem;
@@ -300,12 +314,6 @@ header.scrolled{
   align-items: center;
 }
 
-.banner h1{
-  text-transform: uppercase;
-  color: #fff;
-  margin-left: 3rem;
-}
-
 .title2{
   border-top: 1px solid var( -- green);
   padding: 1rem 2rem;
@@ -402,6 +410,23 @@ header.scrolled{
 }
 
 }
+
+.accounts .box-container .box{
+  font-size: 1.5rem;
+  text-align: center;
+  box-shadow: var( -- box-shadow);
+  border-radius: .5rem;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  padding-bottom: 3rem;
+  Line-height: 1.7;
+  color: #555;
+}  
+
+.accounts .box-container .box span{
+  color: orange;
+}
+
 
 /*--------------------scroll bar---------------------*/
 

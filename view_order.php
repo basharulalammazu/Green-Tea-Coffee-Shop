@@ -136,9 +136,9 @@
                     </div>
 <?php
                 }
-            } else {
+            } else 
                 echo '<p class="empty">Product not found!</p>';
-            }
+            
             $stmt_product->close(); // Close product statement
         }
     } else {

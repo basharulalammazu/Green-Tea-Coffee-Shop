@@ -90,13 +90,13 @@ if(isset($_POST['logout']))
                                 <h3 class="name"><?= $fetch_product['name']; ?></h3>
                                 <p class="price">Price : $<?= $fetch_order['price']; ?> x <?= $fetch_order['quantity']; ?></p>
                                 <p class="status" style="color:<?php 
-                                    if ($fetch_order['status'] == 'delivered') { 
+                                    if ($fetch_order['status'] == 'delivered') 
                                         echo 'green'; 
-                                    } else if ($fetch_order['status'] == 'canceled') { 
+                                    else if ($fetch_order['status'] == 'canceled') 
                                         echo 'red'; 
-                                    } else { 
+                                    else 
                                         echo 'orange'; 
-                                    } 
+                                    
                                 ?>">
                                     <?= ucfirst($fetch_order['status']); ?>
                                 </p>

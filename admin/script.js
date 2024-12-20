@@ -1,26 +1,35 @@
-const header = document.querySelector('header');
+document.addEventListener("DOMContentLoaded", function() {
+    let header = document.querySelector('.header');
 
-function fixedNavbar(){
-header.classList.toggle('scrolled', window.pageYOffset > 0)
-}
+    function fixedNavbar() {
+        if (header) {
+            header.classList.toggle('scrolled', window.pageYOffset > 0);
+        }
+    }
 
-fixedNavbar();
-window.addEventListener('scroll', fixedNavbar);
+    fixedNavbar();
+    window.addEventListener('scroll', fixedNavbar);
 
-let menu = document.querySlector('#menu-btn');
+    let menuBtn = document.querySelector('#menu-btn');
+    if (menuBtn) {
+        menuBtn.addEventListener('click', function() {
+            let navbar = document.querySelector('.navbar');
+            if (navbar) {
+                navbar.classList.toggle('active');
+            }
+        });
+    }
 
-menu. addEventListener('click', function(){
-let nav = document.querySelector('.navbar');
-nav.classList.toggle('active');
-
-})
-
-let userBtn = document.querySelector('#user-btn');
-
-userBtn. addEventListener('click', function(){
-let userBox = document.querySelector('.profile-detail');
-userBox.classList.toggle('active');
-})
+    let userBtn = document.querySelector('#user-btn');
+    if (userBtn) {
+        userBtn.addEventListener('click', function() {
+            let userBox = document.querySelector('.profile-detail');
+            if (userBox) {
+                userBox.classList.toggle('active');
+            }
+        });
+    }
+});
 
 function toggleEditMode() {
     const displayMode = document.querySelector('.display-mode');

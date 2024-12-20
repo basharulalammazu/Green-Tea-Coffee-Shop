@@ -45,26 +45,26 @@ if(isset($_POST['update_order'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
     <link rel="stylesheet" href="admin_style.css?v=<?php echo time(); ?>">
-    <title>green coffee admin panel - order placed page</title>
+    <title>Green Coffee - Order Placed Page</title>
 </head>
 
 <body>
-    <?php include '../components/admin_header.php'; ?>
+    <?php include '../admin/components/admin_header.php'; ?>
     <div class="main">
         <dib class="banner">
             <h1>order placed</h1>
         </dib>
         <div class="title2">
-            <a href="dashboard.php">dashboard</a><span>order placed</span>
+            <a href="dashboard.php">Dashboard</a><span> / Order Placed</span>
         </div>
         <section class="order">
-            <h1 class="heading">order placed</h1>
+            <h1 class="heading">Order Placed</h1>
             <div class="box-container">
                 <?php
                 $select_orders = $conn->prepare("SELECT * FROM `orders`");
                 $select_orders->execute();
 
-                if ($select_orders->rowCount() > 0) {
+                if ($select_orders->num_rows > 0) {
                     while ($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)) {
                         ?>
                         <div class="box">

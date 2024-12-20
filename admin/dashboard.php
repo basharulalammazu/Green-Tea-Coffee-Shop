@@ -67,7 +67,7 @@
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
                     <p>Total active products</p>
-                    <a href="../admin/view_products.php" class="btn">View active product</a>
+                    <a href="../admin/view_product.php" class="btn">View active product</a>
                 </div>
                 <div class="box">
                     <?php 

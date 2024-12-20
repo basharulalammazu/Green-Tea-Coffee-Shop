@@ -51,13 +51,14 @@ if (isset($_POST['update_password'])) {
             $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
             $update_password->bind_param("si", $hashed_password, $customer_id);
             $update_password->execute();
-            $message[] = "Password updated successfully.";
-        } else {
-            $message[] = "New passwords do not match.";
-        }
-    } else {
-        $message[] = "Incorrect old password.";
-    }
+            $success_msg[] = "Password updated successfully.";
+        } 
+        else 
+            $warning_msg[] = "New passwords do not match.";
+        
+    } 
+    else 
+        $warning_msg[] = "Incorrect old password.";
 }
 ?>
 
@@ -79,6 +80,7 @@ if (isset($_POST['update_password'])) {
     </script>
 </head>
 <body>
+    <?php  include './components/header.php'; ?>
     <div class="main">
         <div class="banner">
             <h1>Customer Profile</h1>
@@ -93,6 +95,36 @@ if (isset($_POST['update_password'])) {
                         <p><strong>Email:</strong> <?php echo $customer_data['email']; ?></p>
                         <p><strong>Phone:</strong> <?php echo $customer_data['phone_number']; ?></p>
                         <button onclick="toggleEditMode()" class="btn">Edit Profile</button>
+
+                        <h1 class="heading">Order History</h1>
+                        <?php if ($orders->num_rows > 0): ?>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Product ID</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($row = $orders->fetch_assoc()): ?>
+                                        <tr>
+                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['product_id']; ?></td>
+                                            <td><?php echo $row['quantity']; ?></td>
+                                            <td><?php echo $row['price']; ?></td>
+                                            <td><?php echo $row['date']; ?></td>
+                                            <td><?php echo $row['status']; ?></td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                        <?php else: ?>
+                            <p class = "empty">You haven't ordered anything yet.</p>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Edit Mode -->
@@ -116,33 +148,6 @@ if (isset($_POST['update_password'])) {
                     </div>
                 </div>
             </div>
-
-            <h1 class="heading">Order History</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Product ID</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $orders->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo $row['id']; ?></td>
-                            <td><?php echo $row['product_id']; ?></td>
-                            <td><?php echo $row['quantity']; ?></td>
-                            <td><?php echo $row['price']; ?></td>
-                            <td><?php echo $row['date']; ?></td>
-                            <td><?php echo $row['status']; ?></td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-
             <?php foreach ($message as $msg): ?>
                 <div class="message"> <?php echo $msg; ?> </div>
             <?php endforeach; ?>

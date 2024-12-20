@@ -88,6 +88,7 @@ include './components/connection.php';
                 <!-- Logout Form -->
                 <form method="post">
                     <button type="submit" name="logout" class="logout">log out</button>
+                    <a href="profile.php" class="btn">profile</a>
                 </form>
             <?php else: ?>
                 <!-- Show Login and Register Buttons -->

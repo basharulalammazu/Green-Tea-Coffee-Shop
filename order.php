@@ -43,39 +43,77 @@ if(isset($_POST['logout']))
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi eos deleniti, aspernatur autem ad optio dolore molestiae nulla vitae illum?</p>
             <!-- </div> -->
                 <div class="box-container">
-                    <?php
-                        $select_orders = $conn->prepare("SELECT * FROM `orders` WHERE user_id = ? ORDER BY date DESC");
-                        $select_orders->execute([$user_id]);
-                        if ($select_orders->num_rows > 0) 
-                        {
-                            while ($fetch_order = $select_orders->fetch(PDO::FETCH_ASSOC)) 
-                            {
-                                $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
-                                $select_products->execute([$fetch_order['product_id']]);
-                                if ($select_products->rowCount() > 0) 
-                                {
-                                    while ($fetch_product = $select_products->fetch(PDO::FETCH_ASSOC))
-                                    {
-                    ?>
-                                        <div class="box" <?php if($fetch_order['status']=='cancle'){ echo 'style="border:2px solid red";';} ?>>
-                                            <a href="view_order.php?get_id=<?=$fetch_order['id']; ?>">
-                                                <p class="date"><i class="bi bi-calender-fill"></i><span><?=$fetch_order['date']; ?></span></p>
-                                                <img src="image/<?=$fetch_product['image']; ?>" class="img">
-                                                <div class="row">
-                                                    <h3 class="name"><?=$fetch_product['name']; ?></h3>
-                                                    <p class="price">Price : $<?=$fetch_order['price']; ?> x <?=$fetch_order['qty']; ?></p>
-                                                    <p class="status" style="color:<?php if($fetch_order['status']=='delivered'){ echo 'green';}else if($fetch_order['status']=='canceled'){ echo 'red';}else{ echo 'orange';} ?>"></p>
-                                                </div>
-                                            </a>
-                                        </div>
-                    <?php
-                                    }
-                                }
-                            }
+                <?php
+    // Assuming you already have a valid $conn for the mysqli connection
+    $query = "SELECT * FROM `orders` WHERE user_id = ? ORDER BY date DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $user_id); // Binding the user_id parameter
+    $stmt->execute();
+    $result_orders = $stmt->get_result(); // Get the result set
+
+    // Supported image formats
+    $image_formats = ['jpg', 'jpeg', 'png'];
+
+    if ($result_orders->num_rows > 0) {
+        while ($fetch_order = $result_orders->fetch_assoc()) {
+            // Fetch product details for each order
+            $query_product = "SELECT * FROM `products` WHERE id = ?";
+            $stmt_product = $conn->prepare($query_product);
+            $stmt_product->bind_param("i", $fetch_order['product_id']); // Binding product_id parameter
+            $stmt_product->execute();
+            $result_products = $stmt_product->get_result();
+
+            if ($result_products->num_rows > 0) {
+                while ($fetch_product = $result_products->fetch_assoc()) {
+                    // Construct the dynamic image path
+                    $image_path = "";
+                    foreach ($image_formats as $format) {
+                        $temp_path = "image/product/{$fetch_product['id']}.$format";
+                        if (file_exists($temp_path)) {
+                            $image_path = $temp_path;
+                            break;
                         }
-                        else
-                            echo '<p class="empty">No order takes place yet!</p>';
+                    }
+
+                    // Fallback if no image is found
+                    if (!$image_path) {
+                        $image_path = "image/product/default.png"; // Default image path
+                    }
                     ?>
+                    <div class="box" <?php if ($fetch_order['status'] == 'canceled') { echo 'style="border:2px solid red"'; } ?>>
+                        <a href="view_order.php?get_id=<?= $fetch_order['id']; ?>">
+                            <p class="date">
+                                <i class="bi bi-calendar-fill"></i><span><?= $fetch_order['date']; ?></span>
+                            </p>
+                            <img src="<?= $image_path; ?>" class="img">
+                            <div class="row">
+                                <h3 class="name"><?= $fetch_product['name']; ?></h3>
+                                <p class="price">Price : $<?= $fetch_order['price']; ?> x <?= $fetch_order['quantity']; ?></p>
+                                <p class="status" style="color:<?php 
+                                    if ($fetch_order['status'] == 'delivered') { 
+                                        echo 'green'; 
+                                    } else if ($fetch_order['status'] == 'canceled') { 
+                                        echo 'red'; 
+                                    } else { 
+                                        echo 'orange'; 
+                                    } 
+                                ?>">
+                                    <?= ucfirst($fetch_order['status']); ?>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <?php
+                }
+            }
+            $stmt_product->close(); // Close the product statement
+        }
+    } else {
+        echo '<p class="empty">No order takes place yet!</p>';
+    }
+    $stmt->close(); // Close the orders statement
+?>
+
                 </div>
             </div>
         </div>

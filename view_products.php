@@ -100,7 +100,6 @@
             $insert_cart->close();
             $select_price->close(); // Safely closing after initialization
             $max_cart_items->close();
-
         }
     
         // Close the prepared statements and results

@@ -155,7 +155,11 @@ input[type='submit'] {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     align-items: center;
+<<<<<<< HEAD
+    justify-content: center;
+=======
      justify-content: center;
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
   }
   
   .box-container .box {
@@ -178,6 +182,220 @@ input[type='submit'] {
     margin: 8% 4%;
     margin-bottom: 2%;
   }
+<<<<<<< HEAD
+
+  /*----------------------header-------------------------*/
+
+  header{
+    position: fixed;
+    top: 5%;
+    Left: 7%;
+    width: 85vw;
+    padding: 1rem;
+    z-index: 101;
+    transition: .3s;
+    box-shadow: var( -- box-shadow);
+    background-image: url('../image/body-bg.jpg');
+  }
+
+  header.scrolled{
+    top: 0;
+    box-shadow: 0 5px 20px 0.1px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+  }
+
+    header.scrolled a:hover{
+    color: var( -- green);
+  }
+
+  .flex{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .navbar a{
+    margin: 0 1rem;
+    font-size: 1rem;
+    color: #000;
+    text-transform: uppercase;
+  }
+
+  .navbar a:hover{
+    color: var( -- green);
+  }
+
+  .header .icons{
+    display: flex;
+    }
+
+  .header .icons i{
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #000!important;
+  }
+
+  #menu-btn{
+    display: none;
+  }
+
+  .header .profile-detail{
+    position: absolute;
+    top: 125%;
+    right: 2rem;
+    border-radius: .5rem;
+    background: #fff;
+    box-shadow: var(--box-shadow);
+    width: 22rem;
+    display: none;
+    padding: 1.5rem .5rem;
+    animation: .2s Linear fadeIn;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  @keyframes fadeIn{
+    0%{
+        transform: translateY(1rem);
+    }
+  }
+
+  .profile-detail.active{
+    display: inline-block;
+  }
+
+  .profile-detail p{
+    margin: 1rem 0;
+    padding-bottom: .7rem;
+    font-size: 1.5rem;
+    text-transform: capitalize;
+  }
+
+  .profile-detail img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    padding: .5rem;
+    border: 3px solid var( -- green);
+  }
+
+  .flex-btn{
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .flex-btn{
+    margin: .5rem;
+  }
+
+  .banner{
+    background-image: url(' .. /img/banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-color: var( -- green);
+    width: 100%;
+    height: 50vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .banner h1{
+    text-transform: uppercase;
+    color: #fff;
+    margin-left: 3rem;
+  }
+
+  .title2{
+    border-top: 1px solid var( -- green);
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    box-shadow: var( -- box-shadow);
+  }
+
+  .title2 a{
+    color: var(--green);
+  }
+
+  .dashboard .box-container .box{
+    text-align: center;
+    box-shadow: var( -- box-shadow);
+    border-radius: .5rem;
+    text-align: center;
+    padding: 1.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .dashboard .box-container .box h3{
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .dashboard .box-container .box p{
+    font-size: 1.7rem;
+    margin: 1rem 0;
+    text-transform: capitalize;
+    color: #555;
+  }
+
+
+
+
+
+
+
+
+
+  /*----------------media-screen-----------*/
+
+  @media (max-width: 991px){
+    #menu-btn{
+    display: block;
+  }
+
+  .header .flex .navbar{
+    position: absolute;
+    width: 100%;
+    padding: 0.2rem;
+    top: 130%;
+    Left: 0;
+    display: block;
+    right: 0;
+    border-top: 1px solid var(--green);
+    background: #fff;
+    transition: .3s ease;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    box-shadow: var(--box-shadow);
+  }
+
+  .header .flex .navbar.active{
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .header .flex .navbar a{
+    display: block;
+    text-align: center;
+    margin: 2rem;
+    padding: 1rem 0;
+    background: var(--light-green);
+  }
+
+  .form-container{
+    width: 100%;
+  }
+
+  .form{
+    width: 100%;
+  }
+
+}
+
+=======
 /*-------header-----*/
 header {
   position : fixed;
@@ -275,6 +493,7 @@ flex{
   display: flex;
   justify-content: space-evenly;
 }
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
   /*--------------------scroll bar---------------------*/
 
   ::-webkit-scrollbar {

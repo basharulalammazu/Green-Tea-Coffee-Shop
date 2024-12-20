@@ -12,4 +12,8 @@
     if ($conn->connect_error) 
         die("Database connection failed: " . $conn->connect_error);
        
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5

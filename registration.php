@@ -39,12 +39,23 @@ if (isset($_POST['submit']))
         else 
         {
             // Hash the password for security
+<<<<<<< HEAD
+           $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+
+            // Create the user_type variable
+            $user_type = "Customer"; 
+
+            // Insert new user into the database
+            $insert_user = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
+            $insert_user->bind_param("ssss", $name, $email, $hashed_pass, $user_type); // Binding parameters in MySQLi
+=======
            // $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
 
             
             // Insert new user into the database
             $insert_user = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
             $insert_user->bind_param("ssss", $name, $email, $pass /*$hashed_pass*/, "Customer"); // Binding parameters in MySQLi
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
             $insert_user->execute();
 
             // Redirect after successful registration

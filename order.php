@@ -46,7 +46,11 @@ if(isset($_POST['logout']))
                     <?php
                         $select_orders = $conn->prepare("SELECT * FROM `orders` WHERE user_id = ? ORDER BY date DESC");
                         $select_orders->execute([$user_id]);
+<<<<<<< HEAD
+                        if ($select_orders->rowCount() > 0) 
+=======
                         if ($select_orders->num_rows > 0) 
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                         {
                             while ($fetch_order = $select_orders->fetch(PDO::FETCH_ASSOC)) 
                             {

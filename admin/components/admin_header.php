@@ -1,4 +1,36 @@
 <?php
+<<<<<<< HEAD
+    include '../components/connection.php';
+
+    $admin_id = $_SESSION['user_id'];
+
+    if (!isset($admin_id)) 
+    {
+        header("Location: ../login.php");
+
+        exit();
+    }
+        
+
+
+    // Define the directory and base file name
+    $imageDir = "../image/admin/";
+    $imageBase = $fetch_profile['id']; // ID of the admin
+
+    // Supported file extensions
+    $supportedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+    // Find the correct file
+    $imagePath = null;
+    foreach ($supportedExtensions as $extension) 
+    {
+        $filePath = $imageDir . $imageBase . '.' . $extension;
+        if (file_exists($filePath)) 
+        {
+            $imagePath = $filePath;
+            break;
+        }
+=======
 include '../components/connection.php';
 
 $admin_id = $_SESSION['user_id'];
@@ -37,10 +69,21 @@ foreach ($supportedExtensions as $extension)
         $imagePath = $filePath;
         break;
     }
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
 }
 
 // If no valid file exists, use a default image
 if (!$imagePath) 
+<<<<<<< HEAD
+    $imagePath = $imageDir . "default.png"; // Replace with your placeholder image
+?>
+<header class="header">
+    <div class="flex">
+        <a href="dashboard.php" class="logo"><img src="./assets/image/logo.jpg" alt="Logo"></a>
+        <nav class="navbar">
+            <a href="dashboard.php">Dashboard</a>
+            <a href="add_product.php">Add Product</a>
+=======
     $imagePath = "../image/default_user.jpg"; 
 ?>
 <header class="header">
@@ -49,6 +92,7 @@ if (!$imagePath)
         <nav class="navbar">
             <a href="dashboard.php">Dashboard</a>
             <a href="add_products.php">Add Product</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
             <a href="view_product.php">View Product</a>
             <a href="user_account.php">Account</a>
         </nav>
@@ -58,11 +102,27 @@ if (!$imagePath)
         </div>
         <div class="profile-detail">
             <?php
+<<<<<<< HEAD
+                $select_profile = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
+                $select_profile->bind_param("i", $admin_id); 
+
+                $select_profile->execute();
+
+                $result = $select_profile->get_result();
+
+                if ($result->num_rows > 0) 
+                {
+                    $fetch_profile = $result->fetch_assoc();
+            ?>
+                <div class="profile">
+                    <img src="<?= $imagePath ?>" alt="Profile Image">
+=======
             if ($fetch_profile) 
             { 
             ?>
                 <div class="profile">
                     <img src="<?= htmlspecialchars($imagePath); ?>" alt="Profile Image">
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                     <p><?= htmlspecialchars($fetch_profile['name']); ?></p>
                 </div>
                 <div class="flex-btn">
@@ -70,6 +130,13 @@ if (!$imagePath)
                     <a href="../login.php" onclick="return confirm('Logout?');" class="btn">Logout</a>
                 </div>
             <?php 
+<<<<<<< HEAD
+                } 
+            ?>
+        </div>
+    </div>
+</header>
+=======
             } 
             else  
                 echo "<p>Profile not found. Please log in again.</p>";
@@ -77,3 +144,4 @@ if (!$imagePath)
         </div>
     </div>
 </header>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5

@@ -40,7 +40,11 @@
             <h1 class="heading">Dashboard</h1>
             <div class="box-container">
                 <div class="box">
+<<<<<<< HEAD
                     <h3>WEelcome!</h3>
+=======
+                    <h3>Welcome!</h3>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                     <p><?=$fetch_profile['name'];?></p>
                     <a href="" class="btn">Profile</a>
                 </div>
@@ -54,12 +58,17 @@
                     ?>
                     <h3><?=  $num_of_products ;?></h3>
                     <p>Product added</p>
+<<<<<<< HEAD
                     <a href="admin/add_product.php" class="btn">Add new product</a>
+=======
+                    <a href="../admin/add_products.php" class="btn">Add new product</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 </div>
                 <div class="box">
                     <?php 
                         $select_active_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
                         $select_active_product -> execute(['active']);
+<<<<<<< HEAD
                         $num_of_active_products = $select_active_product->num_rows;
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
@@ -83,13 +92,41 @@
                     <a href="admin/view_product.php" class="btn">View deactive products</a>
                 </div>
 
+=======
+                        $result = $select_active_product->get_result();
+                        $num_of_active_products = $result->num_rows;
+                        $result->free();
+                        $select_active_product->close();
+                    ?>
+                    <h3><?=  $num_of_active_products;?></h3>
+                    <p>Total active products</p>
+                    <a href="../admin/view_product.php" class="btn">View active product</a>
+                </div>
+                <div class="box">
+                    <?php 
+                        $select_active_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
+                        $select_active_product -> execute(['in progress']);
+                        $result = $select_active_product->get_result();
+                        $num_of_active_products = $result->num_rows;
+                        $result->free();
+                        $select_active_product->close();
+                    ?>
+                    <h3><?=  $num_of_active_products;?></h3>
+                    <p>Total active products</p>
+                    <a href="../admin/view_product.php" class="btn">View deactive product</a>
+                </div>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 <div class="box">
                     <?php
                     // Select users with user_type 'Customer'
                     $select_user = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
+<<<<<<< HEAD
                     $user_type = 'Customer';
                     $select_user->bind_param("s", $user_type);
                     $select_user->execute();
+=======
+                    $select_user->execute(['Customer']);
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                     $result = $select_user->get_result();
                     $num_of_users = $result->num_rows;
                     $result->free();
@@ -97,16 +134,24 @@
                     ?>
                     <h3><?= $num_of_users; ?></h3>
                     <p>Registered users</p>
+<<<<<<< HEAD
                     <a href="admin/user_account.php" class="btn">View users</a>
+=======
+                    <a href="../admin/user_account.php" class="btn">View users</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 </div>
 
                 <div class="box">
                     <?php
                     // Select users with user_type 'Admin'
                     $select_admin = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
+<<<<<<< HEAD
                     $user_type = 'Admin';
                     $select_admin->bind_param("s", $user_type);
                     $select_admin->execute();
+=======
+                    $select_admin->execute(['Admin']);
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                     $result = $select_admin->get_result();
                     $num_of_admin = $result->num_rows;
                     $result->free();
@@ -114,7 +159,11 @@
                     ?>
                     <h3><?= $num_of_admin; ?></h3>
                     <p>Registered admins</p>
+<<<<<<< HEAD
                     <a href="admin/user_account.php" class="btn">View admins</a>
+=======
+                    <a href="../admin/user_account.php" class="btn">View admins</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 </div>
 
                 <div class="box">
@@ -129,7 +178,11 @@
                     ?>
                     <h3><?= $num_of_message; ?></h3>
                     <p>Unread messages</p>
+<<<<<<< HEAD
                     <a href="admin/admin_message.php" class="btn">View messages</a>
+=======
+                    <a href="../admin/admin_message.php" class="btn">View messages</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 </div>
 
                 <div class="box">
@@ -144,7 +197,11 @@
                     ?>
                     <h3><?= $num_of_orders; ?></h3>
                     <p>Total orders placed</p>
+<<<<<<< HEAD
                     <a href="admin/order.php" class="btn">View orders</a>
+=======
+                    <a href="../admin/order.php" class="btn">View orders</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 </div>
 
                 <div class="box">
@@ -161,7 +218,11 @@
                     ?>
                     <h3><?= $num_of_confirm_orders; ?></h3>
                     <p>Total confirmed orders</p>
+<<<<<<< HEAD
                     <a href="admin/order.php" class="btn">View confirmed orders</a>
+=======
+                    <a href="../admin/order.php" class="btn">View confirmed orders</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 </div>
 
                 <div class="box">
@@ -178,7 +239,11 @@
                     ?>
                     <h3><?= $num_of_canceled_orders; ?></h3>
                     <p>Total canceled orders</p>
+<<<<<<< HEAD
                     <a href="admin/order.php" class="btn">View canceled orders</a>
+=======
+                    <a href="../admin/order.php" class="btn">View canceled orders</a>
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 </div>
 
             </div>

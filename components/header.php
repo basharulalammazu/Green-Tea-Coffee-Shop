@@ -1,3 +1,6 @@
+<?php
+include './components/connection.php';
+?>
 <header class = "header">
     <div class = "flex">
         <!-- Logo Section -->
@@ -15,65 +18,82 @@
         </nav>
 
         <!-- Icon Section -->
-        <div class = "icons">
+        <div class="icons">
             <!-- User Icon -->
-            <i class = "bx bxs-user" id = "user-btn"></i>
+            <i class="bx bxs-user" id="user-btn"></i>
 
             <?php 
-            /*
+            // Ensure `$user_id` is defined and valid
+            if (isset($user_id)) 
+            {
                 // Database Query to Count Wishlist Items
-                // Prepares a SQL query to count all rows in the 'Wishlist' table for the logged-in user
-                $count_wishlist_items = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ?");
-                
-                // Executes the query with the `User ID` passed as a parameter (from the session or logged-in user context)
-                $count_wishlist_items -> execute([$user_id]);
-                
-                // Fetches the number of rows returned by the query
-                $total_wishlist_items = $count_wishlist_items->rowCount();
-                */
+                $count_wishlist_items = $conn->prepare("SELECT COUNT(*) AS total FROM `wishlist` WHERE `user_id` = ?");
+                $count_wishlist_items->bind_param("i", $user_id);
+                $count_wishlist_items->execute();
+                $result = $count_wishlist_items->get_result();
+                $wishlist_data = $result->fetch_assoc();
+                $total_wishlist_items = $wishlist_data['total'];
+                $count_wishlist_items->close(); // Free the statement
+            } 
+            else 
+                $total_wishlist_items = 0; // Default to 0 if `$user_id` is not set
             ?>
+
             <!-- Wishlist Icon with Total Count -->
-            <a href = "wishlist.php" class = "cart-btn">
-                <i class = "bx bx-heart"></i>
-                <sup style="color: #fff;"> 0 </sup>
-                <!-- <sup style="color: #fff;"><?php /* echo $total_wishlist_items ; */ ?></sup> -->
+            <a href="wishlist.php" class="cart-btn">
+                <i class="bx bx-heart"></i>
+                <sup style="color: #fff;"><?php echo $total_wishlist_items; ?></sup>
             </a>
 
             <?php 
-            /*
+            // Ensure `$user_id` is defined and valid
+            if (isset($user_id)) 
+            {
                 // Database Query to Count Cart Items
-                // Prepares a SQL query to count all rows in the 'Cart' table for the logged-in user
-                $count_cart_items = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ?");
-                
-                // Executes the query with the `User ID` passed as a parameter (from the session or logged-in user context)
-                $count_cart_items -> execute([$user_id]);
-                
-                // Fetches the number of rows returned by the query
-                $total_cart_items = $count_cart_items->rowCount();
-            */
+                $count_cart_items = $conn->prepare("SELECT COUNT(*) AS total FROM `cart` WHERE `user_id` = ?");
+                $count_cart_items->bind_param("i", $user_id);
+                $count_cart_items->execute();
+                $result = $count_cart_items->get_result();
+                $cart_data = $result->fetch_assoc();
+                $total_cart_items = $cart_data['total'];
+                $count_cart_items->close(); // Free the statement
+            } 
+            else 
+                $total_cart_items = 0; // Default to 0 if `$user_id` is not set
+            
             ?>
+
             <!-- Cart Icon with Total Count -->
-            <a href = "cart.php" class = "cart-btn">
-                <i class = "bx bx-cart-download"></i>
-                <sup style="color: #fff;"> 0 </sup>
-                <!-- <sup style="color: #fff;"><?php  /* echo $total_cart_items; */ ?></sup> -->
+            <a href="cart.php" class="cart-btn">
+                <i class="bx bx-cart-download"></i>
+                <sup style="color: #fff;"><?php echo $total_cart_items; ?></sup> 
             </a>
 
             <!-- Menu Icon -->
-            <i class = "bx bx-list-plus" id = "menu-btn" style = "font-size: 2rem;"></i>
+            <i class="bx bx-list-plus" id="menu-btn" style="font-size: 2rem;"></i>
         </div>
 
         <!-- User Information Box -->
-        <div class = "user-box"> 
-            <p>User Name: <span><?php //echo $_SESSION['user_name']; ?></span></p>
-            <p>Email: <span><?php //echo $_SESSION['user_email']; ?></span></p>
-            <a href = "login.php" class = "btn">login</a>
-            <a href = "registration.php" class = "btn">register</a>
+        <div class="user-box"> 
+            <?php if (isset($_SESSION['user_name'])): ?>
+                <!-- Show User Info and Logout Button -->
+                <p style="font-size: 1.2em; font-weight: bold; color: green;">
+                    User Name: <span style="color: #333;"><?php echo ($_SESSION['user_name']); ?></span>
+                </p>
+                <p style="font-size: 1.2em; font-weight: bold; color: green;">
+                    Email: <span style="color: #333;"><?php echo ($_SESSION['user_email']); ?></span>
+                </p>
 
-            <!-- Logout Form -->
-            <form method = "post">
-                <button type = "submit" name = "logout" class = "logout">log out</button>
-            </form>
+                
+                <!-- Logout Form -->
+                <form method="post">
+                    <button type="submit" name="logout" class="logout">log out</button>
+                </form>
+            <?php else: ?>
+                <!-- Show Login and Register Buttons -->
+                <a href="login.php" class="btn">login</a>
+                <a href="registration.php" class="btn">register</a>
+            <?php endif; ?>
         </div>
     </div>
 </header>

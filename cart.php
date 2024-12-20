@@ -69,7 +69,11 @@
             $warning_msg[] = 'cart item already deleted';             // If there are no items in the cart, display a warning message
         
     }
+<<<<<<< HEAD
 */
+=======
+
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
 ?>
 
 <style type = "text/css">
@@ -101,7 +105,11 @@
                 $grand_total = 0;
                 $select_cart = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ?");
                 $select_cart->execute([$user_id]);
+<<<<<<< HEAD
                 if ($select_cart->rowCount() > 0)
+=======
+                if ($select_cart->num_rows > 0)
+>>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
                 {
                     while($fetech_cart = $select_cart->fetch(PDO::FETCH_ASSOC))
                     {

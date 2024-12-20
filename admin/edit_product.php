@@ -194,7 +194,7 @@ else
             else 
             {
                 echo '<div class="empty">
-                         <p>No product added yet. <br><a href="add_product.php" style="margin-top:1.5rem" class="btn">Add Product</a></p>
+                         <p>No product added yet. <br><a href="add_products.php" style="margin-top:1.5rem" class="btn">Add Product</a></p>
                       </div>';
             }
             ?>

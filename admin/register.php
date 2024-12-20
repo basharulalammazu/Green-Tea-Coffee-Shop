@@ -43,8 +43,7 @@ if (isset($_POST['register']))
             {
                 // Insert new user
                 $insert_admin = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
-                $user_type = "Admin";
-                $insert_admin->bind_param("ssss", $name, $email, $hashed_pass, $user_type);
+                $insert_admin->bind_param("ssss", $name, $email, $pass /*$hashed_pass*/, "Admin");
                 $insert_admin->execute();
 
                 // Get the last inserted ID
@@ -63,7 +62,7 @@ if (isset($_POST['register']))
                     $warning_msg[] = "Failed to upload the image.";
             
 
-            $success_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
+                $success_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
 
             } 
             catch (Exception $ex) 

@@ -38,8 +38,10 @@ if (isset($_POST['submit'])) {
             exit();
         } 
     }
-    /*
     
+    
+    /*
+    // Encrypt the password and compare with the database
 
     $result = $select_user->get_result(); 
     if ($result && $result->num_rows > 0) 

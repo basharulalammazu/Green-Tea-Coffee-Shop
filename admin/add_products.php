@@ -117,14 +117,11 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
 <body>
     <?php include '../admin/components/admin_header.php';?>
     <div class="main">
-        <dib class="banner">
-            <h1>add products</h1>
-        </dib>
         <div class="title2">
             <a href="dashboard.php">Dashboard </a><span>/ Add Products</span>
         </div>
         <section class="form-container">
-           <h1>add products</h1>
+        <h1 style="text-align: center; margin-top: -25px;">Add products</h1>
            <form action="" method="post" enctype="multipart/form-data">
             <div class="input-field">
                 <label>product name: </label>

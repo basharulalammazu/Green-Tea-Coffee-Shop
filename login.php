@@ -115,9 +115,10 @@ if (isset($_POST['submit'])) {
                 <div class="input-field">
                     <p>Password</p>
                     <input type = "password" name = "pass" placeholder ="Enter the password" maxlength = "50" required>
+                    <a href="forgot_password.php" style="font-size: 0.715em;">Forgot Password?</a>
                 </div>
                 <input type = "submit" name = "submit" value = "Login" class="btn">
-                <p>Forgot password? <u><a href="forgot_password.php">Reset Now</a></u></p>
+                
                 <p>Don't have an account? <u><a href="registration.php">Register Now</a></u></p>
                 
                 <!-- Display messages -->

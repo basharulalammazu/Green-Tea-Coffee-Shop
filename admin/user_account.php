@@ -21,9 +21,6 @@ if (!isset($admin_id))
 <body>
     <?php include '../admin/components/admin_header.php'; ?>
     <div class="main">
-        <dib class="banner">
-            <h1>register user's</h1>
-        </dib>
         <div class="title2">
             <a href="../admin/dashboard.php">Dashboard</a><span> / Register User's</span>
         </div>

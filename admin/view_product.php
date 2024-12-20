@@ -31,9 +31,6 @@
 <body>
     <?php include '../admin/components/admin_header.php'; ?>
     <div class="main">
-        <dib class="banner">
-            <h1>All Products</h1>
-        </dib>
         <div class="title2">
             <a href="../admin/dashboard.php">Dashboard</a><span> / All Products</span>
         </div>

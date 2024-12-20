@@ -30,9 +30,6 @@
 <body>
     <?php include 'components/admin_header.php';?>
     <div class="main">
-        <dib class="banner">
-            <h1>Dashboard</h1>
-        </dib>
         <div class="title2">
             <a href="dashboard.php">Home</a><span> / Dashboard</span>
         </div>
@@ -42,7 +39,7 @@
                 <div class="box">
                     <h3>Welcome!</h3>
                     <p><?=$fetch_profile['name'];?></p>
-                    <a href="" class="btn">Profile</a>
+                    <a href="../admin/profile.php" class="btn">Profile</a>
                 </div>
                 <div class="box">
                     <?php 

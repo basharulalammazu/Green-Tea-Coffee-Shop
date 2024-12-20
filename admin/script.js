@@ -21,3 +21,12 @@ userBtn. addEventListener('click', function(){
 let userBox = document.querySelector('.profile-detail');
 userBox.classList.toggle('active');
 })
+
+function toggleEditMode() {
+    const displayMode = document.querySelector('.display-mode');
+    const editMode = document.querySelector('.edit-mode');
+    
+    // Toggle the visibility by changing the hidden class
+    displayMode.classList.toggle('hidden');
+    editMode.classList.toggle('hidden');
+}

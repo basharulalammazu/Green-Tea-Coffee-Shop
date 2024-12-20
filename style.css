@@ -1406,6 +1406,10 @@ footer .bottom-footer {
   border: 1px solid var(--green);
 }
 
+/*----------------------admin profile-----------------------------*/
+.hidden {
+  display: none;
+}
 /*-------------------------media screen--------------------------*/
 @media (max-width: 1160px){
   .header .flex .navbar{

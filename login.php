@@ -20,6 +20,8 @@ if (isset($_POST['submit'])) {
     $result = $select_user->get_result(); 
     $row = $result->fetch_assoc();
 
+    $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+
     if ($pass == $row['password'])
     {
             $_SESSION['user_id'] = $row['id'];
@@ -27,26 +29,26 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_email'] = $row['email'];
 
         // Redirect based on User Type
-        if (trim($row['user_type']) == "Admin") {
+        if (trim($row['user_type']) == "Admin") 
+        {
             $success_msg[] = 'Admin login successful';
             header('Location: admin/dashboard.php');
             exit();
         } 
-        else if (trim($row['user_type']) == "Customer") {
+        else if (trim($row['user_type']) == "Customer") 
+        {
             $success_msg[] = 'Customer login successful';
             header('Location: home.php');
             exit();
         } 
+        else 
+            $error_msg[] = 'Invalid user type. Please contact support ';
+        
     }
-<<<<<<< HEAD
-    /*
-    
-=======
     
     
     /*
     // Encrypt the password and compare with the database
->>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
 
     $result = $select_user->get_result(); 
     if ($result && $result->num_rows > 0) 
@@ -115,6 +117,7 @@ if (isset($_POST['submit'])) {
                     <input type = "password" name = "pass" placeholder ="Enter the password" maxlength = "50" required>
                 </div>
                 <input type = "submit" name = "submit" value = "Login" class="btn">
+                <p>Forgot password? <u><a href="forgot_password.php">Reset Now</a></u></p>
                 <p>Don't have an account? <u><a href="registration.php">Register Now</a></u></p>
                 
                 <!-- Display messages -->

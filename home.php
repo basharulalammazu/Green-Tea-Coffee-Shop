@@ -2,15 +2,6 @@
     include 'components/connection.php';
 
     session_start();
-<<<<<<< HEAD
-    if (isset($_SESSION['user_id'])) {
-        $user_id = $_SESSION['user_id'];
-    } else {
-        $user_id = '';
-    }
-    
-    if (isset($_POST['logout'])) {
-=======
     if (isset($_SESSION['user_id'])) 
         $user_id = $_SESSION['user_id'];
     else 
@@ -19,7 +10,6 @@
     
     if (isset($_POST['logout'])) 
     {
->>>>>>> 3ab7a8422473027efed904f1b42b1ac99df644b5
         session_destroy();
         header("location: login.php");
     }

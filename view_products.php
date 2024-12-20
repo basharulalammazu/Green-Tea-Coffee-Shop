@@ -99,11 +99,12 @@
             // Close the prepared statements
             $insert_cart->close();
             $select_price->close(); // Safely closing after initialization
+            $max_cart_items->close();
+
         }
     
         // Close the prepared statements and results
         $verify_cart->close();
-        $max_cart_items->close();
     }
     
     

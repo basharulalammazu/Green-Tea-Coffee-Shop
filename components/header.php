@@ -8,7 +8,7 @@
         <!-- Navigation Bar -->
         <nav class = "navbar">
             <a href = "home.php">Home</a>
-            <a href = "view_product.php">Product</a>
+            <a href = "view_products.php">Product</a>
             <a href = "order.php">Orders</a>
             <a href = "about.php">About Us</a>
             <a href = "contact.php">Contact Us</a>

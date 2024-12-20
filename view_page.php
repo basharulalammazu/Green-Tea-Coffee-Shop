@@ -1,5 +1,6 @@
 <?php
-    //include 'components/connection.php';
+    /*
+    include 'components/connection.php';
 
     session_start();
     if (isset($_SESSION['user_id']))
@@ -17,7 +18,7 @@
     // Adding product in wishlist
     if(isset($_POST['add_to_wishlist']))
     {
-        //$id = unique_id(); //Function is to be created
+        $id = unique_id(); //Function is to be created
         $product_id = $_POST['product_id'];
 
         $verify_wishlist = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ? AND `Product ID` = ?");
@@ -45,7 +46,7 @@
      // Adding product in cart
      if(isset($_POST['add_to_cart']))
      {
-         //$id = unique_id(); //Function is to be created
+         $id = unique_id(); //Function is to be created
          $product_id = $_POST['product_id'];
 
          $qty = $_POST['qty'];
@@ -72,6 +73,7 @@
              $success_mess[] = 'product added to wishlist successfully';
          }
      }
+         */
 ?>
 
 <style type = "text/css">
@@ -93,7 +95,7 @@
             <h1>Product Details</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span>Product Details</span>
+            <a href = "home.php">home</a><span> / Product Details</span>
         </div>
     </div>
     <section class = "view_page">
@@ -101,7 +103,7 @@
             if (isset($_GET['pid']))
             {
                 $pid = $_GET['pid'];
-                $select_products = $conn -> prepare("SELECT * FROM `Product` WHERE ID = '$pid'");
+                $select_products = $conn -> prepare("SELECT * FROM `product` WHERE pid = '$pid'");
                 $select_products -> execute();
 
                 if ($select_products -> rowCount() > 0)
@@ -112,7 +114,7 @@
         <form method = "post">
             <img src = "image/<?php echo $fetech_products['images']; ?>">
             <div class = "detail">
-                <div class = "price"><?php echo $fetech_products['price']; ?></div>
+                <div class = "price">$<?php echo $fetech_products['price']; ?>/-</div>
                 <div class = "name"><?php echo $fetech_products['name']; ?></div>
                 <div class = "detail">
                     <p>
@@ -143,6 +145,7 @@
         
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
     <script src = "script.js"></script>
     <?php include 'components/alert.php'; ?>

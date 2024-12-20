@@ -1,5 +1,18 @@
 <?php
-    include 'components/alert.php';
+   include 'components/connection.php';
+
+    session_start();
+    if (isset($_SESSION['user_id'])) 
+        $user_id = $_SESSION['user_id'];
+    else 
+        $user_id = '';
+    
+    
+    if (isset($_POST['logout'])) 
+    {
+        session_destroy();
+        header("location: login.php");
+    }
 ?>
 
 <style type = "text/css">
@@ -21,7 +34,7 @@
             <h1>Contact Us</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span>Contact Us</span>
+            <a href = "home.php">home</a><span> / Contact Us</span>
         </div>
     </div>
     <section class = "services">
@@ -118,6 +131,7 @@
         
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
     <script src = "script.js"></script>
     <?php include 'components/alert.php'; ?>

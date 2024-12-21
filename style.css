@@ -21,20 +21,25 @@ html{
   -webkit-text-size-adjust: 100%;
 }
 
-body{
+body {
   background-image: url('assets/image/body-bg.jpg');
   width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the body takes at least the full viewport height */
 }
 
-.main{
+.main {
   width: 85vw;
   background: #fff;
-  box-shadow: 0 2px 6px 0 rgb(0 0 0/10%);
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 10%);
   margin: 1rem auto;
   margin-top: 10rem;
   padding: 2%;
+  flex: 1; /* Ensures that the main content expands to fill available space */
 }
-
 a{
   text-decoration: none;
 }
@@ -97,7 +102,7 @@ sup{
   font-size: 16px;
   cursor: pointer;
   user-select: none;
-  position: relative;
+  /*position: relative;*/
   overflow: hidden;
   vertical-align: middle;
   transition: color 0.35s ease;
@@ -365,7 +370,7 @@ header.scrolled{
   border-radius: 50%;
   background: var(--light-green);
   box-shadow: 0 0 0 6px rgb(255 255 255 / 40%);
-  z-index: 2;
+ /* z-index: 2; */
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -861,7 +866,7 @@ footer .overlay {
 .footer-content {
   position: relative;
   padding-top: 2rem;
-  z-index: 2;
+  /*z-index: 2;*/
   text-align: center;
   color: #fff;
 }

@@ -247,11 +247,16 @@
                 </div>
             </div>
         </section>
+       
+        
         <?php include 'components/footer.php'; ?>
+         <!-- Chatbot Integration -->
         <!--Home Slider end-->
         
 
     </div>
+    <?php include 'chatbot/index.php'; ?>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
     <script src = "script.js"></script>

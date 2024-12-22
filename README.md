@@ -22,13 +22,20 @@
 
 ## 💡 Features
 
-1. **High-quality Design**: Elegant and modern UI/UX to provide an enjoyable shopping experience.
-2. **Built with Cutting-edge Technologies**: Uses the latest versions of **HTML5**, **CSS3**, **PHP**, and **JavaScript**.
-3. **100% Responsive Design**: Ensures an optimal experience on desktops, tablets, and mobile devices.
-4. **Shopping Cart**: Users can add, remove, and review items before purchasing.
-5. **Admin Panel**: Includes product management, order tracking, and user management for seamless backend control.
 
----
+1. **High-Quality Design**: A sleek, modern UI/UX crafted to deliver an enjoyable and seamless shopping experience.
+
+2. **Built with Cutting-Edge Technologies**: Leveraging the latest versions of **HTML5**, **CSS3**, **PHP**, and **JavaScript** to ensure a fast, reliable, and feature-rich platform.
+
+3. **Fully Responsive Design**: Optimized for desktop, tablet, and mobile devices, providing a consistent and user-friendly experience across all screen sizes.
+
+4. **Shopping Cart**: A flexible and intuitive shopping cart system that allows users to easily add, remove, and review items before finalizing their purchase.
+
+5. **Admin Panel**: A comprehensive backend interface for efficient product management, order tracking, and user management, ensuring smooth operations.
+
+6. **💬 Integrated Chatbot**: Enhance customer interaction with an intelligent chatbot feature:
+   - **Real-Time Assistance**: Instant, AI-driven responses to customer inquiries, offering support around the clock.
+   - **Product Recommendations**: Personalized suggestions based on customer preferences and browsing history to improve the shopping experience.
 
 ## 🛠️ Technologies Used
 
@@ -99,7 +106,7 @@ Green-Coffee-Shop/
 ├── config.php              # Database configuration file
 ├── index.php               # Main entry point for the website
 ├── cart.php                # Shopping cart functionality
-├── green_coffee_shop.sql   # MySQL database script
+├── green_tea_coffee_shop.sql   # MySQL database script
 └── README.md               # Documentation
 ```
 

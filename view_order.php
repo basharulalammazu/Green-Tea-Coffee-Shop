@@ -73,29 +73,34 @@
     $image_formats = ['jpg', 'jpeg', 'png'];
 
     if ($result_orders->num_rows > 0) {
-        while ($fetch_order = $result_orders->fetch_assoc()) {
+        while ($fetch_order = $result_orders->fetch_assoc()) 
+        {
             $query_product = "SELECT * FROM `products` WHERE id = ? LIMIT 1";
             $stmt_product = $conn->prepare($query_product);
             $stmt_product->bind_param("i", $fetch_order['product_id']);
             $stmt_product->execute();
             $result_products = $stmt_product->get_result();
 
-            if ($result_products->num_rows > 0) {
-                while ($fetch_product = $result_products->fetch_assoc()) {
+            if ($result_products->num_rows > 0) 
+            {
+                while ($fetch_product = $result_products->fetch_assoc()) 
+                {
                     // Dynamic image path resolution
                     $image_path = "";
-                    foreach ($image_formats as $format) {
+                    foreach ($image_formats as $format) 
+                    {
                         $temp_path = "image/product/{$fetch_product['id']}.$format";
-                        if (file_exists($temp_path)) {
+                        if (file_exists($temp_path)) 
+                        {
                             $image_path = $temp_path;
                             break;
                         }
                     }
 
                     // Fallback to default image if no file is found
-                    if (!$image_path) {
+                    if (!$image_path) 
                         $image_path = "image/default_product.png"; // Default image
-                    }
+                    
 
                     $sub_total = ($fetch_order['price'] * $fetch_order['quantity']);
                     $grand_total += $sub_total;
@@ -116,20 +121,23 @@
                             <p class="user"><i class="bi bi-pin-map-fill"></i><?= $fetch_order['address']; ?></p>
                             <p class="title">Status</p>
                             <p class="status" style="color:<?php 
-                                if ($fetch_order['status'] == 'delivered') { 
+                                if ($fetch_order['status'] == 'delivered') 
                                     echo 'green'; 
-                                } else if ($fetch_order['status'] == 'canceled') { 
+                                else if ($fetch_order['status'] == 'canceled') 
                                     echo 'red'; 
-                                } else { 
+                                else 
                                     echo 'orange'; 
-                                } 
+                                
                             ?>"><?= ucfirst($fetch_order['status']); ?></p>
 <?php 
-                            if ($fetch_order['status'] == 'canceled') { 
+                            if ($fetch_order['status'] == 'canceled') 
+                            { 
 ?>
                                 <a href="checkout.php?get_id=<?= $fetch_product['id']; ?>" class="btn">Buy again</a>
 <?php 
-                            } else { 
+                            } 
+                            else 
+                            { 
 ?>
                                 <form action="" method="post">
                                     <button type="submit" name="cancel" class="btn" onclick="return confirm('Do you want to cancel this order?')">Cancel order</button>
@@ -141,14 +149,16 @@
                     </div>
 <?php
                 }
-            } else 
+            } 
+            else 
                 echo '<p class="empty">Product not found!</p>';
             
             $stmt_product->close(); // Close product statement
         }
-    } else {
+    } 
+    else 
         echo '<p class="empty">No order found!</p>';
-    }
+    
     $stmt_orders->close(); // Close orders statement
 ?>
 

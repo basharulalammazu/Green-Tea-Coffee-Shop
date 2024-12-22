@@ -19,8 +19,8 @@
     }
 
     //Update cart
-    if (isset($_POST['update_cart'])) {
-
+    if (isset($_POST['update_cart'])) 
+    {
         $cart_id = $_POST['cart_id'];
         $cart_id = filter_var($cart_id, FILTER_SANITIZE_STRING);
     
@@ -33,8 +33,6 @@
         $success_msg[] = 'cart quantity updated successfully';
     }
     
- 
-
      // Delete item from wishlist
      if (isset($_POST['delete_item']))
      {
@@ -56,8 +54,8 @@
      }
 
      // Check if the "empty_cart" button was clicked
-    if (isset($_POST['empty_cart'])) {
-
+    if (isset($_POST['empty_cart'])) 
+    {
         // Prepare a SELECT statement to check if there are any items in the cart for the current user
         $verify_empty_item = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ?"); 
         $verify_empty_item->execute([$user_id]); 
@@ -71,9 +69,7 @@
         } 
         else 
             $warning_msg[] = 'cart item already deleted';             // If there are no items in the cart, display a warning message
-        
     }
-
 ?>
 
 <style type = "text/css">
@@ -107,26 +103,30 @@
                 $select_cart->execute([$user_id]);
                 if ($select_cart->num_rows > 0)
                 {
-                    while($fetech_cart = $select_cart->fetch(PDO::FETCH_ASSOC))
+                    while ($fetch_cart = $select_cart->fetch_assoc()) 
                     {
-                        $select_products = $conn->prepare("SELECT * FROM `products` WHERE `user _id` = ?");
-                        $select_products->execute([$fetech_cart['product_id']]);
-                        if($select_products->rowCount() > 0)
+                        // Prepare a query to select products based on cart product_id
+                        $select_products = $conn->prepare("SELECT * FROM `products` WHERE `id` = ?");
+                        $select_products->bind_param("i", $fetch_cart['product_id']); // Bind the product_id as an integer
+                        $select_products->execute();
+                        $result = $select_products->get_result();
+                    
+                        if ($result->num_rows > 0) 
                         {
-                            $fetch_products = $select_products->fetech(PDO::FETCH_ASSOC);
-                ?>
-                <form class = "box" action ="#" method = "post">
-                    <input type = "hidden" name = "cart_id" value = "<?=$fetech_cart['id']; ?>">
-                    <img src = "image/<?=$fetch_products['image']; ?>" class = "img">
-                    <h3 class = "name"><?=$fetch_products['name'];?></h3>
-                    <div class = "flex">
-                        <p class = "price">Price $<?=$fetch_products['price']; ?>/-</p>
-                        <input type = "number" name = "qty" min = "1" value = "<?=$fetech_cart['qty'];?>" max = "99" maxlength = "2" class = "qty" required>
-                        <button type = "submit" name = "update_cart" class = "bx bxs-edit fa-edit"></button>
-                    </div>
-                    <p class = "sub-total">Sub Total: <span>$<?=$sub_total = ($fetch_cart['qty']*$fetch_cart['price']) ?></span></p>
-                    <button type = "submit" name = "delete_item" class = "btn" onclick = "return confirm('Delete this item')">Delete</button>
-                </form>
+                            $fetch_products = $result->fetch_assoc();
+        ?>
+                            <form class = "box" action ="#" method = "post">
+                                <input type = "hidden" name = "cart_id" value = "<?=$fetech_cart['id']; ?>">
+                                <img src = "image/<?=$fetch_products['product_id']; ?>" class = "img">
+                                <h3 class = "name"><?=$fetch_products['name'];?></h3>
+                                <div class = "flex">
+                                    <p class = "price">Price $<?=$fetch_products['price']; ?>/-</p>
+                                    <input type = "number" name = "qty" min = "1" value = "<?=$fetech_cart['quantity'];?>" max = "99" maxlength = "2" class = "qty" required>
+                                    <button type = "submit" name = "update_cart" class = "bx bxs-edit fa-edit"></button>
+                                </div>
+                                <p class = "sub-total">Sub Total: <span>$<?=$sub_total = ($fetch_cart['quantity']*$fetch_cart['price']) ?></span></p>
+                                <button type = "submit" name = "delete_item" class = "btn" onclick = "return confirm('Delete this item')">Delete</button>
+                            </form>
         <?php
                         $grand_total += $sub_total;
                         }
@@ -136,10 +136,11 @@
                 }
                 else 
                 echo "<p class = 'empty'>No Products added yet!</p>;"
-            ?>
+        ?>
         </div>  
         <?php 
-            if ($grand_total != 0){
+            if ($grand_total != 0)
+            {
         ?>
         
             <div class="cart-total">
@@ -153,7 +154,9 @@
             </div>
             </div>
         </div>
-        <?php } ?>
+        <?php 
+            } 
+        ?>
     </section>
     
     <?php include 'components/footer.php'; ?>

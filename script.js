@@ -86,3 +86,46 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector('.left-arrow').addEventListener('click', prevSlide);
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const slider = document.querySelector('.slider');
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+
+    // Check if slider and arrows exist
+    if (!slider || !leftArrow || !rightArrow) {
+        console.error("Slider or arrows are missing from the DOM.");
+        return;
+    }
+
+    // Testimonial Items
+    const slides = document.querySelectorAll('.testimonial-item');
+    let index = 0;
+
+    // Helper to update active class
+    function updateSlides() {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+    }
+
+    // Scroll Right
+    function nextSlide() {
+        index = (index + 1) % slides.length;
+        updateSlides();
+    }
+
+    // Scroll Left
+    function prevSlide() {
+        index = (index - 1 + slides.length) % slides.length;
+        updateSlides();
+    }
+
+    // Attach event listeners
+    rightArrow.addEventListener('click', nextSlide);
+    leftArrow.addEventListener('click', prevSlide);
+
+    // Initialize active slide
+    updateSlides();
+});

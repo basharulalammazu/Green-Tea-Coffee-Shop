@@ -3,8 +3,13 @@
     session_start();
     if (isset($_SESSION['user_id'])) 
         $user_id = $_SESSION['user_id'];
-    else 
-        $user_id = '';
+    else
+    {
+        $warning_mes = 'Please login to view your order';
+        header("location: login.php");
+        exit();
+    
+    }
 
     if(isset($_POST['logout'])) 
     {

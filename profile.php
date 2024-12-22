@@ -3,7 +3,9 @@ include 'components/connection.php';
 session_start();
 
 // Check if the customer is logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'])) 
+{
+    $warning_mes = 'Please login to view your profile';
     header('Location: login.php');
     exit();
 }

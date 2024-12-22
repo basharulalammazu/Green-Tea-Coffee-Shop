@@ -1,10 +1,15 @@
 <?php 
-include './components/connection.php';
+include 'components/connection.php';
 session_start();
-if (isset($_SESSION['user_id'])) 
-    $user_id = $_SESSION['user_id'];
-else 
-    $user_id = '';
+
+if (!isset($_SESSION['user_id'])) 
+{
+    $warning_msg = 'Please login to view your order';
+    header("location: login.php");
+    exit();
+}
+$user_id = $_SESSION['user_id'];
+
 
 if(isset($_POST['logout'])) 
 {
@@ -123,6 +128,6 @@ if(isset($_POST['logout']))
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="http://cdnjs.Cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="script.js"></script>
-<?php  include './components/alert.php'; ?>
+<?php  include 'components/alert.php'; ?>
 </body>
 </html>

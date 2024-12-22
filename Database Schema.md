@@ -1,15 +1,7 @@
 # Database Schema
 
-## 1. Admin
-| **Field**   | **Data Type**     | **Description**     |
-|-------------|-------------------|---------------------|
-| ID          | `VARCHAR(20)`     | Admin unique ID     |
-| Name        | `VARCHAR(50)`     | Admin name          |
-| Email       | `VARCHAR(100)`    | Admin email         |
-| Password    | `VARCHAR(50)`     | Admin password      |
-| Profile     | `VARCHAR(255)`    | Admin profile path  |
 
-## 2. Wishlist
+## 1. Wishlist
 | **Field**   | **Data Type**     | **Description**     |
 |-------------|-------------------|---------------------|
 | ID          | `VARCHAR(20)`     | Wishlist ID         |
@@ -23,6 +15,7 @@
 | ID          | `VARCHAR(20)`     | User ID             |
 | Name        | `VARCHAR(50)`     | User name           |
 | Email       | `VARCHAR(100)`    | User email          |
+| phone_number| `VARCHAR(100)`    | User email          |
 | Password    | `VARCHAR(50)`     | User password       |
 | User_Type   | `VARCHAR(100)`    | User type           |
 
@@ -32,7 +25,6 @@
 | ID               | `VARCHAR(20)`     | Product ID               |
 | Name             | `VARCHAR(250)`    | Product name             |
 | Price            | `INT(50)`         | Product price            |
-| Image            | `VARCHAR(255)`    | Image file path          |
 | Product_Detail   | `VARCHAR(1000)`   | Product description      |
 | Status           | `VARCHAR(100)`    | Product status           |
 

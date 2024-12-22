@@ -90,7 +90,8 @@ sup{
   border: 1px solid var(--green);
 }
 
-.btn{
+.btn {
+  position: relative; /* Ensures hover effect works properly */
   line-height: 2;
   background-color: #e0ffcd;
   padding: 5px 35px;
@@ -102,14 +103,18 @@ sup{
   font-size: 16px;
   cursor: pointer;
   user-select: none;
-  /*position: relative;*/
   overflow: hidden;
   vertical-align: middle;
-  transition: color 0.35s ease;
-  z-index: 2;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.btn::before{
+.btn:hover {
+  background-color: var(--green); /* Change background color on hover */
+  color: #fff; /* Optional: change text color on hover */
+}
+
+
+.btn::before {
   position: absolute;
   content: '';
   left: 0;
@@ -121,9 +126,10 @@ sup{
   transition: width 0.3s ease;
 }
 
-.btn:hover::before{
+.btn:hover::before {
   width: 100%;
 }
+
 
 label{
   text-transform: capitalize;
@@ -489,9 +495,25 @@ header.scrolled{
 .shop .row {
   display: flex;
   justify-content: space-evenly;
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
-  gap: 1rem; /* Adds gap between items */
+  flex-wrap: wrap;
+  gap: 1rem;
 }
+
+@media (max-width: 1024px) {
+  .shop .row {
+      justify-content: center; /* Center the items for medium screens */
+      gap: 1.5rem; /* Increase spacing between items */
+  }
+}
+
+@media (max-width: 768px) {
+  .shop .row {
+      flex-direction: column; /* Stack items vertically on smaller screens */
+      align-items: center; /* Center items */
+      gap: 2rem; /* Add more spacing for better readability */
+  }
+}
+
 
 .shop .row .top-footer {
   margin-top: 2rem;

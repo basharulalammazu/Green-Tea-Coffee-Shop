@@ -1,11 +1,15 @@
 <?php
 include 'components/connection.php';
 
-session_start();
-if (isset($_SESSION['user_id']))
+    session_start();
+    if (!isset($_SESSION['user_id'])) 
+    {
+        $warning_msg = 'Please login to checkout';
+        header('Location: login.php');
+        exit();
+    }
     $user_id = $_SESSION['user_id'];
-else 
-    $user_id = '';
+
 
 if (isset($_POST['logout'])) {
     session_unset();

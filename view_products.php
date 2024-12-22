@@ -90,8 +90,8 @@
             $fetch_price = $result_price->fetch_assoc();
     
             // Insert into cart
-            $insert_cart = $conn->prepare("INSERT INTO cart (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?, ?)");
-            $insert_cart->bind_param("siiid", $user_id, $product_id, $fetch_price['price'], $qty);
+            $insert_cart = $conn->prepare("INSERT INTO cart (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
+            $insert_cart->bind_param("iidi", $user_id, $product_id, $fetch_price['price'], $qty);
             $insert_cart->execute();
             $success_mess[] = 'Product added to cart successfully';
     

@@ -1,104 +1,112 @@
 <?php
-include 'components/connection.php';
+    include 'components/connection.php';
+    session_start();
+    if (isset($_SESSION['user_id']))
+        $user_id = $_SESSION['user_id'];
+    else
+    {
+        $warning_mes = 'Please login to view your wishlist';
+        header("location: login.php");
+        exit();
 
-session_start();
-if (isset($_SESSION['user_id']))
-    $user_id = $_SESSION['user_id'];
-else
-    $user_id = '';
-
-if (isset($_POST['logout'])) {
-    session_unset();
-    session_destroy();
-    header("location: login.php");
-}
-
-// Adding product to wishlist
-if (isset($_POST['add_to_wishlist'])) {
-    $id = uniqid();
-    $product_id = $_POST['product_id'];
-
-    $verify_wishlist = $conn->prepare("SELECT * FROM wishlist WHERE user_id = ? AND product_id = ?");
-    $verify_wishlist->bind_param("ss", $user_id, $product_id);
-    $verify_wishlist->execute();
-    $result_wishlist = $verify_wishlist->get_result();
-
-    $verify_cart = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
-    $verify_cart->bind_param("ss", $user_id, $product_id);
-    $verify_cart->execute();
-    $result_cart = $verify_cart->get_result();
-
-    if ($result_wishlist->num_rows > 0) {
-        $warning_mes[] = 'Product already exists in your wishlist';
-    } elseif ($result_cart->num_rows > 0) {
-        $warning_mes[] = 'Product already exists in your cart';
-    } else {
-        $select_price = $conn->prepare("SELECT price FROM products WHERE id = ? LIMIT 1");
-        $select_price->bind_param("s", $product_id);
-        $select_price->execute();
-        $result_price = $select_price->get_result();
-        $fetch_price = $result_price->fetch_assoc();
-
-        $insert_wishlist = $conn->prepare("INSERT INTO wishlist (user_id, product_id, price) VALUES (?, ?, ?)");
-        $insert_wishlist->bind_param("ssd", $user_id, $product_id, $fetch_price['price']);
-        $insert_wishlist->execute();
-        $success_mes[] = 'Product added to wishlist successfully';
     }
-}
 
-// Adding product to cart
-if (isset($_POST['add_to_cart'])) {
-    $id = uniqid();
-    $product_id = $_POST['product_id'];
-    $qty = 1;
-
-    $verify_cart = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
-    $verify_cart->bind_param("ss", $user_id, $product_id);
-    $verify_cart->execute();
-    $result_cart = $verify_cart->get_result();
-
-    $max_cart_items = $conn->prepare("SELECT * FROM cart WHERE user_id = ?");
-    $max_cart_items->bind_param("s", $user_id);
-    $max_cart_items->execute();
-    $result_max = $max_cart_items->get_result();
-
-    if ($result_cart->num_rows > 0) {
-        $warning_mes[] = 'Product already exists in your cart';
-    } elseif ($result_max->num_rows > 20) {
-        $warning_mes[] = 'Cart is full';
-    } else {
-        $select_price = $conn->prepare("SELECT price FROM products WHERE id = ? LIMIT 1");
-        $select_price->bind_param("s", $product_id);
-        $select_price->execute();
-        $result_price = $select_price->get_result();
-        $fetch_price = $result_price->fetch_assoc();
-
-        $insert_cart = $conn->prepare("INSERT INTO cart (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
-        $insert_cart->bind_param("ssdi", $user_id, $product_id, $fetch_price['price'], $qty);
-        $insert_cart->execute();
-        $success_mes[] = 'Product added to cart successfully';
+    if (isset($_POST['logout'])) 
+    {
+        session_unset();
+        session_destroy();
+        header("location: login.php");
     }
-}
 
-// Delete item from wishlist
-if (isset($_POST['delete_item'])) {
-    $wishlist_id = $_POST['wishlist_id'];
-    $wishlist_id = filter_var($wishlist_id, FILTER_SANITIZE_STRING);
+    // Adding product to wishlist
+    if (isset($_POST['add_to_wishlist'])) 
+    {
+        $product_id = $_POST['product_id'];
 
-    $verify_delete_items = $conn->prepare("SELECT * FROM wishlist WHERE id = ?");
-    $verify_delete_items->bind_param("s", $wishlist_id);
-    $verify_delete_items->execute();
-    $result_delete = $verify_delete_items->get_result();
+        $verify_wishlist = $conn->prepare("SELECT * FROM wishlist WHERE user_id = ? AND product_id = ?");
+        $verify_wishlist->bind_param("ss", $user_id, $product_id);
+        $verify_wishlist->execute();
+        $result_wishlist = $verify_wishlist->get_result();
 
-    if ($result_delete->num_rows > 0) {
-        $delete_wishlist_id = $conn->prepare("DELETE FROM wishlist WHERE id = ?");
-        $delete_wishlist_id->bind_param("s", $wishlist_id);
-        $delete_wishlist_id->execute();
-        $success_mes[] = "Wishlist item successfully deleted";
-    } else {
-        $warning_mes[] = "Wishlist item already deleted";
+        $verify_cart = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
+        $verify_cart->bind_param("ss", $user_id, $product_id);
+        $verify_cart->execute();
+        $result_cart = $verify_cart->get_result();
+
+        if ($result_wishlist->num_rows > 0) 
+            $warning_mes[] = 'Product already exists in your wishlist';
+        else if ($result_cart->num_rows > 0) 
+            $warning_mes[] = 'Product already exists in your cart';
+        else 
+        {
+            $select_price = $conn->prepare("SELECT price FROM products WHERE id = ? LIMIT 1");
+            $select_price->bind_param("s", $product_id);
+            $select_price->execute();
+            $result_price = $select_price->get_result();
+            $fetch_price = $result_price->fetch_assoc();
+
+            $insert_wishlist = $conn->prepare("INSERT INTO wishlist (user_id, product_id, price) VALUES (?, ?, ?)");
+            $insert_wishlist->bind_param("ssd", $user_id, $product_id, $fetch_price['price']);
+            $insert_wishlist->execute();
+            $success_mes[] = 'Product added to wishlist successfully';
+        }
     }
-}
+
+    // Adding product to cart
+    if (isset($_POST['add_to_cart'])) {
+        $product_id = $_POST['product_id'];
+        $qty = 1;
+
+        $verify_cart = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
+        $verify_cart->bind_param("ss", $user_id, $product_id);
+        $verify_cart->execute();
+        $result_cart = $verify_cart->get_result();
+
+        $max_cart_items = $conn->prepare("SELECT * FROM cart WHERE user_id = ?");
+        $max_cart_items->bind_param("s", $user_id);
+        $max_cart_items->execute();
+        $result_max = $max_cart_items->get_result();
+
+        if ($result_cart->num_rows > 0) 
+            $warning_mes[] = 'Product already exists in your cart';
+        else if ($result_max->num_rows > 20) 
+            $warning_mes[] = 'Cart is full';
+        else 
+        {
+            $select_price = $conn->prepare("SELECT price FROM products WHERE id = ? LIMIT 1");
+            $select_price->bind_param("s", $product_id);
+            $select_price->execute();
+            $result_price = $select_price->get_result();
+            $fetch_price = $result_price->fetch_assoc();
+
+            $insert_cart = $conn->prepare("INSERT INTO cart (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
+            $insert_cart->bind_param("ssdi", $user_id, $product_id, $fetch_price['price'], $qty);
+            $insert_cart->execute();
+            $success_mes[] = 'Product added to cart successfully';
+        }
+    }
+
+    // Delete item from wishlist
+    if (isset($_POST['delete_item'])) 
+    {
+        $wishlist_id = $_POST['wishlist_id'];
+        $wishlist_id = filter_var($wishlist_id, FILTER_SANITIZE_STRING);
+
+        $verify_delete_items = $conn->prepare("SELECT * FROM wishlist WHERE id = ?");
+        $verify_delete_items->bind_param("s", $wishlist_id);
+        $verify_delete_items->execute();
+        $result_delete = $verify_delete_items->get_result();
+
+        if ($result_delete->num_rows > 0) 
+        {
+            $delete_wishlist_id = $conn->prepare("DELETE FROM wishlist WHERE id = ?");
+            $delete_wishlist_id->bind_param("s", $wishlist_id);
+            $delete_wishlist_id->execute();
+            $success_mes[] = "Wishlist item successfully deleted";
+        } 
+        else 
+            $warning_mes[] = "Wishlist item already deleted";
+    }
 ?>
 
 
@@ -136,8 +144,10 @@ if (isset($_POST['delete_item'])) {
                 $select_wishlist->execute();
                 $result_wishlist = $select_wishlist->get_result();
 
-                if ($result_wishlist->num_rows > 0) {
-                    while ($fetch_wishlist = $result_wishlist->fetch_assoc()) {
+                if ($result_wishlist->num_rows > 0) 
+                {
+                    while ($fetch_wishlist = $result_wishlist->fetch_assoc()) 
+                    {
                         $product_id = $fetch_wishlist['product_id'];
                         
                         // Fetch product details
@@ -146,7 +156,8 @@ if (isset($_POST['delete_item'])) {
                         $select_products->execute();
                         $result_products = $select_products->get_result();
 
-                        if ($result_products->num_rows > 0) {
+                        if ($result_products->num_rows > 0) 
+                        {
                             $fetch_products = $result_products->fetch_assoc();
                             
                             // Check for image existence with different formats
@@ -154,16 +165,16 @@ if (isset($_POST['delete_item'])) {
                             $image_path = '';
                             foreach ($image_formats as $format) {
                                 $potential_path = "image/product/" . $fetch_products['id'] . "." . $format;
-                                if (file_exists($potential_path)) {
+                                if (file_exists($potential_path)) 
+                                {
                                     $image_path = $potential_path;
                                     break;
                                 }
                             }
                             
                             // Use a default image if no file is found
-                            if (empty($image_path)) {
+                            if (empty($image_path)) 
                                 $image_path = "image/product/default.png";
-                            }
                 ?>
                             <form class="box" action="#" method="post">
                                 <input type="hidden" name="wishlist_id" value="<?= $fetch_wishlist['id']; ?>">
@@ -185,9 +196,10 @@ if (isset($_POST['delete_item'])) {
                         }
                         $select_products->close();
                     }
-                } else {
+                } 
+                else 
                     echo "<p class='empty'>No Products added yet!</p>";
-                }
+                
                 $select_wishlist->close();
                 ?>
 

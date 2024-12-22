@@ -178,11 +178,11 @@
                 ?>
                             <form class="box" action="#" method="post">
                                 <input type="hidden" name="wishlist_id" value="<?= $fetch_wishlist['id']; ?>">
-                                <img src="<?= $image_path; ?>" alt="<?= $fetch_products['name']; ?>">
+                                <img src="<?= $image_path; ?>" alt="<?= $fetch_products['name']; ?>" class = "img">
                                 <div class="button">
                                     <button type="submit" name="add_to_cart"><i class="bx bx-cart"></i></button>
                                     <a href="view_page.php?pid=<?= $fetch_products['id']; ?>" class="bx bxs-show"></a>
-                                    <button type="submit" name="delete_item" onclick="return confirm('Delete this item?');"><i class="bx bx-heart"></i></button>
+                                    <button type="submit" name="delete_item" onclick="return confirm('Delete this item from your wishlist?');"><i class="bx bx-heart"></i></button>
                                 </div>
                                 <h3 class="name"><?= $fetch_products['name']; ?></h3>
                                 <input type="hidden" name="product_id" value="<?= $fetch_products['id']; ?>">

@@ -158,9 +158,7 @@
             ?>
                     <form action="" method="post" class="box">
                         <!-- Product Image -->
-                        <div class="img">
-                            <img src="<?= ($image_path); ?>" alt="Product Image">
-                        </div>
+                            <img src="<?= ($image_path); ?>" alt="Product Image" class="img">
                         
                         <!-- Buttons (Add to Cart, Add to Wishlist, View More) -->
                         <div class="button">

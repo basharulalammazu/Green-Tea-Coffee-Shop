@@ -92,7 +92,7 @@ if (isset($_POST['update_order'])) {
                                 <p>User name: <span><?= $fetch_orders['name']; ?></span></p>
                                 <p>User id: <span><?= $fetch_orders['id']; ?></span></p>
                                 <p>Placed no: <span><?= $fetch_orders['date']; ?></span></p>
-                                <p>User number: <span><?= $fetch_orders['number']; ?></span></p>
+                                <p>User number: <span><?= $fetch_orders['phone_number']; ?></span></p>
                                 <p>User email: <span><?= $fetch_orders['email']; ?></span></p>
                                 <p>Total price: <span><?= $fetch_orders['price']; ?></span></p>
                                 <p>Method: <span><?= $fetch_orders['method']; ?></span></p>

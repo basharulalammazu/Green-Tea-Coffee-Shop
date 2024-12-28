@@ -129,3 +129,22 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize active slide
     updateSlides();
 });
+
+$('.order').click(function (e) {
+	let button = $(this); 
+	if (!button.hasClass("animate")) {
+		button.addClass('animate');
+		setTimeout(() => {
+			button.removeClass('animate');
+		}, 10000)		  
+	}
+});
+
+
+//------------------Customer Profile Edit Button------------------------
+function toggleEditMode() {
+    const displayMode = document.querySelector('.display-mode');
+    const editMode = document.querySelector('.edit-mode');
+    displayMode.classList.toggle('hidden');
+    editMode.classList.toggle('hidden');
+}

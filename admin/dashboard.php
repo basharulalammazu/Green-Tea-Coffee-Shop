@@ -177,6 +177,6 @@
         </section>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <script src="script.js" type="text/javascript"></script>   
+    <script src="../admin/script.js" type="text/javascript"></script>   
 </body>
 </html>

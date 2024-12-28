@@ -34,11 +34,11 @@ if (isset($_POST['update_profile'])) {
 
     $update_profile = $conn->prepare("UPDATE `users` SET name = ?, email = ?, phone_number = ? WHERE id = ?");
     $update_profile->bind_param("sssi", $name, $email, $phone, $customer_id);
-    if ($update_profile->execute()) {
-        $message[] = "Profile updated successfully.";
-    } else {
-        $message[] = "Failed to update profile.";
-    }
+    if ($update_profile->execute()) 
+        $success_msg[] = "Profile updated successfully.";
+    else 
+        $error_msg[] = "Failed to update profile.";
+    
 }
 
 // Handle password update
@@ -73,13 +73,10 @@ if (isset($_POST['update_password'])) {
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <title>Customer Profile</title>
     <script>
-        function toggleEditMode() {
-            const displayMode = document.querySelector('.display-mode');
-            const editMode = document.querySelector('.edit-mode');
-            displayMode.classList.toggle('hidden');
-            editMode.classList.toggle('hidden');
-        }
+      
     </script>
+    <script src="script.js"></script>
+
 </head>
 <body>
     <?php  include './components/header.php'; ?>
@@ -87,73 +84,85 @@ if (isset($_POST['update_password'])) {
         <div class="banner">
             <h1>Customer Profile</h1>
         </div>
-        <section class="dashboard">
-            <h1 class="heading">Profile</h1>
-            <div class="box-container">
-                <div class="box">
+        <section class="profile">
+            <div class="profile-container">
+                <div class="profile-card">
                     <!-- Display Mode -->
                     <div class="display-mode">
                         <p><strong>Name:</strong> <?php echo $customer_data['name']; ?></p>
                         <p><strong>Email:</strong> <?php echo $customer_data['email']; ?></p>
                         <p><strong>Phone:</strong> <?php echo $customer_data['phone_number']; ?></p>
-                        <button onclick="toggleEditMode()" class="btn">Edit Profile</button>
+                        <button onclick="toggleEditMode()" class="btn edit-btn">Edit Profile</button>
 
-                        <h1 class="heading">Order History</h1>
-                        <?php if ($orders->num_rows > 0): ?>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Product ID</th>
-                                        <th>Quantity</th>
-                                        <th>Total Price</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php while ($row = $orders->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?php echo $row['id']; ?></td>
-                                            <td><?php echo $row['product_id']; ?></td>
-                                            <td><?php echo $row['quantity']; ?></td>
-                                            <td><?php echo $row['price']; ?></td>
-                                            <td><?php echo $row['date']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                        </tr>
-                                    <?php endwhile; ?>
-                                </tbody>
-                            </table>
-                        <?php else: ?>
-                            <p class = "empty">You haven't ordered anything yet.</p>
-                        <?php endif; ?>
-                    </div>
+                        <h2 class="profile-heading " align = "center">Order History</h2>
+                <?php if ($orders->num_rows > 0): ?>
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Product ID</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ($row = $orders->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo $row['id']; ?></td>
+                                    <td><?php echo $row['product_id']; ?></td>
+                                    <td><?php echo $row['quantity']; ?></td>
+                                    <td><?php echo $row['price']; ?></td>
+                                    <td><?php echo $row['date']; ?></td>
+                                    <td>
+                                        <?php 
+                                            if (empty($row['status']) || is_null($row['status'])) 
+                                                echo "-";  
+                                            else 
+                                                echo $row['status'];
+                                        ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p class="empty">You haven't ordered anything yet.</p>
+                <?php endif; ?>
 
-                    <!-- Edit Mode -->
-                    <div class="edit-mode hidden">
-                        <form action="" method="post" class="form">
-                            <div class="input-group">
-                                <label>Name:</label>
-                                <input type="text" name="name" value="<?php echo $customer_data['name']; ?>" required>
-                            </div>
-                            <div class="input-group">
-                                <label>Email:</label>
-                                <input type="email" name="email" value="<?php echo $customer_data['email']; ?>" required>
-                            </div>
-                            <div class="input-group">
-                                <label>Phone:</label>
-                                <input type="text" name="phone" value="<?php echo $customer_data['phone_number']; ?>" required>
-                            </div>
-                            <button type="submit" name="update_profile" class="btn">Save Changes</button>
-                            <button type="button" onclick="toggleEditMode()" class="btn btn-secondary">Cancel</button>
-                        </form>
                     </div>
                 </div>
+
+            <!-- Edit Mode -->
+            <div class="edit-mode hidden">
+                <form action="" method="post" class="form">
+                    <div class="input-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" value="<?php echo $customer_data['name']; ?>" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="<?php echo $customer_data['email']; ?>" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="phone">Phone:</label>
+                        <input type="text" id="phone" name="phone" value="<?php echo $customer_data['phone_number']; ?>" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" name="update_profile" class="btn save-btn">Save Changes</button>
+                        <button type="button" onclick="toggleEditMode()" class="btn cancel-btn">Cancel</button>
+                    </div>
+                </form>
             </div>
-            <?php foreach ($message as $msg): ?>
-                <div class="message"> <?php echo $msg; ?> </div>
-            <?php endforeach; ?>
-        </section>
+        </div>
+    </div>
+
+    <?php foreach ($message as $msg): ?>
+        <div class="message"> <?php echo $msg; ?> </div>
+    <?php endforeach; ?>
+</section>
+
     </div>
 </body>
 </html>

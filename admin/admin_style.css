@@ -179,7 +179,7 @@ section,
 /* ----------------header----------------------- */
 header {
   position: fixed;
-  top: 5%;
+  top: 0%;
   left: 7%;
   width: 85vw;
   padding: 1rem;
@@ -259,18 +259,30 @@ header.scrolled a:hover {
 }
 
 /* style.css */
-
 .user-box {
   display: none;
   position: absolute;
-  top: 50px; /* Adjust as per your layout */
-  right: 10px; /* Adjust as per your layout */
+  top: 60px; /* Adjust based on your header height */
+  right: 10px; /* Adjust based on your layout */
   background: #fff;
+  border: 1px solid #ccc;
   padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
   z-index: 1000;
 }
+
+.user-box.active {
+  display: block;
+}
+
+.navbar {
+  display: none;
+}
+
+.navbar.active {
+  display: flex; /* Or block, depending on your layout */
+  flex-direction: column; /* For a mobile menu look */
+}
+
 
 .logout-btn {
   background-color: #f44336;

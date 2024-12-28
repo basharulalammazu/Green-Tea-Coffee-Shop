@@ -25,7 +25,7 @@
     }
     if(isset($_POST['cancel'])) 
     {
-        $update_order = $conn->prepare("UPDATE `Orders` SET Status = ? WHERE ID =? ");
+        $update_order = $conn->prepare("UPDATE `orders` SET `status` = ? WHERE id =? ");
         $update_order->execute(['canceled', $get_id]);
         header("location: order.php");
     }
@@ -63,7 +63,7 @@
                 <div class="box-container">
                 <?php
     $grand_total = 0;
-    $query_orders = "SELECT * FROM `Orders` WHERE ID = ? LIMIT 1";
+    $query_orders = "SELECT * FROM `orders` WHERE id = ? LIMIT 1";
     $stmt_orders = $conn->prepare($query_orders);
     $stmt_orders->bind_param("i", $get_id);
     $stmt_orders->execute();
@@ -105,48 +105,53 @@
                     $sub_total = ($fetch_order['price'] * $fetch_order['quantity']);
                     $grand_total += $sub_total;
 ?>
-                    <div class="box">
-                        <div class="col">
-                            <p class="title"><i class="bi bi-calendar-fill"></i><?= $fetch_order['date']; ?></p>
-                            <img src="<?= $image_path; ?>" class="img">
-                            <p class="price"><?= $fetch_product['price']; ?> x <?= $fetch_order['quantity']; ?></p>
-                            <h3 class="name"><?= $fetch_product['name']; ?></h3>
-                            <p class="grand-total">Total amount payable: $<span><?= $grand_total; ?></span></p>
-                        </div>
-                        <div class="col">
-                            <p class="title">Billing Address</p>
-                            <p class="user"><i class="bi bi-person-bounding-box"></i><?= $fetch_order['name']; ?></p>
-                            <p class="user"><i class="bi bi-phone"></i><?= $fetch_order['phone_number']; ?></p>
-                            <p class="user"><i class="bi bi-envelope"></i><?= $fetch_order['email']; ?></p>
-                            <p class="user"><i class="bi bi-pin-map-fill"></i><?= $fetch_order['address']; ?></p>
-                            <p class="title">Status</p>
-                            <p class="status" style="color:<?php 
-                                if ($fetch_order['status'] == 'delivered') 
-                                    echo 'green'; 
-                                else if ($fetch_order['status'] == 'canceled') 
-                                    echo 'red'; 
-                                else 
-                                    echo 'orange'; 
-                                
-                            ?>"><?= ucfirst($fetch_order['status']); ?></p>
-<?php 
-                            if ($fetch_order['status'] == 'canceled') 
-                            { 
-?>
-                                <a href="checkout.php?get_id=<?= $fetch_product['id']; ?>" class="btn">Buy again</a>
-<?php 
-                            } 
-                            else 
-                            { 
-?>
-                                <form action="" method="post">
-                                    <button type="submit" name="cancel" class="btn" onclick="return confirm('Do you want to cancel this order?')">Cancel order</button>
-                                </form>
-<?php 
-                            } 
-?>
-                        </div>
-                    </div>
+                    <div class="order-detail">
+    <div class="box-container">
+        <div class="box">
+            <div class="col product-details">
+                <p class="title"><i class="bi bi-calendar-fill"></i><?= $fetch_order['date']; ?></p>
+                <img src="<?= $image_path; ?>" class="img" alt="Product Image">
+                <p class="price">$<?= $fetch_product['price']; ?> x <?= $fetch_order['quantity']; ?></p>
+                <h3 class="name"><?= $fetch_product['name']; ?></h3>
+                <p class="grand-total">Total amount payable: <span>$<?= $grand_total; ?></span></p>
+            </div>
+            <div class="col billing-address">
+                <p class="title">Billing Address</p>
+                <p class="user"><i class="bi bi-person-bounding-box"></i><?= $fetch_order['name']; ?></p>
+                <p class="user"><i class="bi bi-phone"></i><?= $fetch_order['phone_number']; ?></p>
+                <p class="user"><i class="bi bi-envelope"></i><?= $fetch_order['email']; ?></p>
+                <p class="user"><i class="bi bi-pin-map-fill"></i><?= $fetch_order['address']; ?></p>
+                <p class="title">Status</p>
+                <p class="status" style="color:<?php 
+                    if ($fetch_order['status'] == 'delivered') 
+                        echo 'green'; 
+                    else if ($fetch_order['status'] == 'canceled') 
+                        echo 'red'; 
+                    else 
+                        echo 'orange'; 
+                    ?>"><?= ucfirst($fetch_order['status']); ?></p>
+                
+                <?php 
+                    if ($fetch_order['status'] == 'canceled') 
+                    { 
+                ?>
+                    <a href="checkout.php?get_id=<?= $fetch_product['id']; ?>" class="btn">Buy again</a>
+                <?php 
+                    } 
+                    else 
+                    { 
+                ?>
+                        <form action="" method="post">
+                            <button type="submit" name="cancel" class="btn" onclick="return confirm('Do you want to cancel this order?')">Cancel order</button>
+                        </form>
+                <?php 
+                    } 
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php
                 }
             } 

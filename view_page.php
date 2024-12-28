@@ -15,63 +15,92 @@
     }
 
     // Adding product in wishlist
-    if(isset($_POST['add_to_wishlist']))
+    if(isset($_POST['add_to_wishlist'])) 
     {
-        $id = unique_id(); //Function is to be created
         $product_id = $_POST['product_id'];
 
-        $verify_wishlist = $conn->prepare("SELECT * FROM `Wishlist` WHERE `User ID` = ? AND `Product ID` = ?");
-        $verify_wishlist -> execute([$user_id, $product_id]);
+        // Fix SQL syntax
+        $verify_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE `user_id` = ? AND `product_id` = ?");
+        $verify_wishlist->bind_param("ii", $user_id, $product_id); // Bind user_id and product_id as integers
+        $verify_wishlist->execute();
+        $wishlist_result = $verify_wishlist->get_result();
 
-        $cart_num = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ? AND `Product ID` = ?");
-        $cart_num -> execute([$user_id, $product_id]);
+        $cart_num = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ? AND `product_id` = ?");
+        $cart_num->bind_param("ii", $user_id, $product_id); // Bind user_id and product_id as integers
+        $cart_num->execute();
+        $cart_result = $cart_num->get_result();
 
-        if ($verify_wishlist->rowCount() > 0)
-            $warning_mes[] = 'Producct already exist in you wishlist';
-        else if ($cart_num  -> rowCount() > 0)
-            $warning_mes[] = 'product already exist in your cart';
+        if ($wishlist_result->num_rows > 0) 
+            $warning_msg[] = 'Product already exists in your wishlist';
+        else if ($cart_result->num_rows > 0) 
+            $warning_msg[] = 'Product already exists in your cart';
         else 
         {
-            $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
-            $select_price -> execute([$product_id]);
-            $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
+            // Fetch product price
+            $select_price = $conn->prepare("SELECT * FROM `products` WHERE `id` = ? LIMIT 1");
+            $select_price->bind_param("i", $product_id); // Bind product_id as integer
+            $select_price->execute();
+            $price_result = $select_price->get_result();
+            $fetch_price = $price_result->fetch_assoc();
 
-            $insert_wishlist = $conn->prepare("INSERT INTO `Wishlist` (`ID`, `User ID`, `Product ID`, `Price`) VALUES (?, ?, ?, ?)");
-            $insert_wishlist -> execute([$id, $user_id, $product_id, $fetch_price['price']]);
-            $success_mess[] = 'product added to wishlist successfully';
+            // Insert into wishlist
+            $insert_wishlist = $conn->prepare("INSERT INTO `wishlist` (`user_id`, `product_id`, `price`) VALUES (?, ?, ?)");
+            $insert_wishlist->bind_param("iid", $user_id, $product_id, $fetch_price['price']); // Bind user_id, product_id as integers and price as double
+            $insert_wishlist->execute();
+
+            $success_msg[] = 'Product added to wishlist successfully';
         }
     }
 
-     // Adding product in cart
-     if(isset($_POST['add_to_cart']))
-     {
-         $id = unique_id(); //Function is to be created
-         $product_id = $_POST['product_id'];
 
-         $qty = $_POST['qty'];
-         $qty = filter_var($qty, FILTER_SANITIZE_STRING);
+    // Adding product in cart
+    if(isset($_POST['add_to_cart']))
+    {
+        $product_id = $_POST['product_id'];
+        $qty = $_POST['qty'];
+        $qty = filter_var($qty, FILTER_SANITIZE_STRING);
 
-         $verify_cart = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ? AND `Product ID` = ?");
-         $verify_cart -> execute([$user_id, $product_id]);
- 
-         $max_cart_items = $conn->prepare("SELECT * FROM `Cart` WHERE `User ID` = ?");
-         $max_cart_items -> execute([$user_id]);
- 
-         if ($verify_cart->rowCount() > 0)
-             $warning_mes[] = 'Producct already exist in you wishlist';
-         else if ($max_cart_items -> rowCount() > 20)
-             $warning_mes[] = 'Cart is full';
-         else 
-         {
-             $select_price = $_conn->prepare("SELECT * FROM 'Products' WHERE ID = ? LIMIT 1");
-             $select_price -> execute([$product_id]);
-             $fetch_price = $select_price -> fetch(PDO::FETCH_ASSOC);
- 
-             $insert_cart = $conn->prepare("INSERT INTO `Cart` (`ID`, `User ID`, `Product ID`, `Price`, `Quantity`) VALUES (?, ?, ?, ?, ?)");
-             $insert_cart -> execute([$id, $user_id, $product_id, $fetch_price['price']], $qty);
-             $success_mess[] = 'product added to wishlist successfully';
-         }
-     }
+        // Verify if the product is already in the cart
+        $verify_cart = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ? AND `product_id` = ?");
+        $verify_cart->bind_param("ii", $user_id, $product_id);
+        $verify_cart->execute();
+        $verify_cart->store_result(); // Store the result to avoid sync issues
+
+        $max_cart_items = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ?");
+        $max_cart_items->bind_param("i", $user_id);
+        $max_cart_items->execute();
+        $max_cart_items->store_result(); // Store the result to avoid sync issues
+
+        if ($verify_cart->num_rows > 0) 
+            $warning_msg[] = 'Product already exists in your cart';
+        else if ($max_cart_items->num_rows > 20) 
+            $warning_msg[] = 'Cart is full';
+        else 
+        {
+            // Fetch the product price
+            $select_price = $conn->prepare("SELECT price FROM `products` WHERE id = ? LIMIT 1");
+            $select_price->bind_param("i", $product_id);
+            $select_price->execute();
+            $select_price->store_result(); // Store the result to avoid sync issues
+            $select_price->bind_result($price);
+            $select_price->fetch();
+
+            // Insert into cart
+            $insert_cart = $conn->prepare("INSERT INTO `cart` (`user_id`, `product_id`, `price`, `quantity`) VALUES (?, ?, ?, ?)");
+            $insert_cart->bind_param("iidi", $user_id, $product_id, $price, $qty);
+            $insert_cart->execute();
+
+            $success_msg[] = 'Product added to cart successfully';
+
+            // Close prepared statements to free resources
+            $insert_cart->close();
+            $select_price->close();
+        }
+
+        // Free resources for these queries
+        $verify_cart->close();
+        $max_cart_items->close();
+    }
          
 ?>
 
@@ -94,45 +123,60 @@
             <h1>Product Details</h1>
         </div>
         <div class = "title2">
-            <a href = "home.php">home</a><span> / Product Details</span>
+            <a href = "home.php">Home</a><span> / Product Details</span>
         </div>
     </div>
     <section class = "view_page">
-        <?php 
-            if (isset($_GET['pid']))
-            {
-                $pid = $_GET['pid'];
-                $select_products = $conn -> prepare("SELECT * FROM `products` WHERE id = '$pid'");
-                $select_products -> execute();
+    <?php 
+        if (isset($_GET['pid'])) {
+            $pid = $_GET['pid'];
+            
+            // Prepare and execute query to fetch the product by id
+            $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
+            $select_products->bind_param("i", $pid); // Bind the product id as integer
+            $select_products->execute();
+            $result = $select_products->get_result(); // Get the result of the query
 
-                if ($select_products -> num_rows > 0)
+            if ($result->num_rows > 0) 
+            {
+                while ($fetch_products = $result->fetch_assoc()) 
                 {
-                    while($fetech_products = $select_products-$fetch(PDO::FETCH_ASSOC))
+                    $image_formats = ['jpg', 'png', 'jpeg', 'gif'];
+                    $image_path = "image/default.jpg"; 
+
+                    foreach ($image_formats as $format) 
                     {
-        ?>
-        <form method = "post">
-            <img src = "image/<?php echo $fetech_products['images']; ?>">
-            <div class = "detail">
-                <div class = "price">$<?php echo $fetech_products['price']; ?>/-</div>
-                <div class = "name"><?php echo $fetech_products['name']; ?></div>
-                <div class = "detail">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, 
-                        vel quis sed possimus veniam facere repellat ea voluptatibus culpa 
-                        officia dignissimos expedita laudantium nam rerum repudiandae 
-                        consequatur suscipit dolor non? Lorem ipsum dolor, sit amet consectetur 
-                        adipisicing elit. Corrupti, ratione eum tenetur culpa delectus molestiae 
-                        saepe iusto repudiandae voluptatum et facere hic excepturi cumque mollitia 
-                        cupiditate quam eveniet porro explicabo.
-                    </p>
-                </div>
-                <input type = "hidden" name = "product_id" value = "<?php echo $fetech_products['id']; ?>">;
-                <div class = "button">
-                    <button type = "submit" name = "add_to_wishlist" class = "btn">Add to wishlist<i class = "bx bx-heart"></i><button>
-                    <input type = "hidden" name = "qty" value = "1" min = "0" class = "quantity">
-                    <button type = "submit" name = "add_to_cart" class = "btn">Add to wishlist<i class = "bx bx-cart"></i><button>
-                </div>
-        </form>
+                        $image_file = "image/product/{$fetch_products['id']}.{$format}";
+                        if (file_exists($image_file)) {
+                            $image_path = $image_file;
+                            break;
+                        }
+                    }
+    ?>
+                    <form method="post">
+                        <img src="<?php echo $image_path; ?>" alt="Product Image">
+                        <div class="detail">
+                            <div class="price">$<?php echo $fetch_products['price']; ?>/-</div>
+                            <div class="name"><?php echo $fetch_products['name']; ?></div>
+                            <div class="detail">
+                                <p>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, 
+                                    vel quis sed possimus veniam facere repellat ea voluptatibus culpa 
+                                    officia dignissimos expedita laudantium nam rerum repudiandae 
+                                    consequatur suscipit dolor non? Lorem ipsum dolor, sit amet consectetur 
+                                    adipisicing elit. Corrupti, ratione eum tenetur culpa delectus molestiae 
+                                    saepe iusto repudiandae voluptatum et facere hic excepturi cumque mollitia 
+                                    cupiditate quam eveniet porro explicabo.
+                                </p>
+                            </div>
+                            <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
+                            <div class="button">
+                                <button type="submit" name="add_to_wishlist" class="btn">Add to wishlist<i class="bx bx-heart"></i></button>
+                                <input type="hidden" name="qty" value="1" min="0" class="quantity">
+                                <button type="submit" name="add_to_cart" class="btn">Add to cart<i class="bx bx-cart"></i></button>
+                            </div>
+                        </div>
+                    </form>
         <?php 
                     }
                 }

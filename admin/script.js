@@ -1,36 +1,33 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Check if the elements exist before adding event listeners
-    let header = document.querySelector('.header');
+document.addEventListener("DOMContentLoaded", () => {
+    const userBtn = document.getElementById("user-btn");
+    const menuBtn = document.getElementById("menu-btn");
+    const userBox = document.getElementById("user-box");
+    const navbar = document.querySelector(".navbar");
 
-    function fixedNavbar() {
-        if (header) {
-            header.classList.toggle('scrolled', window.pageYOffset > 0);
-        }
+    // Toggle user box visibility
+    if (userBtn && userBox) {
+        userBtn.addEventListener("click", () => {
+            userBox.classList.toggle("active");
+        });
     }
 
-    fixedNavbar();
-    window.addEventListener('scroll', fixedNavbar);
+    // Toggle menu visibility
+    if (menuBtn && navbar) {
+        menuBtn.addEventListener("click", () => {
+            navbar.classList.toggle("active");
+        });
+    }
 
-    const userBtn = document.getElementById("user-btn");
-    const userBox = document.getElementById("user-box");
-
-    // Add click event to toggle the visibility of the user box
-    userBtn.addEventListener("click", () => {
-        if (userBox.style.display === "none" || userBox.style.display === "") {
-            userBox.style.display = "block";
-        } else {
-            userBox.style.display = "none";
-        }
-    });
-
-    // Optional: Close the user box when clicking outside of it
+    // Close user box or menu if clicked outside
     document.addEventListener("click", (e) => {
-        if (!userBox.contains(e.target) && e.target !== userBtn) {
-            userBox.style.display = "none";
+        if (!userBox.contains(e.target) && !userBtn.contains(e.target)) {
+            userBox.classList.remove("active");
+        }
+        if (!navbar.contains(e.target) && !menuBtn.contains(e.target)) {
+            navbar.classList.remove("active");
         }
     });
 });
-
 
 
 // Function to toggle edit mode

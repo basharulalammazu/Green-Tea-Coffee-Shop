@@ -60,7 +60,8 @@ if(isset($_POST['logout']))
     $image_formats = ['jpg', 'jpeg', 'png'];
 
     if ($result_orders->num_rows > 0) {
-        while ($fetch_order = $result_orders->fetch_assoc()) {
+        while ($fetch_order = $result_orders->fetch_assoc()) 
+        {
             // Fetch product details for each order
             $query_product = "SELECT * FROM `products` WHERE id = ?";
             $stmt_product = $conn->prepare($query_product);
@@ -69,45 +70,45 @@ if(isset($_POST['logout']))
             $result_products = $stmt_product->get_result();
 
             if ($result_products->num_rows > 0) {
-                while ($fetch_product = $result_products->fetch_assoc()) {
+                while ($fetch_product = $result_products->fetch_assoc()) 
+                {
                     // Construct the dynamic image path
                     $image_path = "";
-                    foreach ($image_formats as $format) {
+                    foreach ($image_formats as $format) 
+                    {
                         $temp_path = "image/product/{$fetch_product['id']}.$format";
-                        if (file_exists($temp_path)) {
+                        if (file_exists($temp_path)) 
+                        {
                             $image_path = $temp_path;
                             break;
                         }
                     }
 
                     // Fallback if no image is found
-                    if (!$image_path) {
+                    if (!$image_path) 
                         $image_path = "image/product/default.png"; // Default image path
-                    }
+                    
                     ?>
-                    <div class="box" <?php if ($fetch_order['status'] == 'canceled') { echo 'style="border:2px solid red"'; } ?>>
-                        <a href="view_order.php?get_id=<?= $fetch_order['id']; ?>">
-                            <p class="date">
-                                <i class="bi bi-calendar-fill"></i><span><?= $fetch_order['date']; ?></span>
-                            </p>
-                            <img src="<?= $image_path; ?>" class="img">
-                            <div class="row">
-                                <h3 class="name"><?= $fetch_product['name']; ?></h3>
-                                <p class="price">Price : $<?= $fetch_order['price']; ?> x <?= $fetch_order['quantity']; ?></p>
-                                <p class="status" style="color:<?php 
-                                    if ($fetch_order['status'] == 'delivered') 
-                                        echo 'green'; 
-                                    else if ($fetch_order['status'] == 'canceled') 
-                                        echo 'red'; 
-                                    else 
-                                        echo 'orange'; 
-                                    
-                                ?>">
+                    <div class="order-box" style="border: 2px solid <?= $fetch_order['status'] == 'canceled' ? 'red' : '#ddd'; ?>;">
+                        <a href="view_order.php?get_id=<?= $fetch_order['id']; ?>" class="order-link">
+                            <div class="order-header">
+                                <i class="bi bi-calendar-fill"></i>
+                                <span><?= $fetch_order['date']; ?></span>
+                            </div>
+                            <div class="order-image">
+                                <img src="<?= $image_path; ?>" alt="Product Image" class="product-img">
+                            </div>
+                            <div class="order-details">
+                                <h3 class="product-name"><?= $fetch_product['name']; ?></h3>
+                                <p class="product-price">Price: $<?= $fetch_order['price']; ?> x <?= $fetch_order['quantity']; ?></p>
+                                <p class="order-status" style="color: 
+                                    <?= $fetch_order['status'] == 'delivered' ? 'green' : ($fetch_order['status'] == 'canceled' ? 'red' : 'orange'); ?>;">
                                     <?= ucfirst($fetch_order['status']); ?>
                                 </p>
                             </div>
                         </a>
                     </div>
+
                     <?php
                 }
             }

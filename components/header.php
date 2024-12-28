@@ -1,5 +1,15 @@
 <?php
-include './components/connection.php';
+    include './components/connection.php';
+    $user_id = null;
+    if (isset($_SESSION['user_id'])) 
+        $user_id = $_SESSION['user_id'];
+
+    if (isset($_POST['logout'])) 
+    {
+        session_unset();
+        session_destroy();
+        header('Location: home.php');
+    }
 ?>
 <header class = "header">
     <div class = "flex">

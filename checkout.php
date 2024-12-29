@@ -1,4 +1,7 @@
 <?php
+
+use LDAP\Result;
+
 include 'components/connection.php';
 
     session_start();
@@ -17,7 +20,10 @@ if (isset($_POST['logout']))
     session_destroy();
     header("location: login.php");
 }
-
+$query="SELECT name , phone_number, email FROM users WHERE id='$user_id'";
+$result=mysqli_query($conn,$query);
+if (mysqli_num_rows($result)>0)
+    $row = mysqli_fetch_assoc($result);
 if (isset($_POST['place_order'])) 
 {
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
@@ -258,15 +264,15 @@ if (isset($_POST['place_order']))
                 <div class="column">
                     <div class="input-field">
                         <p>Your Name <span>*</span></p>
-                        <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="input">
+                        <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="input" value = "<?php echo $row['name']?>">
                     </div>
                     <div class="input-field">
                         <p>Your Number <span>*</span></p>
-                        <input type="tel" name="number" required maxlength="15" pattern="[0-9]{6,15}" placeholder="Enter your phone number" class="input">
+                        <input type="tel" name="number" required maxlength="15" pattern="[0-9]{6,15}" placeholder="Enter your phone number" class="input" value = "<?php echo $row['phone_number']?>">
                     </div>
                     <div class="input-field">
                         <p>Your Email <span>*</span></p>
-                        <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="input">
+                        <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="input" value = "<?php echo $row['email']?>">
                     </div>
                     <div class="input-field">
                         <p>Payment Method <span>*</span></p>

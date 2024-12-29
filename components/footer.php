@@ -1,6 +1,6 @@
 <div class = "top-footer">
     <h2><i class = "bx bx-envelope"></i>Sign Up For Newsletter</h2>
-    <div class = "input-field">
+    <div class = "input-field-sub">
         <input type = "text" name = "" placeholder = "Enter your email">
         <button class = "btn"> Subscribe</button>
     </div>

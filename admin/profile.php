@@ -132,7 +132,7 @@ if (isset($_POST['update_image'])) {
                                 <label>Profile Image:</label>
                                 <input type="file" name="image">
                             </div>
-                            <a type="submit" name="update_profile" class="btn">Save Changes</a>
+                            <button type="submit" name="update_profile" class="btn">Save Changes</button>
                             <a type="button" onclick="toggleEditMode()" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>

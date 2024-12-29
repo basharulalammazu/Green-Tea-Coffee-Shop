@@ -39,3 +39,14 @@ function toggleEditMode() {
     displayMode.classList.toggle('hidden');
     editMode.classList.toggle('hidden');
 }
+
+
+function productImageUpdate(event) {
+    const input_file = event.target; 
+    const product_image = document.getElementById('product_image'); 
+
+    // Check if a file is selected
+    if (input_file.files && input_file.files[0]) 
+        product_image.src = URL.createObjectURL(input_file.files[0]);
+    
+}

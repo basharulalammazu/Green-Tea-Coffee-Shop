@@ -20,21 +20,11 @@
 
 
     if(isset($_POST['edit']))
-    {
-        $product_id = $_POST['product_id'];
-        $product_id = filter_var($product_id, FILTER_SANITIZE_STRING);
-
-        header("location:edit_product.php");
-    }
+        header("location:edit_product.php?product_id=".$_POST['product_id']);
 
 
     if(isset($_POST['view']))
-    {
-        $product_id = $_POST['product_id'];
-        $product_id = filter_var($product_id, FILTER_SANITIZE_STRING);
-
-        header("location:read_product.php");
-    }
+        header("location:read_product.php?product_id=".$_POST['product_id']);
 ?>
 <!DOCTYPE html> 
 <html lang="en">
@@ -47,7 +37,10 @@
 </head>
 
 <body>
-    <?php include '../admin/components/admin_header.php'; ?>
+    <?php 
+        include '../admin/components/admin_header.php'; 
+        include '../image_manager.php';
+    ?>
     <div class="main">
         <div class="title2">
             <a href="../admin/dashboard.php">Dashboard</a><span> / All Products</span>
@@ -66,22 +59,7 @@
                     while ($fetch_products = $result->fetch_assoc()) 
                     {
                         $productId = $fetch_products['id'];
-                        $imagePath = "";
-                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']; // Possible image extensions
-
-                        // Search for the image in the directory
-                        foreach ($allowedExtensions as $extension) {
-                            $path = "../image/product/{$productId}.{$extension}";
-                            if (file_exists($path)) 
-                            {
-                                $imagePath = $path;
-                                break;
-                            }
-                        }
-
-                        // If no product image is found, use a default image
-                        if (empty($imagePath)) 
-                            $imagePath = "../image/default_product.png";
+                        $imagePath = get_image_path($productId, 'product');
                 ?>
                         <form action="" method="post" class="box" enctype="multipart/form-data">
                             <input type="hidden" name="product_id" value="<?= $fetch_products['id']; ?>">
@@ -93,9 +71,10 @@
                             <div class="price">$<?= $fetch_products['price']; ?>/-</div>
                             <div class="title"><?= $fetch_products['name']; ?></div>
                             <div class="flex-btn">
-                                <button type = "submit" name = "view" class="btn">Edit</button>
+                                <!-- Pass product_id through the URL using a GET parameter -->
+                                <button type="submit" name="edit" class="btn">Edit</button>
                                 <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
-                                <button type = "submit" name = "view" class="btn">View</button>
+                                <button type="submit" name="view" class="btn">View</button>
                             </div>
                         </form>
                 <?php

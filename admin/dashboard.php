@@ -82,12 +82,12 @@
                 <div class="box">
                     <?php
                     // Select users with user_type 'Customer'
-                    $select_user = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
-                    $select_user->execute(['Customer']);
-                    $result = $select_user->get_result();
-                    $num_of_users = $result->num_rows;
-                    $result->free();
-                    $select_user->close();
+                        $select_user = $conn->prepare("SELECT * FROM `users` WHERE user_type = ?");
+                        $select_user->execute(['Customer']);
+                        $result = $select_user->get_result();
+                        $num_of_users = $result->num_rows;
+                        $result->free();
+                        $select_user->close();
                     ?>
                     <h3><?= $num_of_users; ?></h3>
                     <p>Registered users</p>
@@ -123,7 +123,6 @@
                     <p>Unread messages</p>
                     <a href="../admin/admin_message.php" class="btn">View messages</a>
                 </div>
-
                 <div class="box">
                     <?php
                     // Select all orders
@@ -138,7 +137,6 @@
                     <p>Total orders placed</p>
                     <a href="../admin/order.php" class="btn">View orders</a>
                 </div>
-
                 <div class="box">
                     <?php
                     // Select confirmed orders
@@ -155,7 +153,6 @@
                     <p>Total confirmed orders</p>
                     <a href="../admin/order.php" class="btn">View confirmed orders</a>
                 </div>
-
                 <div class="box">
                     <?php
                     // Select canceled orders

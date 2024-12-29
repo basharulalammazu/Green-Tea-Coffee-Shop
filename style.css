@@ -93,7 +93,7 @@ sup{
 .btn {
   position: relative; /* Ensures hover effect works properly */
   line-height: 2;
-  background-color: #e0ffcd;
+  background-color: #b0f783;
   padding: 5px 35px;
   display: inline-block;
   border-radius: 30px;
@@ -827,7 +827,7 @@ textarea{
 /*-------------------------footer--------------------------------*/
 .top-footer{
   width: 100%;
-  background: var(--green);padding: 1rem;
+  background: #687c35;padding: 1rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -953,10 +953,18 @@ footer .bottom-footer {
 }
 
 /*-------------------------view product--------------------------*/
+.products {
+  display: flex; /* Use flexbox on the parent container */
+  justify-content: center; /* Center the .box-container horizontally */
+  align-items: center; /* Center the .box-container vertically */
+  width: 100%; /* Ensure it takes full width of the parent */
+}
+
 .products .box-container {
-  display: grid;
+  display: inline-flex;
+  flex-wrap: wrap;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); /* Flexible grid for responsiveness */
-  gap: 1.5rem;
+  gap: 2.5rem;
   padding: 2rem;
   justify-content: center;
 }
@@ -972,6 +980,7 @@ footer .bottom-footer {
   padding: 1rem;
   width: 100%;
   max-width: 18rem;
+  height: fit-content;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -997,7 +1006,7 @@ footer .bottom-footer {
 }
 
 .products .box:hover .img {
-  transform: scale(1.05); /* Subtle zoom effect */
+  transform: scale(0.95); /* Subtle zoom effect */
 }
 
 .products .box .content {
@@ -1047,22 +1056,38 @@ footer .bottom-footer {
 }
 
 .products .box .button {
-  background: var(--green);
-  color: #fff;
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  width: 48%;
+  display: flex;
+  justify-content: center; /* Center the buttons as a group */
+  align-items: center;
+  gap: 1.5rem; /* Space between buttons */
 }
 
-.products .box .button:hover {
-  background: #6e8d35; /* Slightly darker green on hover */
-  transform: translateY(-2px);
+.products .box .button button,
+.products .box .button a {
+  background-color: var(--primary-color, #4CAF50); /* Default button color */
+  border: none;
+  border-radius: 50%; /* Circular buttons */
+  width: 3rem; /* Fixed width to maintain consistent size */
+  height: 3rem; /* Fixed height to maintain consistent size */
+  display: flex;
+  justify-content: center; /* Center icon horizontally */
+  align-items: center; /* Center icon vertically */
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
+
+.products .box .button button:hover,
+.products .box .button a:hover {
+  background-color: var(--hover-color, #3e8e41); /* Darker shade on hover */
+  transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.products .box .button i {
+  color: white; /* Icon color */
+  font-size: 1.3rem; /* Icon size */
+  display: block; /* Ensure the icon is block-level for centering */
+}
+
 
 .products .box .add-wishlist {
   background: #ffc107; /* Golden for wishlist button */
@@ -1167,6 +1192,21 @@ footer .bottom-footer {
   transition: all 0.3s ease;
 }
 
+.cart-total{
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100%;
+  text-align: center;
+}
+
+.cart-total .payable{
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
 .cart-total .button {
   display: flex;
   align-items: center;
@@ -1211,7 +1251,11 @@ footer .bottom-footer {
 }
 
 .input-field {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.input-field-sub{
+  margin-bottom: 0.2rem;
 }
 
 .input-field p {
@@ -2242,7 +2286,7 @@ footer .bottom-footer {
 
 /* Message Box */
 .message {
-  background-color: #ffcc00;
+  background-color: transparent;
   padding: 15px;
   margin: 20px 0;
   border-radius: 5px;

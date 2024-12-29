@@ -16,7 +16,7 @@ html{
   --webkit-text-size-adjust:100%;
 }
 body{
-  background-image: url('../img/body-bg.jpg');
+  background-image: url('..assets/image/body-bg.jpg');
   width: 100%;
 }
 .main{

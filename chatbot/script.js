@@ -6,7 +6,7 @@ const chatbotBtn = document.getElementById('chatbot-btn');
 
     async function fetchMenu() {
         try {
-            const response = await fetch('get_menu.php');
+            const response = await fetch('../chatbot/fetch_menu.php');
             if (!response.ok) throw new Error('Failed to fetch menu.');
             const menuData = await response.json();
             let menuMessage = "Here is our full menu:\n";

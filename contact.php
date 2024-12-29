@@ -139,7 +139,7 @@ if (isset($_POST['submit-btn'])) {
         <div class="title">
             <img src="assets/image/download.png" class="logo">
             <h1>Contact Details</h1>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. </p>
+            <p>We're always open for suggestions and corrections. Just holla at us and we'll get back to you ASAP!</p>
         </div>
         <div class="box-container">
             <div class="box">

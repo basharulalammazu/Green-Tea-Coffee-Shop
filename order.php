@@ -45,7 +45,7 @@ if(isset($_POST['logout']))
             <div class="title">
                 <img src="./assets/image/download.png" class="logo">
                 <h1>My Orders</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi eos deleniti, aspernatur autem ad optio dolore molestiae nulla vitae illum?</p>
+                <p>You can confirm your orders from here or feel free to browse some more.</p>
             <!-- </div> -->
                 <div class="box-container">
                 <?php
@@ -115,7 +115,7 @@ if(isset($_POST['logout']))
             $stmt_product->close(); // Close the product statement
         }
     } else {
-        echo '<p class="empty">No order takes place yet!</p>';
+        echo '<p class="empty">You havent placed any orders yet &#x1F615;</p>';
     }
     $stmt->close(); // Close the orders statement
 ?>

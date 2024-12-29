@@ -151,7 +151,7 @@
                     ?>
                     <h3><?= $num_of_confirm_orders; ?></h3>
                     <p>Total confirmed orders</p>
-                    <a href="../admin/order.php?status=completed" class="btn">View confirmed orders</a>
+                    <a href="../admin/order.php?status=complete" class="btn">View confirmed orders</a>
                 </div>
                 <div class="box">
                     <?php

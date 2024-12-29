@@ -92,7 +92,13 @@ if (isset($_POST['update_order'])) {
             <div class="box-container">
                 <?php
                 // Using MySQLi to select orders
-                $select_orders = mysqli_query($conn, "SELECT * FROM `orders`");
+                if (($_GET["status"])==null)
+                    $select_orders = mysqli_query($conn, "SELECT * FROM `orders`");
+                else {
+                    $status = mysqli_real_escape_string($conn, $_GET['status']);
+                    $select_orders = mysqli_query($conn, "SELECT * FROM `orders` WHERE status = '$status'");
+
+                }
 
                 if (mysqli_num_rows($select_orders) > 0) {
                     while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {

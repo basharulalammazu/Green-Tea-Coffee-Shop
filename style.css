@@ -108,6 +108,24 @@ sup{
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.product-button {
+  position: relative; /* Ensures hover effect works properly */
+  line-height: 2;
+  background-color: #b0f783;
+  padding: 5px 18px;
+  display: inline-block;
+  border-radius: 30px;
+  color: #000;
+  text-transform: capitalize;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  vertical-align: middle;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .btn:hover {
   background-color: var(--green); /* Change background color on hover */
   color: #fff; /* Optional: change text color on hover */

@@ -35,12 +35,12 @@ if (isset($_POST['update_profile']))
     $uploadError = update_image('admin', $admin_id, $image);
 
     if (!$uploadError) 
-        $message[] = "Profile image updated successfully.";
+        $success_msg[] = "Profile image updated successfully.";
     else 
-        $message[] = "Failed to upload image.";
+        $error_msg[] = "Failed to upload image.";
 
     if ($update_profile->execute()) 
-        $message[] = "Profile updated successfully.";
+        $success_msg[] = "Profile updated successfully.";
 }
 
 if (isset($_POST['update_password'])) 
@@ -57,13 +57,13 @@ if (isset($_POST['update_password']))
             $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
             $update_password->bind_param("si", $new_password, $admin_id);
             $update_password->execute();
-            $message[] = "Password updated successfully.";
+            $success_msg[] = "Password updated successfully.";
         } 
         else 
-            $message[] = "New passwords do not match.";
+            $error_msg[] = "New passwords do not match.";
     } 
     else 
-        $message[] = "Incorrect old password.";
+        $error_msg[] = "Incorrect old password.";
 }
 
 ?>
@@ -139,6 +139,7 @@ if (isset($_POST['update_password']))
             <div class="message"><?php echo $msg; ?></div>
         <?php endforeach; ?>
     </div>
+    include "../components/alert.php"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="script.js" type="text/javascript"></script>
 </body>

@@ -13,6 +13,7 @@ if (isset($_POST['submit']))
     // Sanitize and assign user inputs
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $phoneNumber = filter_var($_POST['phone_number'], FILTER_SANITIZE_STRING);
     $pass = filter_var($_POST['pass'], FILTER_SANITIZE_STRING);
     $cpass = filter_var($_POST['cpass'], FILTER_SANITIZE_STRING);
 
@@ -42,11 +43,16 @@ if (isset($_POST['submit']))
            // $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
 
             
-            // Insert new user into the database
-            $insert_user = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
-            $insert_user->bind_param("ssss", $name, $email, $pass /*$hashed_pass*/, "Customer"); // Binding parameters in MySQLi
-            $insert_user->execute();
-
+           // Insert new user into the database
+           $insert_user = $conn->prepare("INSERT INTO users (name, phone_number, email, password, user_type) VALUES (?, ?, ?, ?, ?)");
+           $user_type = "Customer"; 
+           $insert_user->bind_param("sssss", $name, $phoneNumber, $email, $pass /*$hashed_pass*/, $user_type);
+           $insert_user->execute();
+           // Check for success
+           if ($insert_user->affected_rows > 0) 
+               echo "User added successfully!";
+           else 
+               echo "Error: " . $conn->error;
             // Redirect after successful registration
             $succcess_msg[] = 'Registration successful! Please login.';
             header('location: login.php');
@@ -83,6 +89,10 @@ if (isset($_POST['submit']))
                     <input type = "text" name = "name" placeholder = "Enter your name" maxlength = "50" required>
                 </div>
                 <div class = "input-field">
+                    <p>Phone Number</p>
+                    <input type = "text" name = "phone_number" placeholder = "Enter your phone number" maxlength = "14" required >
+                </div>
+                <div class = "input-field">
                     <p>Email</p>
                     <input type = "text" name = "email" placeholder = "Enter your email" maxlength = "50" oninput = "this.value = this.value.replace(/\s/g,'')" required >
                 </div>
@@ -91,7 +101,7 @@ if (isset($_POST['submit']))
                     <input type = "password" name = "pass" placeholder = "Enter the password" maxlength = "50" oninput = "this.value = this.value.replace(/\s/g,'')" required >
                 </div>
                 <div class = "input-field">
-                    <p>Confirm Name</p>
+                    <p>Confirm Passwrod</p>
                     <input type = "password" name = "cpass" placeholder = "Enter password again" maxlength = "50" required>
                 </div>
                 <input type = "submit" name = "submit" value = "registration" class = "btn">

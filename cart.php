@@ -93,8 +93,9 @@ if (isset($_POST['empty_cart'])) {
             <a href = "home.php">home</a><span> / Cart</span>
         </div>
     </div>
+    <h1 class = "title">Products added in cart</h1>
     <section class = "products">
-        <h1 class = "title">Products added in cart</h1>
+        
         <div class = "box-container">
         <div class="box-container">
     <?php
@@ -157,7 +158,7 @@ if (isset($_POST['empty_cart'])) {
         ?>
         
             <div class="cart-total">
-            <p>total amount payable : <span>$ <?= $grand_total; ?></span></p>
+            <p class="payable">Total amount payable : <span>$ <?= $grand_total; ?></span></p>
 
             <div class="button">
                 <form method="post">

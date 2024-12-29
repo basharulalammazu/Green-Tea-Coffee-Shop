@@ -17,11 +17,11 @@ if (isset($_POST['delete_order'])) {
     mysqli_stmt_bind_param($verify_order, 's', $order_id);
     mysqli_stmt_execute($verify_order);
     $result = mysqli_stmt_get_result($verify_order);
-
+    $payment_status = "cancel";
     if (mysqli_num_rows($result) > 0) {
         // Using MySQLi to delete the order
-        $delete_order = mysqli_prepare($conn, "DELETE FROM `orders` WHERE id=?");
-        mysqli_stmt_bind_param($delete_order, 's', $order_id);
+        $delete_order = mysqli_prepare($conn, "UPDATE `orders` SET payment_status=? WHERE id=?");
+        mysqli_stmt_bind_param($delete_order, 'ss', $payment_status, $order_id);
         mysqli_stmt_execute($delete_order);
         $success_msg[] = 'Order deleted';
     } 
@@ -106,8 +106,8 @@ if (isset($_POST['update_order'])) {
                                     <option value="complete">Complete</option>
                                 </select>
                                 <div class="flex-btn">
-                                    <button type="submit" name="update_order" class="btn">Update Payment</button>
-                                    <button type="submit" name="delete_order" class="btn">Delete Order</button>
+                                    <button type="submit" name="update_order" class="btn">Update Order</button>
+                                    <button type="submit" name="delete_order" class="btn">Cancel Order</button>
                                 </div>
                             </form>
                         </div>

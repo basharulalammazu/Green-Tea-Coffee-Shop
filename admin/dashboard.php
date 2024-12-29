@@ -76,7 +76,7 @@
                         $select_active_product->close();
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
-                    <p>Total active products</p>
+                    <p>Total deactive products</p>
                     <a href="../admin/view_product.php" class="btn">View deactive product</a>
                 </div>
                 <div class="box">
@@ -135,13 +135,13 @@
                     ?>
                     <h3><?= $num_of_orders; ?></h3>
                     <p>Total orders placed</p>
-                    <a href="../admin/order.php" class="btn">View orders</a>
+                    <a href="../admin/order.php?status=" class="btn">View orders</a>
                 </div>
                 <div class="box">
                     <?php
                     // Select confirmed orders
                     $select_confirm_orders = $conn->prepare("SELECT * FROM `orders` WHERE status = ?");
-                    $status = 'in progress';
+                    $status = 'complete';
                     $select_confirm_orders->bind_param("s", $status);
                     $select_confirm_orders->execute();
                     $result = $select_confirm_orders->get_result();
@@ -151,13 +151,13 @@
                     ?>
                     <h3><?= $num_of_confirm_orders; ?></h3>
                     <p>Total confirmed orders</p>
-                    <a href="../admin/order.php" class="btn">View confirmed orders</a>
+                    <a href="../admin/order.php?status=completed" class="btn">View confirmed orders</a>
                 </div>
                 <div class="box">
                     <?php
                     // Select canceled orders
                     $select_canceled_orders = $conn->prepare("SELECT * FROM `orders` WHERE status = ?");
-                    $status = 'canceled';
+                    $status = 'cancel';
                     $select_canceled_orders->bind_param("s", $status);
                     $select_canceled_orders->execute();
                     $result = $select_canceled_orders->get_result();
@@ -167,7 +167,7 @@
                     ?>
                     <h3><?= $num_of_canceled_orders; ?></h3>
                     <p>Total canceled orders</p>
-                    <a href="../admin/order.php" class="btn">View canceled orders</a>
+                    <a href="../admin/order.php?status=canceled" class="btn">View canceled orders</a>
                 </div>
 
             </div>

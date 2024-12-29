@@ -65,13 +65,13 @@
     }
 
 
-    function update_image($directory, $id, $file)
+    function update_image($user_type, $id, $file)
     {
         // Define allowed file extensions
         $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
 
         // Ensure the directory ends with a slash
-        $directory = rtrim($directory, '/') . '/';
+        $directory = directory($user_type);
 
         // Check if the file was uploaded without errors
         if (isset($file['error']) && $file['error'] === UPLOAD_ERR_OK) {

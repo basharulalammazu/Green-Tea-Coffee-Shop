@@ -1,5 +1,7 @@
 <?php
 include '../components/connection.php';
+include '../image_manager.php';
+
 session_start();
 
 // Check if the admin is logged in
@@ -25,9 +27,18 @@ if (isset($_POST['update_profile']))
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
+    $image = $_FILES['image'];
 
     $update_profile = $conn->prepare("UPDATE `users` SET name = ?, email = ?, phone_number = ? WHERE id = ?");
     $update_profile->bind_param("sssi", $name, $email, $phone, $admin_id);
+    
+    $uploadError = update_image('admin', $admin_id, $image);
+
+    if (!$uploadError) 
+        $message[] = "Profile image updated successfully.";
+    else 
+        $message[] = "Failed to upload image.";
+
     if ($update_profile->execute()) 
         $message[] = "Profile updated successfully.";
 }
@@ -55,21 +66,6 @@ if (isset($_POST['update_password']))
         $message[] = "Incorrect old password.";
 }
 
-if (isset($_POST['update_image'])) {
-    $image = $_FILES['image'];
-    $image_name = $admin_id . '.' . pathinfo($image['name'], PATHINFO_EXTENSION);
-    $target_dir = "image/admin/" . $image_name;
-
-    if (move_uploaded_file($image['tmp_name'], $target_dir)) 
-    {
-        $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
-        $update_image->bind_param("si", $image_name, $admin_id);
-        $update_image->execute();
-        $message[] = "Profile image updated successfully.";
-    } 
-    else 
-        $message[] = "Failed to upload image.";
-}
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +81,10 @@ if (isset($_POST['update_image'])) {
     </script>
 </head>
 <body>
-    <?php include 'components/admin_header.php'; ?>
+    <?php 
+        include 'components/admin_header.php'; 
+        include '../components/alert.php';
+    ?>
     <div class="main">
         <div class="banner">
             <h1>Admin Profile</h1>
@@ -100,11 +99,7 @@ if (isset($_POST['update_image'])) {
                     <!-- Display Mode (Visible initially) -->
                     <div class="display-mode">
                         <?php 
-                        // Check if profile image exists
-                        $profile_image = "../image/admin/" . $admin_data['id'] . '.jpg';
-                        if (!file_exists($profile_image)) {
-                            $profile_image = "../image/default_user.jpg"; // Default image
-                        }
+                            $profile_image = get_image_path($admin_data['id'], 'admin') // Default image
                         ?>
                         <img src="<?php echo $profile_image; ?>" alt="Profile Image" class="profile-image">
                         <p><strong>Name:</strong> <?php echo $admin_data['name']; ?></p>

@@ -159,15 +159,7 @@
                             <div class="price">$<?php echo $fetch_products['price']; ?>/-</div>
                             <div class="name"><?php echo $fetch_products['name']; ?></div>
                             <div class="detail">
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, 
-                                    vel quis sed possimus veniam facere repellat ea voluptatibus culpa 
-                                    officia dignissimos expedita laudantium nam rerum repudiandae 
-                                    consequatur suscipit dolor non? Lorem ipsum dolor, sit amet consectetur 
-                                    adipisicing elit. Corrupti, ratione eum tenetur culpa delectus molestiae 
-                                    saepe iusto repudiandae voluptatum et facere hic excepturi cumque mollitia 
-                                    cupiditate quam eveniet porro explicabo.
-                                </p>
+                                <p><?php echo $fetch_products['product_details']; ?></p>
                             </div>
                             <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
                             <div class="button">

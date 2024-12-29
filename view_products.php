@@ -124,7 +124,7 @@
     <?php include 'components/header.php'; ?>
     <div class="main">
         <div class="banner">
-            <h1>Shop</h1>
+            <h1>Products</h1>
         </div>
         <div class="title2">
             <a href="home.php">Home</a><span> / Our Shop</span>

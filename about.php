@@ -42,7 +42,7 @@
             <div class="box">
                 <img src="assets/image/3.webp">
                 <div class="detail">
-                    <span>Coffee</span>
+                    <span style="display: block; text-align: right;">Have you tried?</span>
                     <h1>Lemon Green</h1>
                     <a href="view_products.php" class="btn">Shop Now</a>
                 </div>
@@ -50,8 +50,8 @@
             <div class="box">
                 <img src="assets/image/2.webp">
                 <div class="detail">
-                    <span>Coffee</span>
-                    <h1>Lemon Tea Name</h1>
+                    <span style="display: block; text-align: right;">Our Green Coffee</span>
+                    <h1>Made with finest beans and love</h1>
                     <a href="view_products.php" class="btn">Shop Now</a>
                 </div>
             </div>
@@ -62,23 +62,23 @@
             <div class="title">
                 <img src="assets/image/download.png" class="logo">
                 <h1>What People Say About Us</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                <p>Our customers love the authentic flavors and quality of our teas. Discover why we're their go-to choice for relaxation and what they think about us.</p>
             </div>
             <div class="container slider">
                 <div class="testimonial-item active">
                     <img src="assets/image/01.jpg">
                     <h1>Sara Smith</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus illum, in vel enim.</p>
+                    <p>"The best green tea I've ever had! So fresh and flavorful."</p>
                 </div>
                 <div class="testimonial-item">
                     <img src="assets/image/02.jpg">
                     <h1>Jason Smith</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus illum, in vel enim laborum.</p>
+                    <p>"I love starting my day with their coffee. its refreshing and freshly brewed as always!"</p>
                 </div>
                 <div class="testimonial-item">
                     <img src="assets/image/03.jpg">
                     <h1>Selena Ansari</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus illum, in vel enim laborum.</p>
+                    <p>"Great quality and fast delivery. I’m a loyal customer now!"</p>
                 </div>
                 <!-- Arrows -->
                 <div class="left-arrow">

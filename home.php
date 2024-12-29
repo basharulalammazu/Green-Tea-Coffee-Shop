@@ -36,8 +36,8 @@
             <div class = "slider__slider slide1"> 
                 <div class = "overlay"></div>
                     <div class = "slide-detail">
-                        <h1>Lorem ipsum dolor sit</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                        <h1>Experience the Essence of Pure Green Tea</h1>
+                        <p>Discover a Sip of Wellness in Every Cup, Handpicked for Freshness and Flavor.</p>
                         <a href = "view_products.php" class = "btn">shop now</a>
                     </div>
                     <div class = "hero-dec-top"></div>
@@ -49,7 +49,7 @@
                 <div class = "overlay"></div>
                     <div class = "slide-detail">
                         <h1>Welcome to the shop</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                        <p>Crafting Comfort, One Cup at a Time, with Ingredients that Nurture Your Soul.</p>
                         <a href = "view_products.php" class = "btn">shop now</a>
                     </div>
                     <div class = "hero-dec-top"></div>
@@ -58,8 +58,8 @@
             <div class = "slider__slider slide3"> 
                 <div class = "overlay"></div>
                     <div class = "slide-detail">
-                    <h1>Lorem ipsum dolor sit</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                    <h1>From Nature to Your Cup, For A Healthier You.</h1>
+                    <p>Savor the Rich Flavor of Authentic Matcha, Sourced from the Finest Tea Gardens.</p>
                         <a href = "view_products.php" class = "btn">shop now</a>
                     </div>
                     <div class = "hero-dec-top"></div>
@@ -70,8 +70,8 @@
             <div class = "slider__slider slide4"> 
                 <div class = "overlay"></div>
                     <div class = "slide-detail">
-                    <h1>Lorem ipsum dolor sit</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                    <h1>Indulge in the Art of Matcha Perfection.</h1>
+                    <p>Brewed with Passion, Served with Love, Bringing You the True Essence of Green Tea.</p>
                         <a href = "view_products.php" class = "btn">shop now</a>
                     </div>
                     <div class = "hero-dec-top"></div>
@@ -82,8 +82,8 @@
             <div class = "slider__slider slide5"> 
                 <div class = "overlay"></div>
                     <div class = "slide-detail">
-                    <h1>Lorem ipsum dolor sit</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                    <h1>Your Journey to Serenity Starts Here</h1>
+                    <p>Elevate Your Tea Ritual with Every Brew, Creating Moments of Relaxation and Joy.</p>
                         <a href = "view_products.php" class = "btn">shop now</a>
                     </div>
                     <div class = "hero-dec-top"></div>
@@ -98,26 +98,26 @@
             <div class = "box-container"> 
                 <div class = "box"> 
                     <img src = "assets/image/thumb2.jpg">
-                    <h3>Green Tea</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <h3>Green Tea, Just a Plain Ol' Green Tea</h3>
+                    <p>Sip into serenity with a refreshing green tea, a literal boost to the body and soul. Crafted to boost your well-being naturally.</p>
                     <i class = "bx bx-chevron-right"></i>
                 </div>
                 <div class = "box"> 
                 <img src = "assets/image/thumb0.jpg">
-                    <h3>Lemon Tea</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <h3>Lemon Tea For Some Extra Kick To The Tastebud</h3>
+                    <p>Zesty and invigorating, made of freshly picked lemons our lemon tea is your perfect partner for a refreshing quick pick-me-up.</p>
                     <i class = "bx bx-chevron-right"></i>
                 </div>
                 <div class = "box"> 
                     <img src = "assets/image/thumb1.jpg">
-                    <h3>Green Coffee</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <h3>Green Coffee, A perfect after snack drink</h3>
+                    <p>Fuel your day with the smooth, natural energy of our premium green coffee blends alongside your evening snacks.</p>
                     <i class = "bx bx-chevron-right"></i>
                 </div>
                 <div class = "box"> 
                     <img src = "assets/image/thumb.jpg">
-                    <h3>Green Tea</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <h3>Hand Picked Premium Coffee Beans</h3>
+                    <p>Discover the rich tradition of green coffee, infused with the finest beans from Caribbeans for a mid day relaxation</p>
                     <i class = "bx bx-chevron-right"></i>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                     <img src = "assets/image/download.png">
                     <span>Healthy Tea</span>
                     <h1>Save up to 50% off</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam et ab, dolore placeat voluptatem nobis.</p>
+                    <p>Embrace the goodness of nature with every sip. Discover premium blends designed to refresh your body and mind, now at unbeatable prices and special offers made just for you.</p>
                 </div>
             </div>
         </section>
@@ -181,8 +181,8 @@
                 <div class = "box"> 
                     <img src = "assets/image/6.jpg">
                     <div class = "detail">
-                        <span>BIG OFFERS</spam>
-                        <h1>Extra 15% off</h1>
+                        <span>Looking for offers?</spam>
+                        <h1>Here's an Extra 15% off!</h1>
                         <a href = "view_products.php" class = "btn">Shop Now</a>
                     </div>
                 </div>
@@ -190,7 +190,7 @@
                     <img src = "assets/image/7.jpg">
                     <div class = "detail">
                         <span>NEW IN TASTE</spam>
-                        <h1>COffee House</h1>
+                        <h1>Wanna see what's new?</h1>
                         <a href = "view_products.php" class = "btn">Shop Now</a>
                     </div>
                 </div>

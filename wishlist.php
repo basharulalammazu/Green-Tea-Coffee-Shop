@@ -133,7 +133,7 @@
             </div>
         </div>
         <section class = "products">
-            <h1 class = "title">Product added in wishlist</h1>
+            <h1 class = "title">Your Wishlist</h1>
             <div class = "box container">
             <?php
                 $grand_total = 0;

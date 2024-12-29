@@ -128,7 +128,7 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
             </div>
             <div class="input-field">
                 <label>product Size: </label>
-                <input type="text" name="size" required placeholder="add product price">
+                <input type="text" name="size" required placeholder="add product size">
             </div>
             <div class="input-field">
                 <label>product price: </label>

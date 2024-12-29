@@ -9,24 +9,45 @@ if (!isset($admin_id))
     exit;
 }
 
-if (isset($_POSTT['product_id'])) 
-    $product_id = $_POST['product_id'];
+if (isset($_GET['product_id'])) 
+    $product_id = $_GET['product_id'];
 
 // delete product
 if (isset($_POST['delete'])) 
 {
-    $p_id = $_POST['product_id'];
-    $p_id = filter_var($p_id, FILTER_SANITIZE_STRING);
+    $p_id = $_GET['product_id'];
+    $delete_image_query = "SELECT image FROM `products` WHERE id = ?";
+    $delete_image_stmt = $conn->prepare($delete_image_query);
 
-    $delete_image = $conn->prepare("SELECT FROM `products` WHERE id = ?");
-    $delete_image->execute([$p_id]);
+    if ($delete_image_stmt) {
+        $delete_image_stmt->bind_param("i", $p_id); // Bind the product ID as an integer
+        $delete_image_stmt->execute();
+        $result = $delete_image_stmt->get_result();
 
-    $fetch_delete_image = $delete_image->fetch(PDO::FETCH_ASSOC);
-    if($fetch_delete_image['image'] !="")
-        unlink('../image/product/'.$fetch_delete_image['image']);
+        if ($result->num_rows > 0) {
+            $fetch_delete_image = $result->fetch_assoc();
 
-    $delete_product = $conn->prepare("DELETE * FROM `products` WHERE id = ''");
-    $delete_product->execute([$p_id]);
+            // Step 2: Delete the image from the server
+            if (!empty($fetch_delete_image['image'])) {
+                $image_path = '../image/product/' . $fetch_delete_image['image'];
+                if (file_exists($image_path)) {
+                    unlink($image_path); // Remove the image
+                }
+            }
+        }
+
+        $delete_image_stmt->close(); // Close the statement
+    }
+
+    // Step 3: Delete the product from the database
+    $delete_product_query = "DELETE FROM `products` WHERE id = ?";
+    $delete_product_stmt = $conn->prepare($delete_product_query);
+
+    if ($delete_product_stmt) {
+        $delete_product_stmt->bind_param("i", $p_id); // Bind the product ID
+        $delete_product_stmt->execute();
+        $delete_product_stmt->close();
+    }
     
     header("location:../admin/view_product.php");
 }
@@ -41,8 +62,6 @@ if (isset($_POST['edit']))
 if (isset($_POST['back'])) 
     header("location:../admin/view_product.php");
 
-
-
 ?>
 <!DOCTYPE html>
 <html lang = "en">
@@ -55,7 +74,10 @@ if (isset($_POST['back']))
     <title>Green Coffee - Shop Page</title>
 </head>
 <body>
-    <?php include '../admin/components/admin_header.php'; ?>
+    <?php 
+        include '../admin/components/admin_header.php'; 
+        include '../image_manager.php';
+    ?>
     <div class="main">
         <div class="banner">
             <h1>Read Product</h1>

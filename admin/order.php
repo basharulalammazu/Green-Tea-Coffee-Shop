@@ -49,6 +49,21 @@ if (isset($_POST['update_order'])) {
     } 
     else 
         $error_msg[] = 'Payment status not selected';
+
+    // Check if update_status is set
+    if (isset($_POST['update_status'])) {
+        $update_status = $_POST['update_status'];
+        $update_status = filter_var($update_status, FILTER_SANITIZE_STRING);
+
+        // Using MySQLi to update the order status
+        $update_order = mysqli_prepare($conn, "UPDATE `orders` SET status=? WHERE id=?");
+        mysqli_stmt_bind_param($update_order, 'ss', $update_status, $order_id);
+        mysqli_stmt_execute($update_order);
+
+        $success_msg[] = 'Order updated';
+    } 
+    else 
+        $error_msg[] = 'Order status not selected';
     
 }
 ?>
@@ -100,11 +115,22 @@ if (isset($_POST['update_order'])) {
                             </div>
                             <form method="post">
                                 <input type="hidden" name="order_id" value="<?= $fetch_orders['id']; ?>">
-                                <select name="update_payment">
-                                    <option disabled selected><?= $fetch_orders['payment_status']; ?></option>
-                                    <option value="pending">Pending</option>
-                                    <option value="complete">Complete</option>
+                                <!-- Status Select Dropdown -->
+                                <select name="update_status">
+                                    <option disabled selected>Select Status</option>
+                                    <option value="pending" <?= $fetch_orders['status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="in progress" <?= $fetch_orders['status'] === 'in progress' ? 'selected' : ''; ?>>In Progress</option>
+                                    <option value="complete" <?= $fetch_orders['status'] === 'complete' ? 'selected' : ''; ?>>Complete</option>
+                                    <option value="cancel" <?= $fetch_orders['status'] === 'cancel' ? 'selected' : ''; ?>>Cancel</option>
                                 </select>
+
+                                <!-- Payment Status Select Dropdown -->
+                                <select name="update_payment">
+                                    <option disabled selected>Select Payment Status</option>
+                                    <option value="pending" <?= $fetch_orders['payment_status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="complete" <?= $fetch_orders['payment_status'] === 'complete' ? 'selected' : ''; ?>>Complete</option>
+                                </select>
+
                                 <div class="flex-btn">
                                     <button type="submit" name="update_order" class="btn">Update Order</button>
                                     <button type="submit" name="delete_order" class="btn">Cancel Order</button>

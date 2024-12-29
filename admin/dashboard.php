@@ -91,7 +91,7 @@
                     ?>
                     <h3><?= $num_of_users; ?></h3>
                     <p>Registered users</p>
-                    <a href="../admin/user_account.php" class="btn">View users</a>
+                    <a href="../admin/user_account.php?user=Customer" class="btn">View users</a>
                 </div>
 
                 <div class="box">
@@ -106,7 +106,7 @@
                     ?>
                     <h3><?= $num_of_admin; ?></h3>
                     <p>Registered admins</p>
-                    <a href="../admin/user_account.php" class="btn">View admins</a>
+                    <a href="../admin/user_account.php?user=Admin" class="btn">View admins</a>
                 </div>
 
                 <div class="box">

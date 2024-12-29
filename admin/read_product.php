@@ -10,7 +10,7 @@ if (!isset($admin_id))
 }
 
 if (isset($_POSTT['product_id'])) 
-    $get_id = $_POST['product_id'];
+    $product_id = $_POST['product_id'];
 
 // delete product
 if (isset($_POST['delete'])) 
@@ -30,6 +30,19 @@ if (isset($_POST['delete']))
     
     header("location:../admin/view_product.php");
 }
+
+if (isset($_POST['edit'])) 
+{
+    $p_id = $_POST['product_id'];
+    $p_id = filter_var($p_id, FILTER_SANITIZE_STRING);
+    header("location:../admin/edit_product.php");
+}
+
+if (isset($_POST['back'])) 
+    header("location:../admin/view_product.php");
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang = "en">
@@ -54,7 +67,7 @@ if (isset($_POST['delete']))
             <h1 class="heading">Read Product</h1>
             <?php
                 $select_product = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
-                $select_product->bind_param("i", $get_id); // Bind the product ID as an integer
+                $select_product->bind_param("i", $product_id); // Bind the product ID as an integer
                 $select_product->execute();
                 $result = $select_product->get_result(); // Fetch the result set
             
@@ -67,9 +80,9 @@ if (isset($_POST['delete']))
                         $imagePath = "../image/product/{$productId}.{$imageExtension}";
             ?>
                         <form action="" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="product_id" value="<?= htmlspecialchars($fetch_product['id']); ?>">
+                            <input type="hidden" name="product_id" value="<?= ($fetch_product['id']); ?>">
                             <div class="status" style="color:<?php if ($fetch_product['status'] == "active") { echo "green"; } else { echo "red"; } ?>">
-                                <?= htmlspecialchars($fetch_product['status']); ?>
+                                <?= ($fetch_product['status']); ?>
                             </div>
             <?php 
                         if (!empty($fetch_product['image'])) 
@@ -83,9 +96,9 @@ if (isset($_POST['delete']))
                             <div class="price">$<?= $fetch_product['price']; ?>/-</div>
                             <div class="content"><?= $fetch_product['product_details']; ?></div>
                             <div class="flex-btn">
-                                <a href="edit_product.php?id=<?= $fetch_product['id']; ?>" class="btn">Edit</a>
+                                <button type="submit" name="edit" class="btn">Edit</button>
                                 <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
-                                <a href="view_product.php?id=<?= $get_id; ?>" class="btn">Go Back</a>
+                                <button type="submit" name="back" class="btn">Go Back</button>
                             </div>
                         </form>
             <?php

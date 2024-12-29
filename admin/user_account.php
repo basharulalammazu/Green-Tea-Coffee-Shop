@@ -28,11 +28,13 @@ if (!isset($admin_id))
             <h1 class="heading">Register User's</h1>
             <div class="box-container">
                 <?php
+                $get_user = $_GET['user'];
                 // Select all users from the database
-                $select_users = $conn->query("SELECT * FROM `users` WHERE user_type = 'Customer'");
+                $select_users = $conn->query("SELECT * FROM `users` WHERE user_type = '$get_user'");
 
                 // Check if there are any users
-                if ($select_users->num_rows > 0) {
+                if ($select_users->num_rows > 0) 
+                {
                     while ($fetch_users = $select_users->fetch_assoc()) 
                     {
                         $user_id = $fetch_users['id'];

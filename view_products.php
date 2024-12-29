@@ -168,9 +168,9 @@
                     <input type="number" name="qty" min="1" value="1" max="99" class="qty">
                 </div>
                 <div class="buttons">
-                    <button type="submit" name="add_to_cart" class="button" style="background: #FFA726;">Add to Cart</button>
-                    <button type="submit" name="add_to_wishlist" class="button" style="background: #FFA726;">Add to Wishlist</button>
-                    <a href="view_page.php?pid=<?= $product_id; ?>" class="button" style="background: #FFA726;">View</a>
+                    <button type="submit" name="add_to_cart" class="product-button">Cart</button>
+                    <button type="submit" name="add_to_wishlist" class="product-button">Wishlist</button>
+                    <a href="view_page.php?pid=<?= $product_id; ?>" class="product-button">View</a>
                 </div>
             </div>
         </form>

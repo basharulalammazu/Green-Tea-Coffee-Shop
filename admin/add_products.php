@@ -45,13 +45,13 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
         else 
         {
             // Insert product data into the database without the image first
-            $insert_product = $conn->prepare("INSERT INTO `products` (name, size, price, product_detail, status) VALUES (?, ?, ?, ?, ?)");
+            $insert_product = $conn->prepare("INSERT INTO `products` (name, size, price, product_details, status) VALUES (?, ?, ?, ?, ?)");
             $insert_product->execute([$name, $size, $price, $content, $status]);
 
             if ($insert_product) 
             {
                 // Get the last inserted ID
-                $product_id = $conn->lastInsertId();
+                $product_id = mysqli_insert_id($conn);
 
                 // Rename the image to id.extension
                 $new_image_name = $product_id . '.' . $extension;
@@ -61,38 +61,37 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
                 if (isset($_FILES['image']['name']) && !empty($_FILES['image']['name'])) {
                     $image_name = $_FILES['image']['name'];
                     $image_tmp_name = $_FILES['image']['tmp_name'];
-                
+
                     // Get the file extension
                     $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
                     $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-                
+
                     // Validate file extension
                     if (in_array(strtolower($image_extension), $allowed_extensions)) {
                         // Define the product directory
-                        $product_directory = "image/product/";
+                        $product_directory = "../image/product/";
                         $new_image_name = $product_id . '.' . $image_extension;
                         $new_image_path = $product_directory . $new_image_name;
-                
+
                         // Ensure the product directory exists
-                        if (!is_dir($product_directory)) {
-                            mkdir($product_directory, 0777, true); // Create the directory with permissions if it doesn't exist
-                        }
-                
+                        if (!is_dir($product_directory)) 
+                            mkdir($product_directory, 0777, true); // Create the directory if it doesn't exist
+                        
+
                         // Move the uploaded file
-                        if (move_uploaded_file($image_tmp_name, $new_image_path)) {
-                            // Update the product with the image name
-                            $update_image = $conn->prepare("UPDATE `products` SET image = ? WHERE id = ?");
-                            $update_image->execute([$new_image_name, $product_id]);
-                            $success_msg[] = 'Product image updated successfully.';
-                        } else {
+                        if (move_uploaded_file($image_tmp_name, $new_image_path)) 
+                            $success_msg[] = 'Product added successfully.';                           
+                        else
                             $warning_msg[] = 'Failed to upload the image.';
-                        }
-                    } else {
+                        
+                    } else 
                         $warning_msg[] = 'Invalid image format. Only JPG, JPEG, PNG, and GIF are allowed.';
-                    }
-                } else {
+                    
+                } 
+                else 
                     $warning_msg[] = 'No image uploaded.';
-                }
+                
+
                 
                 
             }
@@ -144,8 +143,8 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
                 <input type="file" name="image" accept="image/" required>
             </div>
             <div class="flex-btn">
-                <a type="submit" name="publish" class="btn" style = "justify-content: center">publish product</a>
-                <a type="submit" name="draft" class="btn" style = "justify-content: center">save as draft</a>
+                <button type="submit" name="publish" class="btn" style = "justify-content: center">publish product</button>
+                <button type="submit" name="draft" class="btn" style = "justify-content: center">save as draft</button>
             </div>
            </form>
         </section>

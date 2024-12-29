@@ -17,6 +17,24 @@
 
         $success_msg[] = 'Product Deleted Successfully';
     }
+
+
+    if(isset($_POST['edit']))
+    {
+        $product_id = $_POST['product_id'];
+        $product_id = filter_var($product_id, FILTER_SANITIZE_STRING);
+
+        header("location:edit_product.php");
+    }
+
+
+    if(isset($_POST['view']))
+    {
+        $product_id = $_POST['product_id'];
+        $product_id = filter_var($product_id, FILTER_SANITIZE_STRING);
+
+        header("location:read_product.php");
+    }
 ?>
 <!DOCTYPE html> 
 <html lang="en">
@@ -43,8 +61,10 @@
                 $select_products->execute();
                 $result = $select_products->get_result();
 
-                if ($result->num_rows > 0) {
-                    while ($fetch_products = $result->fetch_assoc()) {
+                if ($result->num_rows > 0) 
+                {
+                    while ($fetch_products = $result->fetch_assoc()) 
+                    {
                         $productId = $fetch_products['id'];
                         $imagePath = "";
                         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']; // Possible image extensions
@@ -52,16 +72,16 @@
                         // Search for the image in the directory
                         foreach ($allowedExtensions as $extension) {
                             $path = "../image/product/{$productId}.{$extension}";
-                            if (file_exists($path)) {
+                            if (file_exists($path)) 
+                            {
                                 $imagePath = $path;
                                 break;
                             }
                         }
 
                         // If no product image is found, use a default image
-                        if (empty($imagePath)) {
+                        if (empty($imagePath)) 
                             $imagePath = "../image/default_product.png";
-                        }
                 ?>
                         <form action="" method="post" class="box" enctype="multipart/form-data">
                             <input type="hidden" name="product_id" value="<?= $fetch_products['id']; ?>">
@@ -73,14 +93,16 @@
                             <div class="price">$<?= $fetch_products['price']; ?>/-</div>
                             <div class="title"><?= $fetch_products['name']; ?></div>
                             <div class="flex-btn">
-                                <a href="../admin/edit_product.php?id=<?= $fetch_products['id']; ?>" class="btn">Edit</a>
+                                <button type = "submit" name = "view" class="btn">Edit</button>
                                 <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
-                                <a href="../admin/read_product.php?id=<?= $fetch_products['id']; ?>" class="btn">View</a>
+                                <button type = "submit" name = "view" class="btn">View</button>
                             </div>
                         </form>
                 <?php
                     }
-                } else {
+                } 
+                else 
+                {
                     echo '<div class="empty">
                             <p>No product added yet <br> 
                             <a href="../admin/add_product.php" style="margin-top:1.5rem" class="btn">Add Product</a></p>
@@ -88,9 +110,12 @@
                 }
 
                 // Handle delete request
-                if (isset($_POST['delete'])) {
+                if (isset($_POST['delete'])) 
+                {
                     $product_id = $_POST['product_id'];
-
+                    ?>
+                    <input type="hidden" name="product_id" value="<?= $fetch_products['id']; ?>">
+                    <?php
                     // Delete the product record
                     $delete_product = $conn->prepare("DELETE FROM `products` WHERE id = ?");
                     $delete_product->bind_param("i", $product_id);
@@ -100,9 +125,9 @@
                                 alert('Product deleted successfully!');
                                 window.location.href = window.location.href; // Refresh the page
                             </script>";
-                    } else {
+                    } 
+                    else 
                         echo "<script>alert('Failed to delete the product. Please try again!');</script>";
-                    }
                 }
                 ?>
             </div>

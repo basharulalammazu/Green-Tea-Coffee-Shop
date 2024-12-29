@@ -9,8 +9,8 @@ if (!isset($admin_id))
     exit;
 }
 
-if (isset($_GET['id'])) 
-    $get_id = $_GET['id'];
+if (isset($_POSTT['product_id'])) 
+    $get_id = $_POST['product_id'];
 
 // delete product
 if (isset($_POST['delete'])) 

@@ -16,7 +16,7 @@ html{
   --webkit-text-size-adjust:100%;
 }
 body{
-  background-image: url('..assets/image/body-bg.jpg');
+  background-image: url('../assets/image/body-bg.jpg');
   width: 100%;
 }
 .main{
@@ -204,7 +204,7 @@ header {
   padding: 1rem;
   z-index: 1000;
   box-shadow: var(--box-shadow);
-  background-image: url('../img/body-bg.jpg');
+  background-image: url('../assets/image/body-bg.jpg');
 }
 
 header.scrolled {
@@ -279,28 +279,31 @@ header.scrolled a:hover {
 
 /* style.css */
 .user-box {
-  display: none;
+  display: none; /* Hidden by default */
   position: absolute;
-  top: 60px; /* Adjust based on your header height */
-  right: 10px; /* Adjust based on your layout */
-  background: #fff;
-  border: 1px solid #ccc;
+  top: 50px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
   padding: 10px;
-  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 .user-box.active {
-  display: block;
+  display: block; 
 }
 
 .navbar {
-  display: none;
+  display: flex; 
+  flex-direction: row;
+  gap: 20px;
 }
 
 .navbar.active {
-  display: flex; /* Or block, depending on your layout */
-  flex-direction: column; /* For a mobile menu look */
+  display: block; 
 }
+
 
 
 .logout-btn {
@@ -351,7 +354,7 @@ header.scrolled a:hover {
   gap: 10px;
 }
 .banner{
-  background-image: url('../img/banner.jpg');
+  background-image: url('../assets/image/banner.jpg');
   background-size: cover;
   background-position: center;
   background-color: var(--green);

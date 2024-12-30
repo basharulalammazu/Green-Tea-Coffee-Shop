@@ -1,6 +1,7 @@
 <?php
 include '../components/connection.php';
 include '../image_manager.php';
+include "../components/alert.php";
 
 session_start();
 
@@ -139,7 +140,7 @@ if (isset($_POST['update_password']))
             <div class="message"><?php echo $msg; ?></div>
         <?php endforeach; ?>
     </div>
-    include "../components/alert.php"
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="script.js" type="text/javascript"></script>
 </body>

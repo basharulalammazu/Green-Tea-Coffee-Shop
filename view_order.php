@@ -123,7 +123,7 @@
                 <p class="user"><i class="bi bi-pin-map-fill"></i><?= $fetch_order['address']; ?></p>
                 <p class="title">Status</p>
                 <p class="status" style="color:<?php 
-                    if ($fetch_order['status'] == 'delivered') 
+                    if ($fetch_order['status'] == 'complete') 
                         echo 'green'; 
                     else if ($fetch_order['status'] == 'canceled') 
                         echo 'red'; 
@@ -138,7 +138,7 @@
                     <a href="checkout.php?get_id=<?= $fetch_product['id']; ?>" class="btn">Buy again</a>
                 <?php 
                     } 
-                    else 
+                    else  if($fetch_order['status'] == 'complete')
                     { 
                 ?>
                         <form action="" method="post">

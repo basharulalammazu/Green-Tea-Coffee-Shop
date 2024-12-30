@@ -169,7 +169,10 @@
                     <p>Total canceled orders</p>
                     <a href="../admin/order.php?status=canceled" class="btn">View canceled orders</a>
                 </div>
-
+                <div class="icons">
+            <i class="bx bxs-user" id="user-btn"></i>
+            <i class="bx bx-list-plus" id="menu-btn" style="font-size: 2rem;"></i>
+        </div>
             </div>
         </section>
     </div>

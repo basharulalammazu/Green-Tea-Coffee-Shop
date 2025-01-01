@@ -49,7 +49,7 @@ if (isset($_POST['login'])) {
     
     else 
         // No user found with that email
-        $error_msg[] = 'Incorrect username or password 74';
+        $error_msg[] = 'Incorrect username or password';
         
 }
 ?>

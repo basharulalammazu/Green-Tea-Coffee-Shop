@@ -1,48 +1,32 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const userBtn = document.getElementById("user-btn");
-    const menuBtn = document.getElementById("menu-btn");
-    const userBox = document.getElementById("user-box");
-    const navbar = document.querySelector(".navbar");
+document.addEventListener('DOMContentLoaded', () => {
+    const userBtn = document.getElementById('user-btn');
+    const menuBtn = document.getElementById('menu-btn');
+    const userBox = document.getElementById('user-box');
+    const navbar = document.querySelector('.navbar');
 
-    console.log("User Button:", userBtn); // Should log the button element or null
-    console.log("Menu Button:", menuBtn); // Should log the button element or null
-    console.log("User Box:", userBox);   // Should log the user box element or null
-    console.log("Navbar:", navbar);      // Should log the navbar element or null
+    // Toggle user-box visibility
+    userBtn.addEventListener('click', () => {
+        userBox.classList.toggle('active');
+        navbar.classList.remove('active'); // Ensure the navbar is not visible
+    });
 
-    // Toggle user box visibility
-    if (userBtn && userBox) {
-        userBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // Prevent event bubbling
-            console.log("User button clicked"); // Debugging
-            userBox.classList.toggle("active");
-        });
-    } else {
-        console.error("User button or user box not found!");
-    }
+    // Toggle navbar visibility
+    menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        userBox.classList.remove('active'); // Ensure the user-box is not visible
+    });
 
-    // Toggle menu visibility
-    if (menuBtn && navbar) {
-        menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // Prevent event bubbling
-            console.log("Menu button clicked"); // Debugging
-            navbar.classList.toggle("active");
-        });
-    } else {
-        console.error("Menu button or navbar not found!");
-    }
-
-    // Close user box or menu if clicked outside
-    document.addEventListener("click", (e) => {
-        if (userBox && !userBox.contains(e.target) && !userBtn.contains(e.target)) {
-            console.log("Click outside user box");
-            userBox.classList.remove("active");
+    // Hide both when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!userBtn.contains(e.target) && !userBox.contains(e.target)) {
+            userBox.classList.remove('active');
         }
-        if (navbar && !navbar.contains(e.target) && !menuBtn.contains(e.target)) {
-            console.log("Click outside navbar");
-            navbar.classList.remove("active");
+        if (!menuBtn.contains(e.target) && !navbar.contains(e.target)) {
+            navbar.classList.remove('active');
         }
     });
 });
+
 
 
 

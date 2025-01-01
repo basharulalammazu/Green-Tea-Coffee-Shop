@@ -30,7 +30,11 @@ if (!isset($admin_id))
                 <?php
                 $get_user = $_GET['user'];
                 // Select all users from the database
-                $select_users = $conn->query("SELECT * FROM `users` WHERE user_type = '$get_user'");
+
+                if ($get_user == 'all') 
+                    $select_users = $conn->query("SELECT * FROM `users`");
+                else
+                    $select_users = $conn->query("SELECT * FROM `users` WHERE user_type = '$get_user'");
 
                 // Check if there are any users
                 if ($select_users->num_rows > 0) 

@@ -52,7 +52,7 @@ if (isset($_POST['logout'])) {
             <a href="dashboard.php">Dashboard</a>
             <a href="add_products.php">Add Product</a>
             <a href="view_product.php">View Product</a>
-            <a href="user_account.php">Account</a>
+            <a href="user_account.php?user=all">Account</a>
         </nav>
         <div class="icons">
             <i class="bx bxs-user" id="user-btn"></i>
@@ -70,6 +70,36 @@ if (isset($_POST['logout'])) {
 <link rel="stylesheet" href="../admin/admin_style.css">
 <!--<script src="../admin/script.js"></script> -->
 <script src="../admin/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const userBtn = document.getElementById('user-btn');
+    const menuBtn = document.getElementById('menu-btn');
+    const userBox = document.getElementById('user-box');
+    const navbar = document.querySelector('.navbar');
+
+    // Toggle user-box visibility
+    userBtn.addEventListener('click', () => {
+        userBox.classList.toggle('active');
+        navbar.classList.remove('active'); // Ensure the navbar is not visible
+    });
+
+    // Toggle navbar visibility
+    menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        userBox.classList.remove('active'); // Ensure the user-box is not visible
+    });
+
+    // Hide both when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!userBtn.contains(e.target) && !userBox.contains(e.target)) {
+            userBox.classList.remove('active');
+        }
+        if (!menuBtn.contains(e.target) && !navbar.contains(e.target)) {
+            navbar.classList.remove('active');
+        }
+    });
+});
+</script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>

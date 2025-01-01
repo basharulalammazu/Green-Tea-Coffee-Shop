@@ -38,12 +38,12 @@ if (isset($_POST['register']))
             $warning_msg[] = 'Confirm password not matched';
         else 
         {
-            $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+            $md5_pass = md5($pass, PASSWORD_BCRYPT);
             try 
             {
                 // Insert new user
                 $insert_admin = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
-                $insert_admin->bind_param("ssss", $name, $email, $pass /*$hashed_pass*/, "Admin");
+                $insert_admin->bind_param("ssss", $name, $email, $md5_pass /*$hashed_pass*/, "Admin");
                 $insert_admin->execute();
 
                 // Get the last inserted ID

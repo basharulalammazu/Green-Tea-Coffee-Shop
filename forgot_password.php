@@ -56,12 +56,10 @@ if (isset($_POST['change_password'])) {
     $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
 
     if ($new_password === $confirm_password) {
-        // Hash the new password
-        $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
 
         // Update the password in the database
         $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE email = ?");
-        $update_password->bind_param("ss", $new_password, $_SESSION['email']);
+        $update_password->bind_param("ss", md5($new_password), $_SESSION['email']);
         $update_password->execute();
 
         // Clear session variables and redirect

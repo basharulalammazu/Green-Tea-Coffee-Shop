@@ -20,9 +20,10 @@ if (isset($_POST['submit'])) {
     $result = $select_user->get_result(); 
     $row = $result->fetch_assoc();
 
-    $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
-
-    if ($pass == $row['password'])
+   // $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+    $md5 = md5($pass); 
+    
+    if ($md5 == $row['password'])
     {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
@@ -81,10 +82,11 @@ if (isset($_POST['submit'])) {
             $error_msg[] = 'Incorrect username or password 70 {Pass: ' .$pass. '}  {Pass: ' .password_hash($pass, PASSWORD_BCRYPT). '} {DB PASS: ' . $row['password'];
         
     } 
+            */
     else 
         // No user found with that email
         $error_msg[] = 'Incorrect username or password 74';
-        */
+        
 }
 ?>
 

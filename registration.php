@@ -40,13 +40,13 @@ if (isset($_POST['submit']))
         else 
         {
             // Hash the password for security
-           // $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+           $hashed_pass = md5($pass);
 
             
            // Insert new user into the database
            $insert_user = $conn->prepare("INSERT INTO users (name, phone_number, email, password, user_type) VALUES (?, ?, ?, ?, ?)");
            $user_type = "Customer"; 
-           $insert_user->bind_param("sssss", $name, $phoneNumber, $email, $pass /*$hashed_pass*/, $user_type);
+           $insert_user->bind_param("sssss", $name, $phoneNumber, $email, /*$pass */$hashed_pass, $user_type);
            $insert_user->execute();
            // Check for success
            if ($insert_user->affected_rows > 0) 

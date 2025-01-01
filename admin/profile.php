@@ -50,21 +50,22 @@ if (isset($_POST['update_password']))
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
 
-    if (password_verify($old_password, $admin_data['password'])) 
+    if ($new_password === $confirm_password) 
     {
-        if ($new_password === $confirm_password) 
+        if (md5($old_password) == $admin_data['password']) 
         {
-            $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
             $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-            $update_password->bind_param("si", $new_password, $admin_id);
-            $update_password->execute();
-            $success_msg[] = "Password updated successfully.";
-        } 
+            $update_password->bind_param("si", md5($new_password), $admin_id);
+            if ($update_password->execute()) 
+                $success_msg[] = "Password updated successfully.";
+            else 
+                $error_msg[] = "Failed to update password.";
+        }
         else 
-            $error_msg[] = "New passwords do not match.";
-    } 
+            $error_msg[] = "Incorrect old password.";
+    }
     else 
-        $error_msg[] = "Incorrect old password.";
+        $error_msg[] = "New passwords do not match.";
 }
 
 ?>

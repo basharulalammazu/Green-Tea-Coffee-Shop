@@ -20,53 +20,30 @@
 
 ---
 
-## 💡 Features
+## 🌟 Features
 
+- **High-Quality Design**: A sleek, modern UI/UX crafted to deliver an enjoyable and seamless shopping experience.
+- **Built with Cutting-Edge Technologies**: Leveraging **HTML5**, **CSS3**, **PHP**, and **JavaScript** for a fast, reliable platform.
+- **Fully Responsive Design**: Optimized for desktop, tablet, and mobile devices.
+- **Shopping Cart**: Easy-to-use system for adding, removing, and reviewing items.
+- **Admin Panel**: A backend interface for managing products, orders, and users.
+- **💬 Integrated Chatbot**: Real-time assistance and personalized product recommendations.
 
-1. **High-Quality Design**: A sleek, modern UI/UX crafted to deliver an enjoyable and seamless shopping experience.
-
-2. **Built with Cutting-Edge Technologies**: Leveraging the latest versions of **HTML5**, **CSS3**, **PHP**, and **JavaScript** to ensure a fast, reliable, and feature-rich platform.
-
-3. **Fully Responsive Design**: Optimized for desktop, tablet, and mobile devices, providing a consistent and user-friendly experience across all screen sizes.
-
-4. **Shopping Cart**: A flexible and intuitive shopping cart system that allows users to easily add, remove, and review items before finalizing their purchase.
-
-5. **Admin Panel**: A comprehensive backend interface for efficient product management, order tracking, and user management, ensuring smooth operations.
-
-6. **💬 Integrated Chatbot**: Enhance customer interaction with an intelligent chatbot feature:
-   - **Real-Time Assistance**: Instant, AI-driven responses to customer inquiries, offering support around the clock.
-   - **Product Recommendations**: Personalized suggestions based on customer preferences and browsing history to improve the shopping experience.
+---
 
 ## 🛠️ Technologies Used
 
-- **Frontend**: 
-  - HTML5: For structuring content
-  - CSS3: For styling and responsiveness
-  - JavaScript: For interactivity and dynamic behavior
-
-- **Backend**: 
-  - PHP: For server-side scripting
-  - MySQL: For database management
-
----
-
-## 🚀 How It Works
-
-1. **User Experience**:
-   - Browse a variety of coffee and tead products with detailed descriptions and prices.
-   - Add desired items to the **shopping cart** and proceed to checkout.
-
-2. **Admin Panel**:
-   - Manage products, categories, and inventory.
-   - Track customer orders and update order statuses.
-
-3. **Database Integration**:
-   - Store customer information, products, and orders in a **MySQL database**.
-   - Retrieve data dynamically for user and admin interfaces.
+- **Frontend**:
+  - HTML5
+  - CSS3
+  - JavaScript
+- **Backend**:
+  - PHP
+  - MySQL
 
 ---
 
-## ⚙️ How to Run
+## 🚀 How to Run
 
 Follow these steps to set up and run the project locally:
 
@@ -76,7 +53,7 @@ git clone https://github.com/basharulalammazu/Green-Tea-Coffee-Shop.git
 ```
 
 ### 2️⃣ Set Up the Database
-1. Import the provided `green_coffee_shop.sql` file into your MySQL server.
+1. Import the `green_coffee_shop.sql` file into your MySQL server.
 2. Configure the database connection in the `config.php` file.
 
 ### 3️⃣ Start the Server
@@ -96,26 +73,55 @@ http://localhost:8000
 ## 📂 Directory Structure
 
 ```
-Green-Coffee-Shop/
+Green-Tea-Coffee-Shop/
 │
-├── assets/                # Static assets (images, Icon)
-      ├──Image
-      ├── icon               
-├── admin/                  # Admin panel files
-├── includes/               # Reusable PHP components
-├── config.php              # Database configuration file
-├── index.php               # Main entry point for the website
-├── cart.php                # Shopping cart functionality
-├── green_tea_coffee_shop.sql   # MySQL database script
-└── README.md               # Documentation
+├── assets/                # Static assets (images, icons)
+│   ├── Image
+│   ├── icon               
+├── admin/                 # Admin panel files
+├── includes/              # Reusable PHP components
+├── config.php             # Database configuration file
+├── index.php              # Main entry point
+├── cart.php               # Shopping cart functionality
+├── green_tea_coffee_shop.sql  # MySQL database script
+└── README.md              # Documentation
 ```
+
+---
+
+## ✨ Contributors
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://github.com/basharulalammazu">
+        <img src="https://avatars.githubusercontent.com/basharulalammazu" width="100px;" alt=""/>
+        <br /><sub><b>Basharul - Alam - Mazu</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/mdtanjimrahman">
+        <img src="https://avatars.githubusercontent.com/mdtanjimrahman" width="100px;" alt=""/>
+        <br /><sub><b>Md. Tanjim Rahman</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/abureyad ">
+        <img src="https://avatars.githubusercontent.com/abureyad" width="100px;" alt=""/>
+        <br /><sub><b>Md. Abu Jar Gifari</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/labanya29">
+        <img src="https://avatars.githubusercontent.com/labanya29" width="100px;" alt=""/>
+        <br /><sub><b>Rafiha Salsabil Labanya </b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
 ---
 
 ## 📜 License
 
-This project is open-source and available under the [Creative Commons Zero v1.0 Universal](LICENSE).
-
----
-
-
+This project is licensed under the **Creative Commons Zero v1.0 Universal**. See the [LICENSE](LICENSE) file for details.

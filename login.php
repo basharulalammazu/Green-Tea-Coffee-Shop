@@ -6,7 +6,7 @@ session_start();
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 $message = [];
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['login'])) {
     // Retrieve and sanitize input
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $pass = filter_var($_POST['pass'], FILTER_SANITIZE_STRING);
@@ -119,24 +119,16 @@ if (isset($_POST['submit'])) {
                     <input type = "password" name = "pass" placeholder ="Enter the password" maxlength = "50" required>
                     <a href="forgot_password.php" style="font-size: 0.715em;">Forgot Password?</a>
                 </div>
-                <input type = "submit" name = "submit" value = "Login" class="btn">
+                <input type = "submit" name = "login" value = "Login" class="btn">
                 
                 <p>Don't have an account? <u><a href="registration.php">Register Now</a></u></p>
                 
-                <!-- Display messages -->
-                <?php 
-                    if (!empty($error_msg)) {
-                        foreach ($error_msg as $msg)
-                            echo "<div class='error'>$msg</div>";
-                    }
-                    if (!empty($success_msg)) {
-                        foreach ($success_msg as $msg) 
-                            echo "<div class='success'>$msg</div>";
-                    }
-                ?>
             </form>
         </section>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
+    <script src = "script.js"></script>
     <?php include 'components/alert.php'; ?>
 </body>
 </html>

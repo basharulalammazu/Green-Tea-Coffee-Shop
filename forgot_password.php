@@ -1,5 +1,6 @@
 <?php
 include 'components/connection.php';
+include 'mail/email.php';
 session_start();
 
 // Initialize variables
@@ -26,8 +27,15 @@ if (isset($_POST['send_otp'])) {
         $_SESSION['email'] = $email;
 
         // Simulate sending OTP (In real application, use mail or SMS API)
-        $message[] = "OTP sent to your email: $otp (Mocked for demo).";
-        $otp_sent = true;
+        //$message[] = "OTP sent to your email: $otp (Mocked for demo).";
+        if (sendOTP($email, $otp)) 
+        {
+            $otp_sent = true;
+            $success_msg[] = "OTP sent to your email: $email. Check your email and verify the OTP.";
+        }
+        else 
+            $warning_msg[] = "Failed to send OTP. Please try again.";
+        
     } 
     else 
         $warning_msg[] = "No account associated with this email. Please check your email address.";
@@ -55,11 +63,12 @@ if (isset($_POST['change_password'])) {
     $new_password = filter_var($_POST['new_password'], FILTER_SANITIZE_STRING);
     $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
 
-    if ($new_password === $confirm_password) {
-
+    if ($new_password === $confirm_password) 
+    {
+        $md5 = md5($new_password); 
         // Update the password in the database
         $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE email = ?");
-        $update_password->bind_param("ss", md5($new_password), $_SESSION['email']);
+        $update_password->bind_param("ss", $md5, $_SESSION['email']);
         $update_password->execute();
 
         // Clear session variables and redirect
@@ -132,5 +141,9 @@ if (isset($_POST['change_password'])) {
             <?php endforeach; ?>
         </section>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
+    <script src = "script.js"></script>
+    <?php include 'components/alert.php'; ?>
 </body>
 </html>

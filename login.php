@@ -20,10 +20,10 @@ if (isset($_POST['login'])) {
     $result = $select_user->get_result(); 
     $row = $result->fetch_assoc();
 
-   // $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
-    $md5 = md5($pass); 
-    
-    if ($md5 == $row['password'])
+   $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+
+    // Encrypt the password and compare with the database
+    if (password_verify($pass, $row['password']))
     {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
@@ -47,42 +47,6 @@ if (isset($_POST['login'])) {
         
     }
     
-    
-    /*
-    // Encrypt the password and compare with the database
-
-    $result = $select_user->get_result(); 
-    if ($result && $result->num_rows > 0) 
-    {
-        $row = $result->fetch_assoc();
-
-        if (password_verify($pass, $row['password'])) 
-        {
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['user_name'] = $row['name'];
-            $_SESSION['user_email'] = $row['email'];
-
-            // Redirect based on User Type
-            if (trim($row['user_type']) == "Admin") 
-            {
-                $success_msg[] = 'Admin login successful';
-                header('Location: admin/dashboard.php');
-                exit();
-            } 
-            else if (trim($row['user_type']) == "Customer") 
-            {
-                $success_msg[] = 'Customer login successful';
-                header('Location: home.php');
-                exit();
-            } 
-            else 
-                $error_msg[] = 'Invalid user type. Please contact support.';
-        } 
-        else 
-            $error_msg[] = 'Incorrect username or password 70 {Pass: ' .$pass. '}  {Pass: ' .password_hash($pass, PASSWORD_BCRYPT). '} {DB PASS: ' . $row['password'];
-        
-    } 
-            */
     else 
         // No user found with that email
         $error_msg[] = 'Incorrect username or password 74';

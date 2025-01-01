@@ -40,7 +40,8 @@ if (isset($_POST['submit']))
         else 
         {
             // Hash the password for security
-           $hashed_pass = md5($pass);
+           // $hashed_pass = md5($pass);
+           $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
 
             
            // Insert new user into the database

@@ -58,17 +58,19 @@ if (isset($_POST['verify_otp']))
     
 }
 
-if (isset($_POST['change_password'])) {
+if (isset($_POST['change_password'])) 
+{
     // Retrieve and sanitize inputs
     $new_password = filter_var($_POST['new_password'], FILTER_SANITIZE_STRING);
     $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
 
     if ($new_password === $confirm_password) 
     {
-        $md5 = md5($new_password); 
+        $hashed_pass = password_hash($new_password, PASSWORD_BCRYPT);
+
         // Update the password in the database
         $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE email = ?");
-        $update_password->bind_param("ss", $md5, $_SESSION['email']);
+        $update_password->bind_param("ss", $hashed_pass, $_SESSION['email']);
         $update_password->execute();
 
         // Clear session variables and redirect
@@ -134,11 +136,6 @@ if (isset($_POST['change_password'])) {
                     <input type="submit" name="change_password" value="Change Password" class="btn">
                 </form>
             <?php endif; ?>
-
-            <!-- Display Messages -->
-            <?php foreach ($message as $msg): ?>
-                <div class="message"><?= $msg; ?></div>
-            <?php endforeach; ?>
         </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -20,8 +20,7 @@ if (isset($_POST['login'])) {
     $result = $select_user->get_result(); 
     $row = $result->fetch_assoc();
 
-   $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
-
+    // Check if user exists
     // Encrypt the password and compare with the database
     if (password_verify($pass, $row['password']))
     {

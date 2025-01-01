@@ -64,21 +64,39 @@ if (isset($_POST['change_password']))
     $new_password = filter_var($_POST['new_password'], FILTER_SANITIZE_STRING);
     $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
 
-    if ($new_password === $confirm_password) 
+    if ($new_password != $confirm_password) 
     {
-        $hashed_pass = password_hash($new_password, PASSWORD_BCRYPT);
-
-        // Update the password in the database
-        $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE email = ?");
-        $update_password->bind_param("ss", $hashed_pass, $_SESSION['email']);
-        $update_password->execute();
-
-        // Clear session variables and redirect
-        unset($_SESSION['otp'], $_SESSION['otp_verified'], $_SESSION['email']);
-        $success_msg[] = "Password updated successfully. <a href='login.php'>Login now</a>";
-    } 
-    else 
         $warning_msg[] = "Passwords do not match. Please try again.";
+        return;
+    } 
+            // Prepare statement to check user in the database
+            $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+            $select_user->bind_param("s", $_SESSION['email']); 
+            $select_user->execute();
+    
+            
+            $result = $select_user->get_result(); 
+            $row = $result->fetch_assoc();
+    
+            // Check if user exists
+            // Encrypt the password and compare with the database
+            if (password_verify($$new_password, $row['password']))
+            {
+                $warning_msg[] = "New password cannot be the same as the old password. Please try again.";
+                exit();
+            }
+    
+            $hashed_pass = password_hash($new_password, PASSWORD_BCRYPT);
+    
+            // Update the password in the database
+            $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE email = ?");
+            $update_password->bind_param("ss", $hashed_pass, $_SESSION['email']);
+            $update_password->execute();
+    
+            // Clear session variables and redirect
+            unset($_SESSION['otp'], $_SESSION['otp_verified'], $_SESSION['email']);
+            $success_msg[] = "Password updated successfully.</a>";
+            header('Location: login.php');
     
 }
 ?>

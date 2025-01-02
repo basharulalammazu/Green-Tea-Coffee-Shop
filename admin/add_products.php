@@ -127,6 +127,15 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
                 <input type="text" name="name" required placeholder="add product name">
             </div>
             <div class="input-field">
+                <label>Product Category: </label>
+                <select name="product_catagory">
+                    <option disabled selected>Select Product Catagory</option>
+                    <option value="coffee" >Coffee</option>
+                    <option value="tea">Tea</option>
+                    <option value="drinks">Drinks</option>
+                </select>
+            </div>               
+            <div class="input-field">
                 <label>product Size: </label>
                 <input type="text" name="size" required placeholder="add product size">
             </div>

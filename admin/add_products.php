@@ -13,6 +13,9 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
     $name = $_POST['name'];
     $name = filter_var($name, FILTER_SANITIZE_STRING);
 
+    $product_catagory = $_POST['product_catagory'];
+    $product_catagory = filter_var($product_catagory, FILTER_SANITIZE_STRING);
+
     $size = $_POST['size'];
     $size = filter_var($size, FILTER_SANITIZE_STRING);
 
@@ -45,8 +48,8 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
         else 
         {
             // Insert product data into the database without the image first
-            $insert_product = $conn->prepare("INSERT INTO `products` (name, size, price, product_details, status) VALUES (?, ?, ?, ?, ?)");
-            $insert_product->execute([$name, $size, $price, $content, $status]);
+            $insert_product = $conn->prepare("INSERT INTO `products` (name, product_catagory , size, price, product_details, status) VALUES (?, ?, ?, ?,?, ?)");
+            $insert_product->execute([$name, $product_catagory, $size, $price, $content, $status]);
 
             if ($insert_product) 
             {
@@ -130,9 +133,9 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
                 <label>Product Category: </label>
                 <select name="product_catagory">
                     <option disabled selected>Select Product Catagory</option>
-                    <option value="coffee" >Coffee</option>
-                    <option value="tea">Tea</option>
-                    <option value="drinks">Drinks</option>
+                    <option value="Coffee" >Coffee</option>
+                    <option value="Tea">Tea</option>
+                    <option value="Drinks">Drinks</option>
                 </select>
             </div>               
             <div class="input-field">

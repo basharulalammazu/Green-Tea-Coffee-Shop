@@ -12,17 +12,15 @@ if (isset($_POST['send_otp'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
     // Check if the email exists for a customer in the database
-    $check_email = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND user_type = 'Customer'");
-    $check_email->bind_param("s", $email);
-    $check_email->execute();
-    $result = $check_email->get_result();
+    $sql = "SELECT * FROM `users` WHERE email = '$email' AND user_type = 'Customer'";
+    $result = mysqli_query($conn, $sql);
 
-    if ($result && $result->num_rows > 0) 
+    if ($result && mysqli_num_rows($result) > 0) 
     {
         // Generate a 6-digit OTP
         $otp = rand(100000, 999999);
         
-        // Save OTP in session for verification
+        // Save OTP and email in session for verification
         $_SESSION['otp'] = $otp;
         $_SESSION['email'] = $email;
 
@@ -31,7 +29,7 @@ if (isset($_POST['send_otp'])) {
         if (sendOTP($email, $otp)) 
         {
             $otp_sent = true;
-            $success_msg[] = "OTP sent to your email: $email. Check your email and verify the OTP.";
+            $succcess_msg[] = "OTP sent to your email: $email. Check your email and verify the OTP.";
         }
         else 
             $warning_msg[] = "Failed to send OTP. Please try again.";
@@ -95,7 +93,7 @@ if (isset($_POST['change_password']))
     
             // Clear session variables and redirect
             unset($_SESSION['otp'], $_SESSION['otp_verified'], $_SESSION['email']);
-            $success_msg[] = "Password updated successfully.</a>";
+            $succcess_msg[] = "Password updated successfully.</a>";
             header('Location: login.php');
     
 }

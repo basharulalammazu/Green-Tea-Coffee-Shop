@@ -11,44 +11,45 @@ if (isset($_POST['login'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $pass = filter_var($_POST['pass'], FILTER_SANITIZE_STRING);
 
-    // Prepare statement to check user in the database
-    $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-    $select_user->bind_param("s", $email); 
-    $select_user->execute();
-
-    
-    $result = $select_user->get_result(); 
-    $row = $result->fetch_assoc();
+    // Check if email exists in the database
+    $sql = "SELECT * FROM `users` WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $count = mysqli_num_rows($result);
 
     // Check if user exists
-    // Encrypt the password and compare with the database
-    if (password_verify($pass, $row['password']))
+    if ($count > 0) 
     {
+        // Encrypt the password and compare with the database
+        if (password_verify($pass, $row['password'])) 
+        {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['user_email'] = $row['email'];
 
-        // Redirect based on User Type
-        if (trim($row['user_type']) == "Admin") 
-        {
-            $success_msg[] = 'Admin login successful';
-            header('Location: admin/dashboard.php');
-            exit();
-        } 
-        else if (trim($row['user_type']) == "Customer") 
-        {
-            $success_msg[] = 'Customer login successful';
-            header('Location: home.php');
-            exit();
+            // Redirect based on User Type
+            if (trim($row['user_type']) == "Admin") 
+            {
+                $success_msg[] = 'Admin login successful';
+                header('Location: admin/dashboard.php');
+                exit();
+            } 
+            else if (trim($row['user_type']) == "Customer") 
+            {
+                $success_msg[] = 'Customer login successful';
+                header('Location: home.php');
+                exit();
+            } 
+            else 
+                $error_msg[] = 'Invalid user type. Please contact support';
         } 
         else 
-            $error_msg[] = 'Invalid user type. Please contact support ';
-        
+            // No matching password found
+            $error_msg[] = 'Invalid email or password. Please try again';
     }
-    
     else 
         // No user found with that email
-        $error_msg[] = 'Incorrect username or password';
+        $error_msg[] = 'No user found with that email. Please register';
         
 }
 ?>

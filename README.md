@@ -113,7 +113,7 @@ Green-Tea-Coffee-Shop/
     </td>
     <td align="center">
       <a href="https://github.com/labanya29">
-        <img src="https://avatars.githubusercontent.com/labanya29" width="100px;" alt=""/>
+        <img src="https://avatars.githubusercontent.com/rafiahsalsabillabanya" width="100px;" alt=""/>
         <br /><sub><b>Rafiha Salsabil Labanya </b></sub>
       </a>
     </td>

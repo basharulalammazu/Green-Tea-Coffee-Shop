@@ -59,7 +59,7 @@ if (isset($_POST['update_password']))
         if (password_verify($old_password, $admin_data['password']))
         {
             // Check if the new password is strong
-                $password_validation = isStrongPassword($password);
+                $password_validation = isStrongPassword($new_password);
                 if ($password_validation === true)
                 {
                     $hashed_new_password = password_hash($new_password, PASSWORD_BCRYPT);
@@ -172,9 +172,9 @@ if (isset($_POST['update_password']))
             </div>
         </section>
 
-        <?php foreach ($message as $msg): ?>
-            <div class="message"><?php echo $msg; ?></div>
-        <?php endforeach; ?>
+        <?php //foreach ($message as $msg): ?>
+           <!-- <div class="message"><?php //echo $msg; ?></div>-->
+        <?php //endforeach; ?>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>

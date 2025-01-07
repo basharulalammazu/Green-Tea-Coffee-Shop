@@ -15,7 +15,11 @@
     }
 
     if (isset($error_msg)) {
-        foreach ($error_msg as $msg)
-            echo '<script>Swal.fire("'.$msg.'", "", "error");</script>';
+        foreach ($error_msg as $msg) {
+            // Ensure $msg is converted to a string
+            $message = is_array($msg) ? implode(', ', $msg) : $msg;
+            echo '<script>Swal.fire("'.$message.'", "", "error");</script>';
+        }
     }
+    
 ?>

@@ -312,10 +312,10 @@ header.scrolled{
   align-items: center;
   cursor: pointer;
   position: relative;
-  padding-left: 30px;
   font-size: 1em;
   color: #444;
   user-select: none;
+  gap: 10px; /* Space between text and checkbox */
 }
 
 /* Hide Default Checkbox */
@@ -327,9 +327,7 @@ header.scrolled{
 
 /* Custom Checkmark */
 .custom-checkbox .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   height: 20px;
   width: 20px;
   background-color: #f1f1f1;
@@ -346,8 +344,8 @@ header.scrolled{
 
 /* When Checkbox is Checked */
 .custom-checkbox input:checked ~ .checkmark {
-  background-color: #4caf50;
-  border-color: #4caf50;
+  background-color: #84a337;
+  border-color: #87A243;
 }
 
 /* Checkmark Symbol */
@@ -355,8 +353,8 @@ header.scrolled{
   content: "";
   position: absolute;
   display: none;
-  left: 6px;
-  top: 2px;
+  left: 5px;
+  top: 0px;
   width: 5px;
   height: 10px;
   border: solid white;

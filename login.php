@@ -94,10 +94,11 @@ if (isset($_POST['login'])) {
                     <input type = "password" name = "pass" placeholder ="Enter the password" maxlength = "50" required>
                     <a href="forgot_password.php" style="font-size: 0.715em;">Forgot Password?</a>
                 </div>
-                <div class= "check-box">
-                    <label>
+                <div class="check-box">
+                    <label class="custom-checkbox">
+                        <span>Remember Me</span>
                         <input type="checkbox" name="remember_me" <?php echo isset($_COOKIE['user_email']) ? 'checked' : ''; ?>>
-                        Remember Me
+                        <span class="checkmark"></span>
                     </label>
                 </div>
                 <input type = "submit" name = "login" value = "Login" class="btn">

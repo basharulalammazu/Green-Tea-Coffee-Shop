@@ -27,6 +27,17 @@ if (isset($_POST['login'])) {
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['user_email'] = $row['email'];
 
+            // Set a cookie if "Remember Me" is checked
+            if (isset($_POST['remember_me'])) 
+                setcookie("user_email", $email, time() + (86400 * 30), "/"); // Cookie expires in 1 month
+            else {
+                // Delete the cookie if "Remember Me" is unchecked
+                if (isset($_COOKIE['user_email'])) 
+                    setcookie("user_email", "", time() - 3600, "/");
+                
+            }
+
+
             // Redirect based on User Type
             if (trim($row['user_type']) == "Admin") 
             {
@@ -76,17 +87,21 @@ if (isset($_POST['login'])) {
             <form action = "" method = "post">
                 <div class="input-field">
                     <p>Email</p>
-                    <input type = "text" name = "email" placeholder = "Enter your email" maxlength = "50" required>
+                    <input type = "text" name = "email" placeholder = "Enter your email" maxlength = "50" value="<?php echo isset($_COOKIE['user_email']) ? $_COOKIE['user_email'] : ''; ?>" required>
                 </div>
                 <div class="input-field">
                     <p>Password</p>
                     <input type = "password" name = "pass" placeholder ="Enter the password" maxlength = "50" required>
                     <a href="forgot_password.php" style="font-size: 0.715em;">Forgot Password?</a>
                 </div>
+                <div class= "check-box">
+                    <label>
+                        <input type="checkbox" name="remember_me" <?php echo isset($_COOKIE['user_email']) ? 'checked' : ''; ?>>
+                        Remember Me
+                    </label>
+                </div>
                 <input type = "submit" name = "login" value = "Login" class="btn">
-                
                 <p>Don't have an account? <u><a href="registration.php">Register Now</a></u></p>
-                
             </form>
         </section>
     </div>

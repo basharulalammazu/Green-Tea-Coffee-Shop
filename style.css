@@ -294,6 +294,92 @@ header.scrolled{
   transform: scale(1.0);
   transition: .2s linear;
 }
+/*------------------------Login---------------------------------*/
+/* Checkbox Container */
+.check-box {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  font-size: 1em;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Custom Checkbox Label */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px;
+  font-size: 1em;
+  color: #444;
+  user-select: none;
+}
+
+/* Hide Default Checkbox */
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Custom Checkmark */
+.custom-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #f1f1f1;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Checkmark Hover Effect */
+.custom-checkbox:hover .checkmark {
+  background-color: #e6e6e6;
+  border-color: #888;
+}
+
+/* When Checkbox is Checked */
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+/* Checkmark Symbol */
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Show Checkmark Symbol When Checked */
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .custom-checkbox {
+      font-size: 0.9em;
+  }
+  .custom-checkbox .checkmark {
+      height: 18px;
+      width: 18px;
+  }
+}
+
 
 /*-------------------------home slider---------------------------*/
 

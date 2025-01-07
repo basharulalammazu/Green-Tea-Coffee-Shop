@@ -1,5 +1,6 @@
 <?php
 include 'components/connection.php';
+include 'validitycheck.php';
 
 session_start();
 
@@ -39,18 +40,34 @@ if (isset($_POST['submit']))
         
         else 
         {
+            $strongPass = isStrongPassword($pass);    // Check if the password is strong
             // Hash the password for security
            // $hashed_pass = md5($pass);
-           $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
 
-           $query = "INSERT INTO users (name, phone_number, email, password, user_type) VALUES ('$name', '$phoneNumber', '$email', '$hashed_pass', 'Customer')";
-            if(mysqli_query($conn, $query))
-            {
-                $success_msg[] = 'Registration successful! Please login.';
-                header('location: login.php');
-            }
-            else
-                $error_msg[] = 'Error: ' . $conn->error;
+           if ($strongPass === true)
+           {
+                $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+
+                $query = "INSERT INTO users (name, phone_number, email, password, user_type) VALUES ('$name', '$phoneNumber', '$email', '$hashed_pass', 'Customer')";
+                if(mysqli_query($conn, $query))
+                {
+                    $success_msg[] = 'Registration successful! Please login.';
+                    header('location: login.php');
+                }
+                else
+                    $error_msg[] = 'Error: ' . $conn->error;
+           }
+
+           else 
+           {
+                if (is_array($strongPass))
+                {
+                    foreach ($strongPass as $msg) 
+                        $error_msg[] = $msg;
+                }
+                else 
+                    $error_msg[] = $strongPass;
+           }
         }
     }
 }

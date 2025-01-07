@@ -2,6 +2,8 @@
 include '../components/connection.php';
 include '../image_manager.php';
 include "../components/alert.php";
+include '../validitycheck.php';
+
 
 session_start();
 
@@ -46,27 +48,39 @@ if (isset($_POST['update_profile']))
 
 if (isset($_POST['update_password'])) 
 {
-    $old_password = $_POST['old_password'];
-    $new_password = $_POST['new_password'];
-    $confirm_password = $_POST['confirm_password'];
+    $old_password = filter_var($_POST['old_password'], FILTER_SANITIZE_STRING);
+    $new_password = filter_var($_POST['new_password'], FILTER_SANITIZE_STRING);
+    $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
 
+    // Check if the new password matches the confirm password
     if ($new_password === $confirm_password) 
     {
-        if (md5($old_password) == $admin_data['password']) 
+        // Verify old password matches
+        if (password_verify($old_password, $admin_data['password']))
         {
-            $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-            $update_password->bind_param("si", md5($new_password), $admin_id);
-            if ($update_password->execute()) 
-                $success_msg[] = "Password updated successfully.";
+            // Check if the new password is strong
+                $password_validation = isStrongPassword($password);
+                if ($password_validation === true)
+                {
+                    $hashed_new_password = password_hash($new_password, PASSWORD_BCRYPT);
+                    $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
+                    $update_password->bind_param("si", $hashed_new_password, $admin_id);
+
+                if ($update_password->execute()) 
+                    $success_msg[] = "Password updated successfully.";
+                else 
+                    $error_msg[] = "Failed to update password. Please try again.";
+            } 
             else 
-                $error_msg[] = "Failed to update password.";
-        }
+                $error_msg[] = $password_validation;
+        } 
         else 
-            $error_msg[] = "Incorrect old password.";
-    }
+            $error_msg[] = "Old password is incorrect.";
+    } 
     else 
-        $error_msg[] = "New passwords do not match.";
+        $error_msg[] = "New password and confirm password do not match.";
 }
+
 
 ?>
 
@@ -108,6 +122,7 @@ if (isset($_POST['update_password']))
                         <p><strong>Email:</strong> <?php echo $admin_data['email']; ?></p>
                         <p><strong>Phone:</strong> <?php echo $admin_data['phone_number']; ?></p>
                         <a onclick="toggleEditMode()" class="btn">Edit Profile</a>
+                        <a onclick="togglePasswordMode()" class="btn">Change Password</a>
                     </div>
 
                     <!-- Edit Mode (Initially hidden) -->
@@ -133,6 +148,26 @@ if (isset($_POST['update_password']))
                             <a type="button" onclick="toggleEditMode()" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
+
+                    <div class="password-mode <?php echo isset($password_mode) && $password_mode ? '' : 'hidden'; ?>">
+                        <form action="" method="post" enctype="multipart/form-data" class="form">
+                            <div class="input-group">
+                                <label>Old Password:</label>
+                                <input type="password" name="old_password" required>
+                            </div>
+                            <div class="input-group">
+                                <label>New Password:</label>
+                                <input type="password" name="new_password" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Confirm Password:</label>
+                                <input type="password" name="confirm_password" required>
+                            </div>
+                            <button type="submit" name="update_password" class="btn">Change Password</button>
+                            <a type="button" onclick="togglePasswordMode()" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </section>

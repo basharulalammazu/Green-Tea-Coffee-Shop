@@ -50,3 +50,10 @@ function productImageUpdate(event) {
         product_image.src = URL.createObjectURL(input_file.files[0]);
     
 }
+
+function togglePasswordMode(){
+    const displayMode = document.querySelector('.display-mode');
+    const passwordMode = document.querySelector('.password-mode');
+    displayMode.classList.toggle('hidden');
+    passwordMode.classList.toggle('hidden');
+}

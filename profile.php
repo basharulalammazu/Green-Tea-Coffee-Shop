@@ -1,5 +1,6 @@
 <?php
 include 'components/connection.php';
+include 'validitycheck.php';
 session_start();
 
 // Check if the customer is logged in
@@ -14,20 +15,18 @@ $customer_id = $_SESSION['user_id'];
 $message = [];
 
 // Fetch customer data
-$fetch_customer = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
-$fetch_customer->bind_param("i", $customer_id);
-$fetch_customer->execute();
-$result = $fetch_customer->get_result();
-$customer_data = $result->fetch_assoc();
+// Fetch customer data
+$customer_query = "SELECT * FROM `users` WHERE id = '$customer_id'"; 
+$result_customer = mysqli_query($conn, $customer_query);
+$customer_data = mysqli_fetch_array($result_customer, MYSQLI_ASSOC);
 
 // Fetch orders
-$fetch_orders = $conn->prepare("SELECT * FROM `orders` WHERE user_id = ? ORDER BY date DESC");
-$fetch_orders->bind_param("i", $customer_id);
-$fetch_orders->execute();
-$orders = $fetch_orders->get_result();
+$orders_query = "SELECT * FROM `orders` WHERE user_id = '$customer_id' ORDER BY date DESC"; 
+$orders = mysqli_query($conn, $orders_query); 
 
 // Handle profile updates
-if (isset($_POST['update_profile'])) {
+if (isset($_POST['update_profile'])) 
+{
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
@@ -42,26 +41,51 @@ if (isset($_POST['update_profile'])) {
 }
 
 // Handle password update
-if (isset($_POST['update_password'])) {
-    $old_password = $_POST['old_password'];
-    $new_password = $_POST['new_password'];
-    $confirm_password = $_POST['confirm_password'];
+if (isset($_POST['update_password'])) 
+{
+    $old_password = filter_var($_POST['old_password'], FILTER_SANITIZE_STRING);
+    $new_password = filter_var($_POST['new_password'], FILTER_SANITIZE_STRING);
+    $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
 
-    if (password_verify($old_password, $customer_data['password'])) {
-        if ($new_password === $confirm_password) {
-            $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
-            $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-            $update_password->bind_param("si", $hashed_password, $customer_id);
-            $update_password->execute();
-            $success_msg[] = "Password updated successfully.";
+    $is_password_updated = false; // Add a flag to control toggling
+
+
+    // Check if the new password matches the confirm password
+    if ($new_password === $confirm_password) 
+    {
+        if (password_verify($old_password, $customer_data['password']))
+        {
+            $password_validation = isStrongPassword($new_password);
+            if ($password_validation === true)
+            {
+                $hashed_new_password = password_hash($new_password, PASSWORD_BCRYPT);
+                $sql = "UPDATE `users` SET password = '$hashed_new_password' WHERE id = '$customer_id'";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) 
+                {
+                    $success_msg[] = "Password updated successfully.";
+                    $is_password_updated = true; // Set the flag to true
+                } 
+                else 
+                    $error_msg[] = "Failed to update password. Please try again.";
+            } 
+            else 
+                $error_msg[] = $password_validation;
         } 
         else 
-            $warning_msg[] = "New passwords do not match.";
+            $error_msg[] = "Old password is incorrect.";
+        
+        // Pass the toggle flag to JavaScript
+        echo "<script>
+            var isPasswordUpdated = " . json_encode($is_password_updated) . ";
+        </script>";
         
     } 
     else 
-        $warning_msg[] = "Incorrect old password.";
+        $error_msg[] = "New password and confirm password do not match.";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -93,9 +117,12 @@ if (isset($_POST['update_password'])) {
                         <p><strong>Email:</strong> <?php echo $customer_data['email']; ?></p>
                         <p><strong>Phone:</strong> <?php echo $customer_data['phone_number']; ?></p>
                         <button onclick="toggleEditMode()" class="btn edit-btn">Edit Profile</button>
+                        <button onclick="togglePasswordMode()" class="btn password-btn">Change Password</button>
 
-                        <h2 class="profile-heading " align = "center">Order History</h2>
-                <?php if ($orders->num_rows > 0): ?>
+                        <h2 class="profile-heading" align = "center">Order History</h2>
+                <?php 
+                    if ($orders->num_rows > 0): 
+                ?>
                     <table class="order-table">
                         <thead>
                             <tr>
@@ -152,6 +179,26 @@ if (isset($_POST['update_password'])) {
                     <div class="form-actions">
                         <button type="submit" name="update_profile" class="btn save-btn">Save Changes</button>
                         <button type="button" onclick="toggleEditMode()" class="btn cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="password-mode hidden">
+                <form action="" method="post" enctype="multipart/form-data" class="form">
+                    <div class="input-group">
+                        <label>Old Password:</label>
+                            <input type="password" name="old_password" required>
+                        </div>
+                        <div class="input-group">
+                            <label>New Password:</label>
+                            <input type="password" name="new_password" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Confirm Password:</label>
+                            <input type="password" name="confirm_password" required>
+                        </div>
+                        <button type="submit" name="update_password" class="btn">Change Password</button>
+                        <a type="button" onclick="togglePasswordMode()" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

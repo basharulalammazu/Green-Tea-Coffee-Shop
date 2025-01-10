@@ -42,9 +42,7 @@ if (isset($_POST['update_profile']))
 
 // Handle password update
 if (isset($_POST['update_password']))
-{
     header('Location: change_password.php');
-}
 ?>
 
 <!DOCTYPE html>
@@ -56,13 +54,6 @@ if (isset($_POST['update_password']))
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <title>Customer Profile</title>
     <script src="script.js"></script>
-    <script>
-        // Pass the PHP flag to JavaScript
-        const isPasswordUpdated = <?php echo $isPasswordUpdated ? 'true' : 'false'; ?>;
-        document.addEventListener('DOMContentLoaded', () => {
-            togglePasswordMode(false, isPasswordUpdated, false);
-        });
-    </script>
 </head>
 <body>
     <?php include './components/header.php'; ?>

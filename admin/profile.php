@@ -122,7 +122,7 @@ if (isset($_POST['update_password']))
                         <p><strong>Email:</strong> <?php echo $admin_data['email']; ?></p>
                         <p><strong>Phone:</strong> <?php echo $admin_data['phone_number']; ?></p>
                         <a onclick="toggleEditMode()" class="btn">Edit Profile</a>
-                        <a onclick="togglePasswordMode()" class="btn">Change Password</a>
+                        <button onclick="window.location.href='change_pass.php'" class="btn">Change Password</button>
                     </div>
 
                     <!-- Edit Mode (Initially hidden) -->
@@ -148,26 +148,6 @@ if (isset($_POST['update_password']))
                             <a type="button" onclick="toggleEditMode()" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
-
-                    <div class="password-mode <?php echo isset($password_mode) && $password_mode ? '' : 'hidden'; ?>">
-                        <form action="" method="post" enctype="multipart/form-data" class="form">
-                            <div class="input-group">
-                                <label>Old Password:</label>
-                                <input type="password" name="old_password" required>
-                            </div>
-                            <div class="input-group">
-                                <label>New Password:</label>
-                                <input type="password" name="new_password" required>
-                            </div>
-                            <div class="input-group">
-                                <label>Confirm Password:</label>
-                                <input type="password" name="confirm_password" required>
-                            </div>
-                            <button type="submit" name="update_password" class="btn">Change Password</button>
-                            <a type="button" onclick="togglePasswordMode()" class="btn btn-secondary">Cancel</a>
-                        </form>
-                    </div>
-
                 </div>
             </div>
         </section>

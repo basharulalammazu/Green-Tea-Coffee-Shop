@@ -6,7 +6,14 @@ $admin_id = $_SESSION['user_id'];
 if (!isset($admin_id)) 
     header("location:../login.php");
 
+// Check if the "Register New Admin" button was clicked
+if (isset($_POST['add_admin'])) {
+    header('location: admin_reg.php');
+    exit();
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,8 +66,16 @@ if (!isset($admin_id))
                 }
                 ?>
             </div>
+
+            <div class="flex-btn">
+                <form action="" method="post" style="text-align: center;">
+                    <button type="submit" name="add_admin" class="btn">Register New Admin</button>
+                </form>
+            </div>
+        
         </section>
     </div>
+
     <!-- sweetalert cdn link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <!-- custom js link -->
@@ -69,5 +84,4 @@ if (!isset($admin_id))
     <?php include '../components/alert.php'; ?>
 
 </body>
-
 </html>

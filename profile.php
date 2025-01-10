@@ -13,8 +13,8 @@ if (!isset($_SESSION['user_id']))
 
 $customer_id = $_SESSION['user_id'];
 $message = [];
+$isPasswordUpdated = false; // Initialize the flag
 
-// Fetch customer data
 // Fetch customer data
 $customer_query = "SELECT * FROM `users` WHERE id = '$customer_id'"; 
 $result_customer = mysqli_query($conn, $customer_query);
@@ -41,51 +41,10 @@ if (isset($_POST['update_profile']))
 }
 
 // Handle password update
-if (isset($_POST['update_password'])) 
+if (isset($_POST['update_password']))
 {
-    $old_password = filter_var($_POST['old_password'], FILTER_SANITIZE_STRING);
-    $new_password = filter_var($_POST['new_password'], FILTER_SANITIZE_STRING);
-    $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
-
-    $is_password_updated = false; // Add a flag to control toggling
-
-
-    // Check if the new password matches the confirm password
-    if ($new_password === $confirm_password) 
-    {
-        if (password_verify($old_password, $customer_data['password']))
-        {
-            $password_validation = isStrongPassword($new_password);
-            if ($password_validation === true)
-            {
-                $hashed_new_password = password_hash($new_password, PASSWORD_BCRYPT);
-                $sql = "UPDATE `users` SET password = '$hashed_new_password' WHERE id = '$customer_id'";
-                $result = mysqli_query($conn, $sql);
-
-                if ($result) 
-                {
-                    $success_msg[] = "Password updated successfully.";
-                    $is_password_updated = true; // Set the flag to true
-                } 
-                else 
-                    $error_msg[] = "Failed to update password. Please try again.";
-            } 
-            else 
-                $error_msg[] = $password_validation;
-        } 
-        else 
-            $error_msg[] = "Old password is incorrect.";
-        
-        // Pass the toggle flag to JavaScript
-        echo "<script>
-            var isPasswordUpdated = " . json_encode($is_password_updated) . ";
-        </script>";
-        
-    } 
-    else 
-        $error_msg[] = "New password and confirm password do not match.";
+    header('Location: change_password.php');
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -96,14 +55,17 @@ if (isset($_POST['update_password']))
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <title>Customer Profile</title>
-    <script>
-      
-    </script>
     <script src="script.js"></script>
-
+    <script>
+        // Pass the PHP flag to JavaScript
+        const isPasswordUpdated = <?php echo $isPasswordUpdated ? 'true' : 'false'; ?>;
+        document.addEventListener('DOMContentLoaded', () => {
+            togglePasswordMode(false, isPasswordUpdated, false);
+        });
+    </script>
 </head>
 <body>
-    <?php  include './components/header.php'; ?>
+    <?php include './components/header.php'; ?>
     <div class="main">
         <div class="banner">
             <h1>Customer Profile</h1>
@@ -117,99 +79,71 @@ if (isset($_POST['update_password']))
                         <p><strong>Email:</strong> <?php echo $customer_data['email']; ?></p>
                         <p><strong>Phone:</strong> <?php echo $customer_data['phone_number']; ?></p>
                         <button onclick="toggleEditMode()" class="btn edit-btn">Edit Profile</button>
-                        <button onclick="togglePasswordMode()" class="btn password-btn">Change Password</button>
+                        <button onclick="window.location.href='change_password.php'" class="btn password-btn">Change Password</button>
 
-                        <h2 class="profile-heading" align = "center">Order History</h2>
-                <?php 
-                    if ($orders->num_rows > 0): 
-                ?>
-                    <table class="order-table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Product ID</th>
-                                <th>Quantity</th>
-                                <th>Total Price</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $orders->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo $row['id']; ?></td>
-                                    <td><?php echo $row['product_id']; ?></td>
-                                    <td><?php echo $row['quantity']; ?></td>
-                                    <td><?php echo $row['price']; ?></td>
-                                    <td><?php echo $row['date']; ?></td>
-                                    <td>
-                                        <?php 
-                                            if (empty($row['status']) || is_null($row['status'])) 
-                                                echo "-";  
-                                            else 
-                                                echo $row['status'];
-                                        ?>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                <?php else: ?>
-                    <p class="empty">You haven't ordered anything yet.</p>
-                <?php endif; ?>
-
+                        <h2 class="profile-heading" align="center"><br>Order History</h2>
+                        <?php if ($orders->num_rows > 0): ?>
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Product ID</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($row = $orders->fetch_assoc()): ?>
+                                        <tr>
+                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['product_id']; ?></td>
+                                            <td><?php echo $row['quantity']; ?></td>
+                                            <td><?php echo $row['price']; ?></td>
+                                            <td><?php echo $row['date']; ?></td>
+                                            <td>
+                                                <?php echo empty($row['status']) ? '-' : $row['status']; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                        <?php else: ?>
+                            <p class="empty">You haven't ordered anything yet.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
 
-            <!-- Edit Mode -->
-            <div class="edit-mode hidden">
-                <form action="" method="post" class="form">
-                    <div class="input-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" value="<?php echo $customer_data['name']; ?>" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" value="<?php echo $customer_data['email']; ?>" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="phone">Phone:</label>
-                        <input type="text" id="phone" name="phone" value="<?php echo $customer_data['phone_number']; ?>" required>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" name="update_profile" class="btn save-btn">Save Changes</button>
-                        <button type="button" onclick="toggleEditMode()" class="btn cancel-btn">Cancel</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="password-mode hidden">
-                <form action="" method="post" enctype="multipart/form-data" class="form">
-                    <div class="input-group">
-                        <label>Old Password:</label>
-                            <input type="password" name="old_password" required>
+                <!-- Edit Mode -->
+                <div class="edit-mode hidden">
+                    <form action="" method="post" class="form">
+                        <div class="input-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" value="<?php echo $customer_data['name']; ?>" required>
                         </div>
                         <div class="input-group">
-                            <label>New Password:</label>
-                            <input type="password" name="new_password" required>
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" value="<?php echo $customer_data['email']; ?>" required>
                         </div>
                         <div class="input-group">
-                            <label>Confirm Password:</label>
-                            <input type="password" name="confirm_password" required>
+                            <label for="phone">Phone:</label>
+                            <input type="text" id="phone" name="phone" value="<?php echo $customer_data['phone_number']; ?>" required>
                         </div>
-                        <button type="submit" name="update_password" class="btn">Change Password</button>
-                        <a type="button" onclick="togglePasswordMode()" class="btn btn-secondary">Cancel</a>
-                    </div>
-                </form>
+                        <div class="form-actions">
+                            <button type="submit" name="update_profile" class="btn save-btn">Save Changes</button>
+                            <button type="button" onclick="toggleEditMode()" class="btn cancel-btn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+               
             </div>
-        </div>
+        </section>
     </div>
-
-    <?php foreach ($message as $msg): ?>
-        <div class="message"> <?php echo $msg; ?> </div>
-    <?php endforeach; ?>
-</section>
-
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
+    <script src = "script.js"></script>
+    <?php include 'components/alert.php'; ?>
 </body>
 </html>

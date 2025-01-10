@@ -150,13 +150,24 @@ function toggleEditMode() {
 }
 
 //------------------Customer Profile Password Button------------------------
-function togglePasswordMode() {
+function togglePasswordMode(isClick = false, isPasswordUpdated = false, cancel = false) 
+{
     const displayMode = document.querySelector('.display-mode');
     const passwordMode = document.querySelector('.password-mode');
 
-    // Check if the password was updated successfully
-    if (typeof isPasswordUpdated !== 'undefined' && isPasswordUpdated === true) {
+    if (isPasswordUpdated) 
+    {
+        displayMode.classList.remove('hidden');
+        passwordMode.classList.add('hidden');
+    } 
+    else if (isClick || cancel)
+    {
         displayMode.classList.toggle('hidden');
         passwordMode.classList.toggle('hidden');
     }
+
 }
+
+
+
+

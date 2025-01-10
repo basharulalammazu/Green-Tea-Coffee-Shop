@@ -82,7 +82,7 @@ if (isset($_POST['login'])) {
             <div class="title">
                 <img src="assets/image/download.png" alt="Logo">
                 <h1>Login Now</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quo voluptatum repellat.</p>
+                <p>Login here if you're already a part of us!</p>
             </div>
             <form action = "" method = "post">
                 <div class="input-field">

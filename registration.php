@@ -92,8 +92,7 @@ if (isset($_POST['submit']))
             <div class = "title">
                 <img src = "assets/image/download.png">
                 <h1>Register Now</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quo voluptatum repellat 
-                </p>
+                <p>Welcome! Register now to become a part of our journey!</p>
             </div>
             <form action="" method="post">
             <div class="input-field">

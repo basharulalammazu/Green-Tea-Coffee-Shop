@@ -95,30 +95,30 @@ if (isset($_POST['submit']))
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quo voluptatum repellat 
                 </p>
             </div>
-            <form action = "" method = "post">
-                <div class = "input-field">
-                    <p>Your Name</p>
-                    <input type = "text" name = "name" placeholder = "Enter your name" maxlength = "50" required>
-                </div>
-                <div class = "input-field">
-                    <p>Phone Number</p>
-                    <input type = "text" name = "phone_number" placeholder = "Enter your phone number" maxlength = "14" required >
-                </div>
-                <div class = "input-field">
-                    <p>Email</p>
-                    <input type = "text" name = "email" placeholder = "Enter your email" maxlength = "50" oninput = "this.value = this.value.replace(/\s/g,'')" required >
-                </div>
-                <div class = "input-field">
-                    <p>Password</p>
-                    <input type = "password" name = "pass" placeholder = "Enter the password" maxlength = "50" oninput = "this.value = this.value.replace(/\s/g,'')" required >
-                </div>
-                <div class = "input-field">
-                    <p>Confirm Passwrod</p>
-                    <input type = "password" name = "cpass" placeholder = "Enter password again" maxlength = "50" required>
-                </div>
-                <input type = "submit" name = "submit" value = "registration" class = "btn">
-                <p>Already have an account? <u><a href = "login.php">Login Now</a></u></p>
-            </form>
+            <form action="" method="post">
+            <div class="input-field">
+                <p>Your Name</p>
+                <input type="text" name="name" placeholder="Enter your name" maxlength="50" required value="<?php echo isset($name) ? htmlspecialchars($name) : ''; ?>">
+            </div>
+            <div class="input-field">
+                <p>Phone Number</p>
+                <input type="text" name="phone_number" placeholder="Enter your phone number" maxlength="14" required value="<?php echo isset($phoneNumber) ? htmlspecialchars($phoneNumber) : ''; ?>">
+            </div>
+            <div class="input-field">
+                <p>Email</p>
+                <input type="text" name="email" placeholder="Enter your email" maxlength="50" oninput="this.value = this.value.replace(/\s/g,'')" required value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
+            </div>
+            <div class="input-field">
+                <p>Password</p>
+                <input type="password" name="pass" placeholder="Enter the password" maxlength="50" oninput="this.value = this.value.replace(/\s/g,'')" required>
+            </div>
+            <div class="input-field">
+                <p>Confirm Password</p>
+                <input type="password" name="cpass" placeholder="Enter password again" maxlength="50" required>
+            </div>
+            <input type="submit" name="submit" value="registration" class="btn">
+            <p>Already have an account? <u><a href="login.php">Login Now</a></u></p>
+        </form>
         </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

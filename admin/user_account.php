@@ -66,12 +66,6 @@ if (isset($_POST['add_admin'])) {
                 }
                 ?>
             </div>
-
-            <div class="flex-btn">
-                <form action="" method="post" style="text-align: center;">
-                    <button type="submit" name="add_admin" class="btn">Register New Admin</button>
-                </form>
-            </div>
         
         </section>
     </div>

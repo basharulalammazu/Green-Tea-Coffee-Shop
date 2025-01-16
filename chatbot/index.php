@@ -10,7 +10,7 @@
 
 <!-- Floating Button -->
 <div id="chatbot-btn" aria-label="Open Chatbot">
-    💬 Chat
+    💬
 </div>
 
 <!-- Chatbot Interface -->

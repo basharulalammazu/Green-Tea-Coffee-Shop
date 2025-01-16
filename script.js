@@ -168,6 +168,29 @@ function togglePasswordMode(isClick = false, isPasswordUpdated = false, cancel =
 
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const scrollToTopButton = document.getElementById('scrollToTop');
+
+    if (scrollToTopButton) {
+        // Show or hide the button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                scrollToTopButton.style.display = 'flex'; // Show the button
+            } else {
+                scrollToTopButton.style.display = 'none'; // Hide the button
+            }
+        });
+
+        // Scroll to top when the button is clicked
+        scrollToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    } else {
+        console.error('Scroll to Top button not found in the DOM!');
+    }
+});
+
 
 
 

@@ -1,5 +1,6 @@
 <?php
 include '../components/connection.php';
+include '../mail/email.php';
 
 $admin_id = $_SESSION['user_id'] ?? null;
 
@@ -53,6 +54,7 @@ if (isset($_POST['logout'])) {
             <a href="add_products.php">Add Product</a>
             <a href="view_product.php">View Product</a>
             <a href="user_account.php?user=all">Account</a>
+            <a href = "register.php">Add New Admin</a>
         </nav>
         <div class="icons">
             <i class="bx bxs-user" id="user-btn"></i>

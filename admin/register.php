@@ -1,6 +1,11 @@
 <?php
-session_start(); 
 include '../components/connection.php'; // Corrected path for connection file
+// require_once '../mail/email.php'; // Corrected path for email file
+include '../image_manager.php';
+include '../validitycheck.php';
+
+
+session_start(); 
 
 $warning_msg = []; // Initialize warning message array
 $success_msg = []; // Initialize success message array
@@ -14,14 +19,17 @@ if (isset($_POST['register']))
     $email = $_POST['email'];
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-   // $pass = sha1($_POST['password']);
-   $pass = $_POST['password'];
-    $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+    $phone_number = $_POST['phone_number'];
+    $phone_number = filter_var($phone_number, FILTER_SANITIZE_STRING);
 
-    // $cpass = sha1($_POST['cpassword']);
-    $cpass = $_POST['cpassword'];
-    $cpass = filter_var($cpass, FILTER_SANITIZE_STRING);
+    // Define characters for the password
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+    $pass = '';
+    $maxIndex = strlen($characters) - 1;
 
+    // Randomly select characters for the password
+    for ($i = 0; $i < 12; $i++) 
+        $pass .= $characters[random_int(0, $maxIndex)];
 
     // Check if user already exists
     $select_admin = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
@@ -34,36 +42,39 @@ if (isset($_POST['register']))
         $warning_msg[] = 'User email already exists';
     else 
     {
-        if ($pass != $cpass) 
-            $warning_msg[] = 'Confirm password not matched';
-        else 
+        // Check if the password is strong
+        $pass_check = isStrongPassword($pass);
+
+        if($pass_check !== true) 
+            $warning_msg[] = $pass_check;
+        else
         {
             $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
             try 
             {
                 // Insert new user
-                $insert_admin = $conn->prepare("INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)");
-                $insert_admin->bind_param("ssss", $name, $email, $hashed_pass, "Admin");
-                $insert_admin->execute();
+                $query = "INSERT INTO `users` (name, email, phone_number, password, user_type) VALUES ('$name', '$email', '$phone_number', '$hashed_pass', 'Admin')";
+                if (mysqli_query($conn, $query))
+                {
+                    $last_id = mysqli_insert_id($conn);
 
-                // Get the last inserted ID
-                $last_id = $conn->insert_id;
-
-                // Handle image upload
-
-                $image_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION); // Get the file extension
-                $new_image_name = $last_id . '.' . $image_extension; // Rename image to last_id with the same extension
-                $image_tmp_name = $_FILES['image']['tmp_name'];
-                $image_folder = '../image/admin/' . $new_image_name;
-
-                if (move_uploaded_file($image_tmp_name, $image_folder)) 
-                    $success_msg[] = "Image uploaded successfully as $new_image_name.";
-                else 
-                    $warning_msg[] = "Failed to upload the image.";
+                    if (upload_image($_FILES['image'], $last_id, 'admin')) 
+                    {
+                        $success_msg[] = "Image uploaded successfully as $new_image_name.";
+                    /*    if (sendConfirmationEmailWithCredentials($email, $pass)) // Send email to admin with credentials
+                            $success_msg[] = "Email sent to $email with login credentials.";
+                        else 
+                            $warning_msg[] = "Failed to send email."; */
+                    }
+                    else 
+                        $warning_msg[] = "Failed to upload the image.";
             
 
-                $success_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
 
+                    $success_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
+                }
+                else 
+                    $warning_msg[] = "Failed to register new admin."; 
             } 
             catch (Exception $ex) 
             {
@@ -85,34 +96,31 @@ if (isset($_POST['register']))
     <title>Green Coffee Admin - Register Page</title>
 </head>
 <body>
+    <?php include 'components/admin_header.php'; ?>
     <div class="main_container">
         <section class="main">
             <div class="form-container" id="admin_login">
-                <form action="#" method="post" enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data">
                     <h3>Register Now</h3>
                     <div class="input-field">
                         <label>Name: </label>
-                        <input type="text" name="name" placeholder="Enter your name" required>
+                        <input type="text" name="name" placeholder="Enter your name" value="<?php echo isset($name) ? ($name) : ''; ?>" required>
                     </div>
                     <div class="input-field">
                         <label>Email: </label>
-                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <input type="email" name="email" placeholder="Enter your email" value="<?php echo isset($email) ? ($email) : ''; ?>" required>
                     </div>
                     <div class="input-field">
-                        <label>Password: </label>
-                        <input type="password" name="password" placeholder="Enter your password" required>
-                    </div>
-                    <div class="input-field">
-                        <label>Confirm Password: </label>
-                        <input type="password" name="cpassword" placeholder="Enter your confirm password" required>
+                        <label>Phone Number: </label>
+                        <input type="number" name="phone_number" placeholder="Enter your phone number" value="<?php echo isset($phone_number) ? ($phone_number) : ''; ?>" required>
                     </div>
                     <div class="input-field">
                         <label>Select Profile</label>
                         <input type="file" name="image" accept="image/*">
                     </div>
                     <button type="submit" name="register" class="btn">Register now</button>
-                    <p>Already have an account? <a href="../login.php">Login now</a></p>
-                </form>
+                    <button type="submit" name="back" class="btn">Back</button>
+                </form> 
             </div>
         </section>
     </div>

@@ -21,9 +21,10 @@
         // Check if the file has a valid extension
         if (!in_array($fileExtension, $allowedExtensions)) 
             return "Error: Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
+
+        // Get the directory path
+        $directory = directory($user_type);
         
-    
-    
         // Create the target file path
         $targetFile = $directory($user_type) . $id . '.' . $fileExtension;
     
@@ -113,6 +114,9 @@
     {
         // Define allowed file extensions
         $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+        // Get the directory path
+         $directory = directory($user_type);
 
         // Ensure the directory ends with a slash
 

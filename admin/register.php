@@ -8,7 +8,7 @@ include '../validitycheck.php';
 session_start(); 
 
 $warning_msg = []; // Initialize warning message array
-$success_msg = []; // Initialize success message array
+$succcess_msg = []; // Initialize success message array
 
 if (isset($_POST['register'])) 
 {
@@ -41,13 +41,6 @@ if (isset($_POST['register']))
     if ($result && $result->num_rows > 0) 
         $warning_msg[] = 'User email already exists';
     else 
-    {
-        // Check if the password is strong
-        $pass_check = isStrongPassword($pass);
-
-        if($pass_check !== true) 
-            $warning_msg[] = $pass_check;
-        else
         {
             $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
             try 
@@ -60,7 +53,12 @@ if (isset($_POST['register']))
 
                     if (upload_image($_FILES['image'], $last_id, 'admin')) 
                     {
-                        $success_msg[] = "Image uploaded successfully as $new_image_name.";
+                        $succcess_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
+
+                        $name="";
+                        $email="";
+                        $phone_number="";
+
                     /*    if (sendConfirmationEmailWithCredentials($email, $pass)) // Send email to admin with credentials
                             $success_msg[] = "Email sent to $email with login credentials.";
                         else 
@@ -69,9 +67,6 @@ if (isset($_POST['register']))
                     else 
                         $warning_msg[] = "Failed to upload the image.";
             
-
-
-                    $success_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
                 }
                 else 
                     $warning_msg[] = "Failed to register new admin."; 
@@ -82,7 +77,6 @@ if (isset($_POST['register']))
             }
         }
     }
-}
 ?>
 
 
@@ -116,7 +110,7 @@ if (isset($_POST['register']))
                     </div>
                     <div class="input-field">
                         <label>Select Profile</label>
-                        <input type="file" name="image" accept="image/*">
+                        <input type="file" name="image" accept="image/*" required>
                     </div>
                     <button type="submit" name="register" class="btn">Register now</button>
                     <button type="button" name="back" class="btn" onclick="window.location.href='dashboard.php';">Back</button>

@@ -6,16 +6,69 @@
 
     // Define the allowed image extensions
     function upload_image($file, $id, $user_type) 
-    {
+    {   
+
+            // Image handling
+            $image = $_FILES['image']['name'];
+            $image = filter_var($image, FILTER_SANITIZE_STRING);
+            $image_size = $_FILES['image']['size'];
+            $image_tmp_name = $_FILES['image']['tmp_name'];
+            $image_folder = '../image/'.$user_type.'/';
+
         // Allowed file extensions
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $extension = pathinfo($image, PATHINFO_EXTENSION);
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
 
         // Check if the file was uploaded without errors
         if ($file['error'] !== 0) 
             return "Error: There was a problem uploading the file.";
+
+            if (!in_array(strtolower($extension), $allowed_extensions)) 
+            $warning_msg[] = 'Invalid image format. Allowed formats: jpg, jpeg, png, gif.';
+             else if ($image_size > 200000)
+                     $warning_msg[] = 'Image size is too large. Maximum allowed size is 200KB.';
         
+
+         // Rename the image to id.extension
+         $new_image_name = $id . '.' . $extension;
+         $new_image_path = $image_folder . $new_image_name;
+
+         // Move the uploaded image to the destination folder
+         if (isset($_FILES['image']['name']) && !empty($_FILES['image']['name'])) {
+             $image_name = $_FILES['image']['name'];
+             $image_tmp_name = $_FILES['image']['tmp_name'];
+
+             // Get the file extension
+             $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
+             $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+             // Validate file extension
+             if (in_array(strtolower($image_extension), $allowed_extensions)) {
+                 // Define the product directory
+                 $product_directory = "../image/".$user_type."/";
+                 $new_image_name = $id . '.' . $image_extension;
+                 $new_image_path = $product_directory . $new_image_name;
+
+                 // Ensure the product directory exists
+                 if (!is_dir($product_directory)) 
+                     mkdir($product_directory, 0777, true); // Create the directory if it doesn't exist
+                 
+
+                 // Move the uploaded file
+                 if (move_uploaded_file($image_tmp_name, $new_image_path)) 
+                     return true;                          
+                 else
+                     $warning_msg[] = 'Failed to upload.';
+                 
+             } else 
+                 $warning_msg[] = 'Invalid image format. Only JPG, JPEG, PNG, and GIF are allowed.';
+             
+         } 
+         else 
+             $warning_msg[] = 'No image uploaded.';
+
     
-        // Get the file extension
+    /*    // Get the file extension
         $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     
         // Check if the file has a valid extension
@@ -43,7 +96,9 @@
             return $targetFile; // Return the uploaded file path
         else 
             return "Error: Failed to move the uploaded file.";
-        
+     
+    */
+
     }
 
 

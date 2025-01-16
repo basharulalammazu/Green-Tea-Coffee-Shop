@@ -6,6 +6,7 @@ $admin_id = $_SESSION['user_id'];
 if (!isset($admin_id)) 
     header("Location: ../login.php");
 
+    $name = $product_category = $size = $price = $content = '';
 
 // Add product to database
 if (isset($_POST['publish']) || isset($_POST['draft'])) 
@@ -126,37 +127,37 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
         <h1 style="text-align: center; margin-top: -25px;">Add products</h1>
            <form action="" method="post" enctype="multipart/form-data">
             <div class="input-field">
-                <label>product name: </label>
-                <input type="text" name="name" required placeholder="add product name">
+            <label>Product Name: </label>
+                <input type="text" name="name" required placeholder="Add product name" value="<?php echo htmlspecialchars($name); ?>">
             </div>
             <div class="input-field">
                 <label>Product Category: </label>
-                <select name="product_category">
-                    <option disabled selected>Select Product Category</option>
-                    <option value="Coffee" >Coffee</option>
-                    <option value="Tea">Tea</option>
-                    <option value="Drinks">Drinks</option>
+            <select name="product_category" required>
+                <option disabled <?php echo empty($product_category) ? 'selected' : ''; ?>>Select Product Category</option>
+                <option value="Coffee" <?php echo ($product_category === 'Coffee') ? 'selected' : ''; ?>>Coffee</option>
+                <option value="Tea" <?php echo ($product_category === 'Tea') ? 'selected' : ''; ?>>Tea</option>
+                <option value="Drinks" <?php echo ($product_category === 'Drinks') ? 'selected' : ''; ?>>Drinks</option>
                 </select>
             </div>               
             <div class="input-field">
-                <label>product Size: </label>
-                <input type="text" name="size" required placeholder="add product size">
+            <label>Product Size: </label>
+                <input type="text" name="size" required placeholder="Add product size" value="<?php echo htmlspecialchars($size); ?>">
             </div>
             <div class="input-field">
-                <label>product price: </label>
-                <input type="number" name="price" required placeholder="add product price">
+            <label>Product Price: </label>
+                <input type="number" name="price" required placeholder="Add product price" value="<?php echo htmlspecialchars($price); ?>">
             </div>
             <div class="input-field">
-                <label>product details: </label>
-                <textarea name="content" placeholder="write product description" required></textarea>
+            <label>Product Details: </label>
+                <textarea name="content" placeholder="Write product description" required><?php echo htmlspecialchars($content); ?></textarea>
             </div>
             <div class="input-field">
                 <label>product image: </label>
                 <input type="file" name="image" accept="image/" required>
             </div>
             <div class="flex-btn">
-                <button type="submit" name="publish" class="btn" style = "justify-content: center">publish product</button>
-                <button type="submit" name="draft" class="btn" style = "justify-content: center">save as draft</button>
+            <button type="submit" name="publish" class="btn" style = "justify-content: center">Publish Product</button>
+            <button type="submit" name="draft" class="btn" style = "justify-content: center">Save as Draft</button>
             </div>
            </form>
         </section>

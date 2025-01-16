@@ -91,9 +91,16 @@ if (isset($_POST['register']))
 </head>
 <body>
     <?php include 'components/admin_header.php'; ?>
-    <div class="main_container">
-        <section class="main">
-            <div class="form-container" id="admin_login">
+    <div class="main-container">
+        <section class="form-container" id="admin_login">
+            <div class="title">
+                <img src="../assets/image/download.png">
+                <h1>Admin Registration</h1>
+                <p style="text-align: center; font-size: 16px; font-family: Arial, sans-serif;">
+                    Register a new user as Admin. 
+                        <span style="color: red; font-weight: bold;">PS: ONLY REGISTER VALID EMAIL</span>
+                </p>
+            </div>
                 <form action="" method="post" enctype="multipart/form-data">
                     <h3>Register Now</h3>
                     <div class="input-field">

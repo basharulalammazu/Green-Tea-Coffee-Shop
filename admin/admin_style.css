@@ -714,3 +714,19 @@ input, textarea, button, select {
       width: 100%;
   }   
 }
+
+input[type="number"] {
+  appearance: none;
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  outline: none;
+  height: calc(100% + 10px); /* 2px wider */
+  margin-bottom: 5px; /* Bottom margin of 5px */
+}
+
+/* To completely hide spinner buttons */
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

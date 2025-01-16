@@ -1,18 +1,19 @@
 #chatbot-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 90px;
     right: 20px;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background-color: #6b8e23;
     color: white;
-    font-size: 14px;
+    font-size: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
 }
 
 #chatbot-btn:hover {
@@ -22,7 +23,7 @@
 /* Chatbot Interface */
 #chatbot {
     position: fixed;
-    bottom: 80px;
+    bottom: 150px;
     right: 20px;
     width: 90%;
     max-width: 350px;

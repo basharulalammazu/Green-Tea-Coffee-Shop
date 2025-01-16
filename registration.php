@@ -90,8 +90,10 @@ if (isset($_POST['submit']))
     <div class = "main-container">
         <section class = "form-container">
             <div class = "title">
-                <img src = "assets/image/download.png">
-                <h1>Register Now</h1>
+                <a href="home.php">
+                    <img src = "assets/image/logo.jpg">
+                </a>
+                    <h1>Register Now</h1>
                 <p>Welcome! Register now to become a part of our journey!</p>
             </div>
             <form action="" method="post">
@@ -116,7 +118,7 @@ if (isset($_POST['submit']))
                 <input type="password" name="cpass" placeholder="Enter password again" maxlength="50" required>
             </div>
             <input type="submit" name="submit" value="registration" class="btn">
-            <p>Already have an account? <u><a href="login.php">Login Now</a></u></p>
+            <p style="margin-top: 20px;" >Already have an account? <u><a href="login.php">Login Now</a></u></p>
         </form>
         </section>
     </div>

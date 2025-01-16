@@ -80,7 +80,9 @@ if (isset($_POST['login'])) {
     <div class="form-container">
         <section class="form-container">
             <div class="title">
-                <img src="assets/image/download.png" alt="Logo">
+                <a href="home.php">
+                    <img src="assets/image/logo.jpg" alt="Logo">
+                </a>
                 <h1>Login Now</h1>
                 <p>Login here if you're already a part of us!</p>
             </div>
@@ -92,8 +94,9 @@ if (isset($_POST['login'])) {
                 <div class="input-field">
                     <p>Password</p>
                     <input type = "password" name = "pass" placeholder ="Enter the password" maxlength = "50" required>
-                    <a href="forgot_password.php" style="font-size: 0.715em;">Forgot Password?</a>
+                    <a href="forgot_password.php" style="display: block; margin-top: 10px; font-size: 0.800em; text-align: left;">Forgot Password?</a>
                 </div>
+                <input type = "submit" name = "login" value = "Login" class="btn">
                 <div class="check-box">
                     <label class="custom-checkbox">
                         <span>Remember Me</span>
@@ -101,8 +104,7 @@ if (isset($_POST['login'])) {
                         <span class="checkmark"></span>
                     </label>
                 </div>
-                <input type = "submit" name = "login" value = "Login" class="btn">
-                <p>Don't have an account? <u><a href="registration.php">Register Now</a></u></p>
+                <p style="margin-top: 20px;" >Don't have an account? <u><a href="registration.php">Register Now</a></u></p>
             </form>
         </section>
     </div>

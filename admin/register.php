@@ -119,7 +119,7 @@ if (isset($_POST['register']))
                         <input type="file" name="image" accept="image/*">
                     </div>
                     <button type="submit" name="register" class="btn">Register now</button>
-                    <button type="submit" name="back" class="btn">Back</button>
+                    <button type="button" name="back" class="btn" onclick="window.location.href='dashboard.php';">Back</button>
                 </form> 
             </div>
         </section>

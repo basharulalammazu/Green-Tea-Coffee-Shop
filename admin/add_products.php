@@ -83,7 +83,7 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
 
                         // Move the uploaded file
                         if (move_uploaded_file($image_tmp_name, $new_image_path)) 
-                            $success_msg[] = 'Product added successfully.';                           
+                            $succcess_msg[] = 'Product added successfully.';                           
                         else
                             $warning_msg[] = 'Failed to upload the image.';
                         
@@ -161,8 +161,13 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
            </form>
         </section>
     </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="script.js" type="text/javascript"></script>
-      <?php include '../components/alert.php';?>
+
+    <?php include '../components/alert.php'; ?>
+
 </body>
 </html>

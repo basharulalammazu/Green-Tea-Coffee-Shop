@@ -6,7 +6,8 @@ $admin_id = $_SESSION['user_id'];
 if (!isset($admin_id)) 
     header("Location: ../login.php");
 
-    $name = $product_category = $size = $price = $content = '';
+$name = $product_category = $size = $price = $content = '';
+$redirect_to_dashboard = false; // Initialize the flag
 
 // Add product to database
 if (isset($_POST['publish']) || isset($_POST['draft'])) 
@@ -49,66 +50,37 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
         else 
         {
             // Insert product data into the database without the image first
-            $insert_product = $conn->prepare("INSERT INTO `products` (name, product_category , size, price, product_details, status) VALUES (?, ?, ?, ?,?, ?)");
+            $insert_product = $conn->prepare("INSERT INTO `products` (name, product_category , size, price, product_details, status) VALUES (?, ?, ?, ?, ?, ?)");
             $insert_product->execute([$name, $product_category, $size, $price, $content, $status]);
 
             if ($insert_product) 
             {
                 // Get the last inserted ID
-                $product_id = mysqli_insert_id($conn);
+                $product_id = $conn->insert_id;
 
                 // Rename the image to id.extension
                 $new_image_name = $product_id . '.' . $extension;
                 $new_image_path = $image_folder . $new_image_name;
 
                 // Move the uploaded image to the destination folder
-                if (isset($_FILES['image']['name']) && !empty($_FILES['image']['name'])) {
-                    $image_name = $_FILES['image']['name'];
-                    $image_tmp_name = $_FILES['image']['tmp_name'];
-
-                    // Get the file extension
-                    $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
-                    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-                    // Validate file extension
-                    if (in_array(strtolower($image_extension), $allowed_extensions)) {
-                        // Define the product directory
-                        $product_directory = "../image/product/";
-                        $new_image_name = $product_id . '.' . $image_extension;
-                        $new_image_path = $product_directory . $new_image_name;
-
-                        // Ensure the product directory exists
-                        if (!is_dir($product_directory)) 
-                            mkdir($product_directory, 0777, true); // Create the directory if it doesn't exist
-                        
-
-                        // Move the uploaded file
-                        if (move_uploaded_file($image_tmp_name, $new_image_path)) 
-                            $succcess_msg[] = 'Product added successfully.';                           
-                        else
-                            $warning_msg[] = 'Failed to upload the image.';
-                        
-                    } else 
-                        $warning_msg[] = 'Invalid image format. Only JPG, JPEG, PNG, and GIF are allowed.';
-                    
+                if (move_uploaded_file($image_tmp_name, $new_image_path)) 
+                {
+                    $succcess_msg[] = 'Product added successfully.';
+                    $redirect_to_dashboard = true; // Set the flag for redirection
                 } 
                 else 
-                    $warning_msg[] = 'No image uploaded.';
-                
-
-                
-                
+                    $warning_msg[] = 'Failed to upload the image.';
             }
         }
     } 
     else 
         $warning_msg[] = 'Please upload an image.';
 }
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,7 +88,6 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
     <link rel="stylesheet" href="admin_style.css?v=<?php echo time(); ?>">
     <title>Green Coffee - Add Products page</title>
 </head>
-
 <body>
     <?php include '../admin/components/admin_header.php';?>
     <div class="main">
@@ -124,51 +95,47 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
             <a href="dashboard.php">Dashboard </a><span>/ Add Products</span>
         </div>
         <section class="form-container">
-        <h1 style="text-align: center; margin-top: -25px;">Add products</h1>
-           <form action="" method="post" enctype="multipart/form-data">
-            <div class="input-field">
-            <label>Product Name: </label>
-                <input type="text" name="name" required placeholder="Add product name" value="<?php echo htmlspecialchars($name); ?>">
-            </div>
-            <div class="input-field">
-                <label>Product Category: </label>
-            <select name="product_category" required>
-                <option disabled <?php echo empty($product_category) ? 'selected' : ''; ?>>Select Product Category</option>
-                <option value="Coffee" <?php echo ($product_category === 'Coffee') ? 'selected' : ''; ?>>Coffee</option>
-                <option value="Tea" <?php echo ($product_category === 'Tea') ? 'selected' : ''; ?>>Tea</option>
-                <option value="Drinks" <?php echo ($product_category === 'Drinks') ? 'selected' : ''; ?>>Drinks</option>
-                </select>
-            </div>               
-            <div class="input-field">
-            <label>Product Size: </label>
-                <input type="text" name="size" required placeholder="Add product size" value="<?php echo htmlspecialchars($size); ?>">
-            </div>
-            <div class="input-field">
-            <label>Product Price: </label>
-                <input type="number" name="price" required placeholder="Add product price" value="<?php echo htmlspecialchars($price); ?>">
-            </div>
-            <div class="input-field">
-            <label>Product Details: </label>
-                <textarea name="content" placeholder="Write product description" required><?php echo htmlspecialchars($content); ?></textarea>
-            </div>
-            <div class="input-field">
-                <label>product image: </label>
-                <input type="file" name="image" accept="image/" required>
-            </div>
-            <div class="flex-btn">
-            <button type="submit" name="publish" class="btn" style = "justify-content: center">Publish Product</button>
-            <button type="submit" name="draft" class="btn" style = "justify-content: center">Save as Draft</button>
-            </div>
-           </form>
+            <h1 style="text-align: center; margin-top: -25px;">Add products</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="input-field">
+                    <label>Product Name: </label>
+                    <input type="text" name="name" required placeholder="Add product name" value="<?php echo htmlspecialchars($name); ?>">
+                </div>
+                <div class="input-field">
+                    <label>Product Category: </label>
+                    <select name="product_category" required>
+                        <option disabled <?php echo empty($product_category) ? 'selected' : ''; ?>>Select Product Category</option>
+                        <option value="Coffee" <?php echo ($product_category === 'Coffee') ? 'selected' : ''; ?>>Coffee</option>
+                        <option value="Tea" <?php echo ($product_category === 'Tea') ? 'selected' : ''; ?>>Tea</option>
+                        <option value="Drinks" <?php echo ($product_category === 'Drinks') ? 'selected' : ''; ?>>Drinks</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label>Product Size: </label>
+                    <input type="text" name="size" required placeholder="Add product size" value="<?php echo htmlspecialchars($size); ?>">
+                </div>
+                <div class="input-field">
+                    <label>Product Price: </label>
+                    <input type="number" name="price" required placeholder="Add product price" value="<?php echo htmlspecialchars($price); ?>">
+                </div>
+                <div class="input-field">
+                    <label>Product Details: </label>
+                    <textarea name="content" placeholder="Write product description" required><?php echo htmlspecialchars($content); ?></textarea>
+                </div>
+                <div class="input-field">
+                    <label>Product Image: </label>
+                    <input type="file" name="image" accept="image/" required>
+                </div>
+                <div class="flex-btn">
+                    <button type="submit" name="publish" class="btn">Publish Product</button>
+                    <button type="submit" name="draft" class="btn">Save as Draft</button>
+                </div>
+            </form>
         </section>
     </div>
     
-    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="script.js" type="text/javascript"></script>
-
     <?php include '../components/alert.php'; ?>
-
 </body>
 </html>

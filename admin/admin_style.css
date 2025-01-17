@@ -471,7 +471,7 @@ header.scrolled a:hover {
 }
 .read-post form{
   width: 90%;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   max-width: 800px;
   border-radius: 0.5rem;
   padding: 2rem;

@@ -23,9 +23,8 @@ body{
   width: 85%;
   background: #fff;
   box-shadow: 0 2px 6px 0 rgb(0 0 0/10%);
-  margin-top: 10rem;
+  margin: 10rem auto;
   padding: 2%;
-  margin-left: 6rem;
 }
 a{
   text-decoration: none;
@@ -459,38 +458,60 @@ header.scrolled a:hover {
 }
 
 /* ----------------post----------------------- */
-.read-post{
+.read-post {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2rem 1rem;
+}
+.read-post .heading {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 .read-post form{
-  width: 100%;
+  width: 90%;
   border-radius: .5rem;
+  max-width: 800px;
+  border-radius: 0.5rem;
   padding: 2rem;
   box-shadow: var(--box-shadow);
+  margin: 2rem auto;
+  background-color: #fff;
   position: relative;
 }
-.read-post form .status{
-  position: absolute;
-  top: 3%;
-  border-radius: .5rem;
-  padding: .5rem 1.5rem;
-  font-size: 1.1rem;
+.read-post form .status {
+  position: relative;
+  margin-bottom: 1rem;
   display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: var(--light-green);
+  border-radius: 5px;
   text-transform: uppercase;
-  background: var(--light-green);
+  color: #333;
 }
-.read-post form .price{
-  position: absolute;
-  top: 5%;
-  font-size: 2.5rem;
-  border-radius: .5rem;
-  font-weight: bold;
+
+.read-post form .price {
+  position: relative;
+  margin-bottom: 1rem;
+  float: right;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  background-color: var(--light-green);
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: #333;
 }
+
+
 .read-post form .image{
-  width: 80%;
-  margin-top: 1.5rem;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+  display: block;
+  border-radius: 0.5rem;
+  box-shadow: var(--box-shadow);
 }
 .read-post form .title{
   font-size: 2.5rem;
@@ -504,9 +525,15 @@ header.scrolled a:hover {
   color: #555;
   padding: 1rem 0;
 }
-.read-post form .flex-btn .btn{
-  width: 30%;
-  margin: .5rem;
+.read-post form .flex-btn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.read-post form .flex-btn .btn {
+  flex: 1;
+  max-width: 200px;
   text-align: center;
 }
 
@@ -549,7 +576,7 @@ text-align: center;
 }
 
 #imageUpload {
-  display: none; /* Hide the file input */
+  display: none;
 }
 
 .image-preview {
@@ -639,16 +666,16 @@ text-align: center;
 .order .detail {
   text-align: center;
   font-size: 1.2rem;
-  margin-top: 2.5rem; /* Space below the status */
+  margin-top: 2.5rem;
 }
 
 .order select,
 .order .btn {
-  margin-top: 1.5rem; /* Add more spacing for dropdowns and buttons */
+  margin-top: 1.5rem;
 }
 
 .order .btn {
-  margin-top: 2rem; /* Additional spacing for better separation */
+  margin-top: 2rem;
 }
 
 input, textarea, button, select {
@@ -658,7 +685,7 @@ input, textarea, button, select {
   border: none;
   outline: none;
   width: 100%;
-  margin: 1rem 0; /* Increased margin for better spacing */
+  margin: 1rem 0;
   box-shadow: var(--box-shadow);
 }
 

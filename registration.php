@@ -107,7 +107,8 @@ if (isset($_POST['submit']))
             </div>
             <div class="input-field">
                 <p>Email</p>
-                <input type="text" name="email" placeholder="Enter your email" maxlength="50" oninput="this.value = this.value.replace(/\s/g,'')" required value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
+                <input type="text" id="email" name="email" placeholder="Enter your email" maxlength="50" required oninput="checkUserEmail()"><br>
+                <span id="check-email" class="error"></span>
             </div>
             <div class="input-field">
                 <p>Password</p>
@@ -117,11 +118,12 @@ if (isset($_POST['submit']))
                 <p>Confirm Password</p>
                 <input type="password" name="cpass" placeholder="Enter password again" maxlength="50" required>
             </div>
-            <input type="submit" name="submit" value="registration" class="btn">
+            <input type="submit" name="submit" id = "submit" value="registration" class="btn">
             <p style="margin-top: 20px;" >Already have an account? <u><a href="login.php">Login Now</a></u></p>
         </form>
         </section>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
     <script src = "script.js"></script>

@@ -191,6 +191,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+//--------------------------------------Customer Email Availability--------------------------------------
+function checkUserEmail() {
+    $.ajax({
+        url: "check_availability.php", // Path to the PHP file
+        type: "POST",
+        data: { email: $("#email").val() }, // Send the email as POST data
+        success: function(data) {
+            // Display the feedback message in the #check-email span
+            $("#check-email").html(data);
+        },
+        error: function() {
+            console.error("Error checking email availability.");
+        }
+    });
+}
+
 
 
 

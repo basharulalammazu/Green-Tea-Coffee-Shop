@@ -859,8 +859,16 @@ textarea{
 }
 
 .main-container input[type=submit] {
-  color: #000 !important;
+  color: #000;
   cursor: pointer;
+}
+
+/* Disabled button styling */
+#submit:disabled {
+  background-color: #444; /* Dark gray for disabled state */
+  color: #ccc; /* Light gray text */
+  cursor: not-allowed; /* Indicates the button is not clickable */
+  transform: none; /* Removes hover transform effect */
 }
 
 .form-container form {

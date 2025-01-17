@@ -101,28 +101,31 @@ if (isset($_POST['back']))
                         $imageExtension = pathinfo($fetch_product['id'], PATHINFO_EXTENSION);
                         $imagePath = "../image/product/{$productId}.{$imageExtension}";
             ?>
-                        <form action="" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="product_id" value="<?= ($fetch_product['id']); ?>">
-                            <div class="status" style="color:<?php if ($fetch_product['status'] == "active") { echo "green"; } else { echo "red"; } ?>">
-                                <?= ($fetch_product['status']); ?>
-                            </div>
-            <?php 
-                        if (!empty($fetch_product['image'])) 
-                        { 
-            ?>
-                            <img src="<?= $imagePath ?>" class="image" alt="Product Image">
-            <?php 
-                        } 
-            ?>
-                            <div class="title"><?= $fetch_product['name']; ?></div>
-                            <div class="price">$<?= $fetch_product['price']; ?>/-</div>
-                            <div class="content"><?= $fetch_product['product_details']; ?></div>
-                            <div class="flex-btn">
-                                <button type="submit" name="edit" class="btn">Edit</button>
-                                <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
-                                <button type="submit" name="back" class="btn">Go Back</button>
-                            </div>
-                        </form>
+                            <form action="" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="product_id" value="<?= $fetch_product['id']; ?>">
+
+    <div class="status">
+        <?= $fetch_product['status']; ?>
+    </div>
+
+    <div class="price">
+        $<?= $fetch_product['price']; ?> /-
+    </div>
+
+    <?php if (!empty($fetch_product['image'])): ?>
+        <img src="<?= $imagePath ?>" class="image" alt="Product Image">
+    <?php endif; ?>
+
+    <div class="title"><?= $fetch_product['name']; ?></div>
+    <div class="content"><?= $fetch_product['product_details']; ?></div>
+    <div class="flex-btn">
+        <button type="submit" name="edit" class="btn">Edit</button>
+        <button type="submit" name="delete" class="btn" onclick="return confirm('Delete this product?');">Delete</button>
+        <button type="submit" name="back" class="btn">Go Back</button>
+    </div>
+</form>
+
+
             <?php
                     }
                 } 

@@ -99,11 +99,11 @@ if (isset($_POST['submit']))
             <form action="" method="post">
             <div class="input-field">
                 <p>Your Name</p>
-                <input type="text" name="name" placeholder="Enter your name" maxlength="50" required value="<?php echo isset($name) ? htmlspecialchars($name) : ''; ?>">
+                <input type="text" name="name" placeholder="Enter your name" maxlength="50" required value="<?php echo isset($name) ? ($name) : ''; ?>">
             </div>
             <div class="input-field">
                 <p>Phone Number</p>
-                <input type="text" name="phone_number" placeholder="Enter your phone number" maxlength="14" required value="<?php echo isset($phoneNumber) ? htmlspecialchars($phoneNumber) : ''; ?>">
+                <input type="text" name="phone_number" placeholder="Enter your phone number" maxlength="14" required value="<?php echo isset($phoneNumber) ? ($phoneNumber) : ''; ?>">
             </div>
             <div class="input-field">
                 <p>Email</p>

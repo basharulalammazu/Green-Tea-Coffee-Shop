@@ -115,23 +115,23 @@ if (isset($_POST['update_password']))
                         </div>
                         <div class="input-group">
                             <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" value="<?php echo $customer_data['email']; ?>" required>
+                            <input type="email" id="email" name="email" value="<?php echo $customer_data['email']; ?>" required <?php if ($customer_data['email'] !== '') { echo 'oninput="checkUserEmail()"'; } ?> >
+                            <span id="check-email" class="error"></span>
                         </div>
                         <div class="input-group">
                             <label for="phone">Phone:</label>
                             <input type="text" id="phone" name="phone" value="<?php echo $customer_data['phone_number']; ?>" required>
                         </div>
                         <div class="form-actions">
-                            <button type="submit" name="update_profile" class="btn save-btn">Save Changes</button>
+                            <button type="submit" id = "submit" name="update_profile" class="btn save-btn">Save Changes</button>
                             <button type="button" onclick="toggleEditMode()" class="btn cancel-btn">Cancel</button>
                         </div>
                     </form>
                 </div>
-
-               
             </div>
         </section>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
     <script src = "script.js"></script>

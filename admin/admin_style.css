@@ -113,6 +113,14 @@ button,select{
 input[type='submit']{
   cursor: pointer;
 }
+
+#submit:disabled {
+  background-color: #444; /* Dark gray for disabled state */
+  color: #ccc; /* Light gray text */
+  cursor: not-allowed; /* Indicates the button is not clickable */
+  transform: none; /* Removes hover transform effect */
+}
+
 .option{
   background: var(--green);
   cursor: pointer;

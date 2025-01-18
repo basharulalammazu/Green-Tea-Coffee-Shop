@@ -109,7 +109,8 @@ if (isset($_POST['register']))
                     </div>
                     <div class="input-field">
                         <label>Email: </label>
-                        <input type="email" name="email" placeholder="Enter your email" value="<?php echo isset($email) ? ($email) : ''; ?>" required>
+                        <input type="email" id = "email" name="email" placeholder="Enter your email" value="<?php echo isset($email) ? ($email) : ''; ?>" maxlength="50" oninput="checkUserEmail()" required>
+                        <span id="check-email" class="error"></span>
                     </div>
                     <div class="input-field">
                         <label>Phone Number: </label>
@@ -119,13 +120,13 @@ if (isset($_POST['register']))
                         <label>Select Profile</label>
                         <input type="file" name="image" accept="image/*" required>
                     </div>
-                    <button type="submit" name="register" class="btn">Register now</button>
+                    <button type="submit" name="register" id = "submit" class="btn">Register now</button>
                     <button type="button" name="back" class="btn" onclick="window.location.href='dashboard.php';">Back</button>
                 </form> 
             </div>
         </section>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="script.js" type="text/javascript"></script>

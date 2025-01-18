@@ -57,9 +57,6 @@ if (isset($_POST['update_profile']))
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
     <link rel="stylesheet" href="admin_style.css?v=<?php echo time(); ?>">
     <title>Admin Profile</title>
-    <script>
-        // Toggle display mode and edit mode visibility
-    </script>
 </head>
 <body>
     <?php 
@@ -95,21 +92,22 @@ if (isset($_POST['update_profile']))
                         <form action="" method="post" enctype="multipart/form-data" class="form">
                             <div class="input-group">
                                 <label>Name:</label>
-                                <input type="text" name="name" value="<?php echo $admin_data['name']; ?>" required>
+                                <input type="text" name="name" value="<?php echo $admin_data['name']; ?>" oninput="checkFormChanges('<?php echo addslashes($admin_data['name']); ?>', '<?php echo addslashes($admin_data['email']); ?>', '<?php echo addslashes($admin_data['phone_number']); ?>')"  required>
                             </div>
                             <div class="input-group">
                                 <label>Email:</label>
-                                <input type="email" name="email" value="<?php echo $admin_data['email']; ?>" required>
+                                <input type="email" id = "email" name="email" value="<?php echo $admin_data['email']; ?>" maxlength="50" oninput="checkFormChanges('<?php echo addslashes($admin_data['name']); ?>', '<?php echo addslashes($admin_data['email']); ?>', '<?php echo addslashes($admin_data['phone_number']); ?>')"  required> <br>
+                                <span id="check-email" class="error" style = "align:center"></span>
                             </div>
                             <div class="input-group">
                                 <label>Phone:</label>
-                                <input type="text" name="phone" value="<?php echo $admin_data['phone_number']; ?>" required>
+                                <input type="text" name="phone" value="<?php echo $admin_data['phone_number']; ?>" oninput="checkFormChanges('<?php echo addslashes($admin_data['name']); ?>', '<?php echo addslashes($admin_data['email']); ?>', '<?php echo addslashes($admin_data['phone_number']); ?>')"  required>
                             </div>
                             <div class="input-group">
                                 <label>Profile Image:</label>
-                                <input type="file" name="image">
+                                <input type="file" name="image" onchange="checkFormChanges('<?php echo addslashes($admin_data['name']); ?>', '<?php echo addslashes($admin_data['email']); ?>', '<?php echo addslashes($admin_data['phone_number']); ?>')" >
                             </div>
-                            <button type="submit" name="update_profile" class="btn">Save Changes</button>
+                            <button type="submit" id = "submit" name="update_profile" class="btn" disabled>Save Changes</button>
                             <a type="button" onclick="toggleEditMode()" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
@@ -117,7 +115,7 @@ if (isset($_POST['update_profile']))
             </div>
         </section>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalerts.min.js"></script>
     <script src = "script.js"></script>

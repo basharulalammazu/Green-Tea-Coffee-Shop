@@ -191,20 +191,64 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+
+function checkFormChanges(orginalName, orginalEmail, orginalPhone) {
+    const name = document.querySelector('input[name="name"]').value;
+    const email = document.getElementById('email').value;
+    const phone = document.querySelector('input[name="phone"]').value;
+
+    console.log("Current Email:", email);
+    console.log("Original Email:", orginalEmail);
+
+    // Check if any field has changed
+    const isChanged =
+        name !== orginalName ||
+        email !== orginalEmail ||
+        phone !== orginalPhone;
+
+    // Enable or disable the submit button based on changes
+    document.getElementById('submit').disabled = !isChanged;
+
+    // Validate email ONLY if it has changed
+    if (email !== orginalEmail) 
+        {
+        console.log("Email has changed. Checking availability...");
+        checkUserEmail();
+    } 
+    else 
+    {
+        console.log("Email is the same. No need to check availability.");
+        checkUserEmail(true);
+    }
+}
+
+
+
 //--------------------------------------Customer Email Availability--------------------------------------
-function checkUserEmail() {
-    $.ajax({
-        url: "check_availability.php", // Path to the PHP file
-        type: "POST",
-        data: { email: $("#email").val() }, // Send the email as POST data
-        success: function(data) {
-            // Display the feedback message in the #check-email span
-            $("#check-email").html(data);
-        },
-        error: function() {
-            console.error("Error checking email availability.");
-        }
-    });
+function checkUserEmail(checkEdit = false) {
+
+    if (checkEdit)
+    {
+        $("#check-email").html(""); // Clear any error message when email hasn't changed
+        
+    }
+
+    else
+    {
+        $.ajax({
+            url: "check_availability.php", // Path to the PHP file
+            type: "POST",
+            data: { email: $("#email").val() }, // Send the email as POST data
+            success: function(data) {
+                // Display the feedback message in the #check-email span
+                $("#check-email").html(data);
+            },
+            error: function() {
+                console.error("Error checking email availability.");
+            }
+        });
+    }
+    
 }
 
 

@@ -53,7 +53,6 @@ if (isset($_POST['update_password']))
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <title>Customer Profile</title>
-    <script src="script.js"></script>
 </head>
 <body>
     <?php include './components/header.php'; ?>
@@ -111,20 +110,55 @@ if (isset($_POST['update_password']))
                     <form action="" method="post" class="form">
                         <div class="input-group">
                             <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" value="<?php echo $customer_data['name']; ?>" required>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                value="<?php echo htmlspecialchars($customer_data['name'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                oninput="checkFormChanges('<?php echo addslashes($customer_data['name']); ?>', '<?php echo addslashes($customer_data['email']); ?>', '<?php echo addslashes($customer_data['phone_number']); ?>')" 
+                                required
+                            >
                         </div>
                         <div class="input-group">
                             <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" value="<?php echo $customer_data['email']; ?>" required <?php if ($customer_data['email'] !== '') { echo 'oninput="checkUserEmail()"'; } ?> >
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                value="<?php echo htmlspecialchars($customer_data['email'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                oninput="checkFormChanges('<?php echo addslashes($customer_data['name']); ?>', '<?php echo addslashes($customer_data['email']); ?>', '<?php echo addslashes($customer_data['phone_number']); ?>'); <?php if ($customer_data['email'] !== '') { echo 'checkUserEmail();'; } ?>" 
+                                required
+                            >
                             <span id="check-email" class="error"></span>
                         </div>
                         <div class="input-group">
                             <label for="phone">Phone:</label>
-                            <input type="text" id="phone" name="phone" value="<?php echo $customer_data['phone_number']; ?>" required>
+                            <input 
+                                type="text" 
+                                id="phone" 
+                                name="phone" 
+                                value="<?php echo htmlspecialchars($customer_data['phone_number'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                oninput="checkFormChanges('<?php echo addslashes($customer_data['name']); ?>', '<?php echo addslashes($customer_data['email']); ?>', '<?php echo addslashes($customer_data['phone_number']); ?>')" 
+                                required
+                            >
                         </div>
                         <div class="form-actions">
-                            <button type="submit" id = "submit" name="update_profile" class="btn save-btn">Save Changes</button>
-                            <button type="button" onclick="toggleEditMode()" class="btn cancel-btn">Cancel</button>
+                            <button 
+                                type="submit" 
+                                id="submit" 
+                                name="update_profile" 
+                                class="btn save-btn" 
+                                disabled
+                            >
+                                Save Changes
+                            </button>
+                            <button 
+                                type="button" 
+                                onclick="toggleEditMode()" 
+                                class="btn cancel-btn"
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </form>
                 </div>

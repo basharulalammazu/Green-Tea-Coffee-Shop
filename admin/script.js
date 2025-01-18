@@ -57,3 +57,46 @@ function togglePasswordMode(){
     displayMode.classList.toggle('hidden');
     passwordMode.classList.toggle('hidden');
 }
+
+
+//---------------------------Amin Profile Update----------------------------
+// Function to enable/disable the submit button
+function checkFormChanges(orginalName, orginalEmail, orginalPhone) {
+    const name = document.querySelector('input[name="name"]').value;
+    const email = document.getElementById('email').value;
+    const phone = document.querySelector('input[name="phone"]').value;
+    const image = document.querySelector('input[name="image"]').value;
+    console.log(email);
+    console.log(orginalPhone);
+
+
+    const isChanged =
+        name !== orginalName ||
+        email !== orginalEmail ||
+        phone !== orginalPhone ||
+        image !== "";
+
+    document.getElementById('submit').disabled = !isChanged;
+
+    // Validate email if it has changed
+    if (email !== orginalEmail)
+        checkUserEmail();
+    
+}
+
+//--------------------------------------Admin Email Availability--------------------------------------
+function checkUserEmail() {
+    $.ajax({
+        url: "../check_availability.php", // Path to the PHP file
+        type: "POST",
+        data: { email: $("#email").val() }, // Send the email as POST data
+        success: function(data) {
+            // Display the feedback message in the #check-email span
+            $("#check-email").html(data);
+        },
+        error: function() {
+            console.error("Error checking email availability.");
+        }
+    });
+}
+

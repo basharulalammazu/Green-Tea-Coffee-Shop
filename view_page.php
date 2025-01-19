@@ -14,9 +14,17 @@
         header("location: login.php");
     }
 
+
     // Adding product in wishlist
+    
     if(isset($_POST['add_to_wishlist'])) 
     {
+        if (!isset($_SESSION['user_id'])) 
+        {
+            $warning_msg[] = 'Please login to add product to wishlist';
+            header("location: login.php");
+            exit();
+        }
         $product_id = $_POST['product_id'];
 
         // Fix SQL syntax
@@ -48,7 +56,7 @@
             $insert_wishlist->bind_param("iid", $user_id, $product_id, $fetch_price['price']); // Bind user_id, product_id as integers and price as double
             $insert_wishlist->execute();
 
-            $success_msg[] = 'Product added to wishlist successfully';
+            $succcess_msg[] = 'Product added to wishlist successfully';
         }
     }
 
@@ -56,6 +64,12 @@
     // Adding product in cart
     if(isset($_POST['add_to_cart']))
     {
+        if (!isset($_SESSION['user_id'])) 
+        {
+            $warning_msg[] = 'Please login to add product to cart';
+            header("location: login.php");
+            exit();
+        }
         $product_id = $_POST['product_id'];
         $qty = $_POST['qty'];
         $qty = filter_var($qty, FILTER_SANITIZE_STRING);

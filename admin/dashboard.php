@@ -64,12 +64,12 @@
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
                     <p>Total active products</p>
-                    <a href="../admin/view_product.php" class="btn">View active product</a>
+                    <a href="../admin/view_product.php?id=1" class="btn">View active product</a>
                 </div>
                 <div class="box">
                     <?php 
                         $select_active_product = $conn->prepare("SELECT * FROM `products` WHERE status = ?");
-                        $select_active_product -> execute(['in progress']);
+                        $select_active_product -> execute(['deactive']);
                         $result = $select_active_product->get_result();
                         $num_of_active_products = $result->num_rows;
                         $result->free();
@@ -77,7 +77,7 @@
                     ?>
                     <h3><?=  $num_of_active_products;?></h3>
                     <p>Total deactive products</p>
-                    <a href="../admin/view_product.php" class="btn">View deactive product</a>
+                    <a href="../admin/view_product.php?id=0" class="btn">View deactive product</a>
                 </div>
                 <div class="box">
                     <?php
@@ -167,7 +167,7 @@
                     ?>
                     <h3><?= $num_of_canceled_orders; ?></h3>
                     <p>Total canceled orders</p>
-                    <a href="../admin/order.php?status=canceled" class="btn">View canceled orders</a>
+                    <a href="../admin/order.php?status=cancel" class="btn">View canceled orders</a>
                 </div>
             </div>
         </section>

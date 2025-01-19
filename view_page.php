@@ -104,7 +104,7 @@
             $insert_cart->bind_param("iidi", $user_id, $product_id, $price, $qty);
             $insert_cart->execute();
 
-            $success_msg[] = 'Product added to cart successfully';
+            $succcess_msg[] = 'Product added to cart successfully';
 
             // Close prepared statements to free resources
             $insert_cart->close();

@@ -1,144 +1,90 @@
 <?php
-
-use LDAP\Result;
-
 include 'components/connection.php';
 
-    session_start();
-    if (!isset($_SESSION['user_id'])) 
-    {
-        $warning_msg = 'Please login to checkout';
-        header('Location: login.php');
-        exit();
-    }
-    $user_id = $_SESSION['user_id'];
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    $warning_msg = 'Please login to checkout';
+    header('Location: login.php');
+    exit();
+}
+$user_id = $_SESSION['user_id'];
 
-
-if (isset($_POST['logout'])) 
-{
+if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
     header("location: login.php");
 }
-$query="SELECT name , phone_number, email FROM users WHERE id='$user_id'";
-$result=mysqli_query($conn,$query);
-if (mysqli_num_rows($result)>0)
+
+// Fetch user details
+$query = "SELECT name, phone_number, email FROM users WHERE id='$user_id'";
+$result = mysqli_query($conn, $query);
+if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-if (isset($_POST['place_order'])) 
-{
+}
+
+if (isset($_POST['place_order'])) {
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
     $number = filter_var($_POST['number'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
     $address = filter_var(
-        $_POST['flat'] . ', ' . $_POST['street'] . ', ' . $_POST['city'] . ', ' . $_POST['country'] . ', ' . $_POST['pincode'], 
+        $_POST['flat'] . ', ' . $_POST['street'] . ', ' . $_POST['city'] . ', ' . $_POST['country'] . ', ' . $_POST['pincode'],
         FILTER_SANITIZE_STRING
     );
     $address_type = filter_var($_POST['address_type'], FILTER_SANITIZE_STRING);
     $method = filter_var($_POST['method'], FILTER_SANITIZE_STRING);
 
     // Verify cart
-    $verify_cart = $conn->prepare("SELECT * FROM `cart` WHERE `user_id` = ?");
-    $verify_cart->bind_param("s", $user_id);
-    $verify_cart->execute();
-    $cart_result = $verify_cart->get_result();
+    $cart_query = "SELECT * FROM cart WHERE user_id = '$user_id'";
+    $cart_result = mysqli_query($conn, $cart_query);
 
-    if (isset($_GET['get_id'])) 
-    {
+    if (isset($_GET['get_id'])) {
         // Single product order
-        $get_product = $conn->prepare("SELECT * FROM `products` WHERE `id` = ? LIMIT 1");
-        $get_product->bind_param("i", $_GET['get_id']);
-        $get_product->execute();
-        $product_result = $get_product->get_result();
+        $product_id = (int)$_GET['get_id'];
+        $product_query = "SELECT * FROM products WHERE id = $product_id LIMIT 1";
+        $product_result = mysqli_query($conn, $product_query);
 
-        if ($product_result->num_rows > 0) 
-        {
-            while ($fetch_p = $product_result->fetch_assoc()) 
-            {
-                $insert_order = $conn->prepare("INSERT INTO `orders` 
-                                                            (`user_id`, name, phone_number, email, address, address_type, method, product_id, price, quantity) 
-                                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                );
-                $quantity = 1; // Default quantity for single product
-                $insert_order->bind_param(
-                    "sssssssidi", 
-                    $user_id, 
-                    $name, 
-                    $number, 
-                    $email, 
-                    $address, 
-                    $address_type, 
-                    $method, 
-                    $fetch_p['id'], 
-                    $fetch_p['price'], 
-                    $quantity
-                );
-                $insert_order->execute();
-                $insert_order->close();
+        if (mysqli_num_rows($product_result) > 0) {
+            while ($fetch_p = mysqli_fetch_assoc($product_result)) {
+                $insert_order_query = "INSERT INTO orders 
+                    (user_id, name, phone_number, email, address, address_type, method, product_id, price, quantity, status)
+                    VALUES ('$user_id', '$name', '$number', '$email', '$address', '$address_type', '$method', '{$fetch_p['id']}', '{$fetch_p['price']}', 1, 'pending')";
+                mysqli_query($conn, $insert_order_query);
             }
-            $get_product->close();
             header("location: order.php");
             exit;
-        } 
-        else 
+        } else {
             $warning_msg[] = "Something went wrong. Product not found.";
-        
-    } 
-    else if ($cart_result->num_rows > 0) 
-    {
+        }
+    } else if (mysqli_num_rows($cart_result) > 0) {
         // Cart order
-        while ($f_cart = $cart_result->fetch_assoc()) 
-        {
+        while ($f_cart = mysqli_fetch_assoc($cart_result)) {
             // Check product availability
-            $select_products = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
-            $select_products->bind_param("i", $f_cart['product_id']);
-            $select_products->execute();
-            $product_result = $select_products->get_result();
+            $product_id = $f_cart['product_id'];
+            $select_products_query = "SELECT * FROM products WHERE id = $product_id";
+            $product_result = mysqli_query($conn, $select_products_query);
 
-            if ($product_result->num_rows > 0) 
-            {
-                $fetch_products = $product_result->fetch_assoc();
-
+            if ($fetch_products = mysqli_fetch_assoc($product_result)) {
                 // Insert order
-                $insert_order = $conn->prepare(
-                    "INSERT INTO `orders` 
-                    (`user_id`, name, phone_number, email, address, address_type, method, product_id, price, quantity) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                );
-                $insert_order->bind_param(
-                    "sssssssidi", 
-                    $user_id, 
-                    $name, 
-                    $number, 
-                    $email, 
-                    $address, 
-                    $address_type, 
-                    $method, 
-                    $f_cart['product_id'], 
-                    $fetch_products['price'], 
-                    $f_cart['quantity']
-                );
-                $insert_order->execute();
-                $insert_order->close();
-            } 
-            else 
+                $insert_order_query = "INSERT INTO orders 
+                    (user_id, name, phone_number, email, address, address_type, method, product_id, price, quantity, status)
+                    VALUES ('$user_id', '$name', '$number', '$email', '$address', '$address_type', '$method', '{$fetch_products['id']}', '{$fetch_products['price']}', '{$f_cart['quantity']}', 'pending')";
+                mysqli_query($conn, $insert_order_query);
+            } else {
                 $warning_msg[] = "The product is no longer available.";
-            
-            $select_products->close();
+            }
         }
         // Clear the cart after placing the order
-        $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE `user_id` = ?");
-        $delete_cart->bind_param("s", $user_id);
-        $delete_cart->execute();
-        $delete_cart->close();
+        $delete_cart_query = "DELETE FROM cart WHERE user_id = '$user_id'";
+        mysqli_query($conn, $delete_cart_query);
 
         header("location: order.php");
         exit;
-    } 
-    else 
+    } else {
         $warning_msg[] = "Your cart is empty.";
-    $verify_cart->close();
+    }
 }
 ?>
+
 
 
 <style type = "text/css">
@@ -167,7 +113,7 @@ if (isset($_POST['place_order']))
         <div class="title">
             <img src="assets/image/download.png" class="logo">
             <h1>checkout summary</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum deserunt minus veniam tenetur</p>
+            <p>Thank you for shopping with us. Make sure to use valid billing details to have the product delivered to your place hassle free!</p>
         </div>
             <div class="summary">
                 <h3>my bag</h3>

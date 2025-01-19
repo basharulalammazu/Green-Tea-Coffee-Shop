@@ -58,7 +58,7 @@
             <div class="title">
                 <img src="./assets/image/download.png" class="logo">
                 <h1>Order Details</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi eos deleniti, aspernatur autem ad optio dolore molestiae nulla vitae illum?</p>
+                <p>enjoy your green tea experience</p>
                 <!-- </div> -->
                 <div class="box-container">
                 <?php
@@ -138,7 +138,7 @@
                     <a href="checkout.php?get_id=<?= $fetch_product['id']; ?>" class="btn">Buy again</a>
                 <?php 
                     } 
-                    else  if($fetch_order['status'] == 'complete')
+                    else  if($fetch_order['status'] == 'pending')
                     { 
                 ?>
                         <form action="" method="post">

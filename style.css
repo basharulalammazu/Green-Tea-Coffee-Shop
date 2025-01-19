@@ -2168,7 +2168,7 @@ footer .bottom-footer {
 }
 
 .order-detail .box-container .box .col .btn:hover {
-  background-color: var(--dark-green);
+  background-color: #4CAF50;
 }
 
 .order-detail .box-container .box .col .btn:active {

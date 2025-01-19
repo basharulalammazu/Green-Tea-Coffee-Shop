@@ -23,7 +23,7 @@ if (isset($_POST['register']))
     $phone_number = filter_var($phone_number, FILTER_SANITIZE_STRING);
 
     // Define characters for the password
-    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $pass = '';
     $maxIndex = strlen($characters) - 1;
 
@@ -53,7 +53,23 @@ if (isset($_POST['register']))
 
                     if (upload_image($_FILES['image'], $last_id, 'admin')) 
                     {
-                        $succcess_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
+                       // $succcess_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
+
+                        echo "
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'New admin registered successfully. Password: " . $pass . "',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'dashboard.php';
+                                    }
+                                });
+                            });
+                        </script>";
 
                         $name="";
                         $email="";

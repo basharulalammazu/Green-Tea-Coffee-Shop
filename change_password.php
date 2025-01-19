@@ -17,21 +17,26 @@ session_start();
     
             if (password_verify($old_password, $row['password']))  // Verify old password matches
             {
-                $password_validation = isStrongPassword($new_password);  // Check if the new password is strong
-                if ($password_validation === true) 
+                if ($new_password !== $old_password)
                 {
-                    $hashed_new_password = password_hash($new_password, PASSWORD_BCRYPT);
-                    $sql_update = "UPDATE users SET password = '$hashed_new_password' WHERE id = '$_SESSION[user_id]'";
-                    if (mysqli_query($conn, $sql_update)) 
+                    $password_validation = isStrongPassword($new_password);  // Check if the new password is strong
+                    if ($password_validation === true) 
                     {
-                        $succcess_msg[] = "Password updated successfully.";
-                        header("Location: profile.php");
+                        $hashed_new_password = password_hash($new_password, PASSWORD_BCRYPT);
+                        $sql_update = "UPDATE users SET password = '$hashed_new_password' WHERE id = '$_SESSION[user_id]'";
+                        if (mysqli_query($conn, $sql_update)) 
+                        {
+                            $succcess_msg[] = "Password updated successfully.";
+                            header("Location: profile.php");
+                        } 
+                        else 
+                            $error_msg[] = "Failed to update password. Please try again.";
                     } 
                     else 
-                        $error_msg[] = "Failed to update password. Please try again.";
-                } 
-                else 
-                    $error_msg[] = $password_validation;
+                        $error_msg[] = $password_validation;
+                }
+                else
+                    $error_msg[] = "New password cannot be the same as the old password.";
             } 
             else 
                 $error_msg[] = "Old password is incorrect.";

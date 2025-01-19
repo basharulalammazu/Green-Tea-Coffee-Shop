@@ -23,7 +23,7 @@ if (isset($_POST['register']))
     $phone_number = filter_var($phone_number, FILTER_SANITIZE_STRING);
 
     // Define characters for the password
-    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $pass = '';
     $maxIndex = strlen($characters) - 1;
 
@@ -53,12 +53,27 @@ if (isset($_POST['register']))
 
                     if (upload_image($_FILES['image'], $last_id, 'admin')) 
                     {
-                        $succcess_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
+                       // $succcess_msg[] = "New admin registered successfully. Admin ID: " . $last_id;
+
+                        echo "
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'New admin registered successfully. Password: " . $pass . "',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'dashboard.php';
+                                    }
+                                });
+                            });
+                        </script>";
 
                         $name="";
                         $email="";
                         $phone_number="";
-                        header("Refresh: 2; url=dashboard.php");
 
                     /*    if (sendConfirmationEmailWithCredentials($email, $pass)) // Send email to admin with credentials
                             $success_msg[] = "Email sent to $email with login credentials.";
@@ -110,8 +125,8 @@ if (isset($_POST['register']))
                     </div>
                     <div class="input-field">
                         <label>Email: </label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" value="<?php echo isset($email) ? ($email) : ''; ?>" required oninput="checkUserEmail()">
-                        <span id="check-email" class="error" data-path="../check_availability.php"></span>
+                        <input type="email" id = "email" name="email" placeholder="Enter your email" value="<?php echo isset($email) ? ($email) : ''; ?>" maxlength="50" oninput="checkUserEmail()" required>
+                        <span id="check-email" class="error"></span>
                     </div>
                     <div class="input-field">
                         <label>Phone Number: </label>
@@ -121,13 +136,13 @@ if (isset($_POST['register']))
                         <label>Select Profile</label>
                         <input type="file" name="image" accept="image/*" required>
                     </div>
-                    <button type="submit" name="register" class="btn">Register now</button>
+                    <button type="submit" name="register" id = "submit" class="btn">Register now</button>
                     <button type="button" name="back" class="btn" onclick="window.location.href='dashboard.php';">Back</button>
                 </form> 
             </div>
         </section>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="script.js" type="text/javascript"></script>

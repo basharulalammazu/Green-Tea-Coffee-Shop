@@ -17,6 +17,12 @@
     // Adding product in wishlist
     if (isset($_POST['add_to_wishlist'])) 
     {
+        if (!isset($_SESSION['user_id'])) 
+        {
+            $warning_msg[] = 'Please login to add product to wishlist';
+            header("location: login.php");
+            exit();
+        }
         $product_id = $_POST['product_id'];
     
         // Verify if the product exists in the wishlist
@@ -48,7 +54,7 @@
             $insert_wishlist = $conn->prepare("INSERT INTO wishlist (user_id, product_id, price) VALUES (?, ?, ?)");
             $insert_wishlist->bind_param("iid", $user_id, $product_id, $fetch_price['price']);
             $insert_wishlist->execute();
-            $success_msg[] = 'Product added to wishlist successfully';
+            $succcess_msg[] = 'Product added to wishlist successfully';
     
             // Close the prepared statements
             $insert_wishlist->close();
@@ -61,7 +67,14 @@
     }
     
     // Adding product to cart
-    if (isset($_POST['add_to_cart'])) {
+    if (isset($_POST['add_to_cart'])) 
+    {
+        if (!isset($_SESSION['user_id'])) 
+        {
+            $warning_msg[] = 'Please login to add product to cart';
+            header("location: login.php");
+            exit();
+        }
         $product_id = $_POST['product_id'];
         $qty = filter_var($_POST['qty'], FILTER_SANITIZE_NUMBER_INT);
     
@@ -95,7 +108,7 @@
             $insert_cart = $conn->prepare("INSERT INTO cart (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
             $insert_cart->bind_param("iidi", $user_id, $product_id, $fetch_price['price'], $qty);
             $insert_cart->execute();
-            $success_msg[] = 'Product added to cart successfully';
+            $succcess_msg[] = 'Product added to cart successfully';
     
             // Close the prepared statements
             $insert_cart->close();

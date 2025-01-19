@@ -17,6 +17,12 @@
     // Adding product in wishlist
     if (isset($_POST['add_to_wishlist'])) 
     {
+        if (!isset($_SESSION['user_id'])) 
+        {
+            $warning_msg[] = 'Please login to add product to wishlist';
+            header("location: login.php");
+            exit();
+        }
         $product_id = $_POST['product_id'];
     
         // Verify if the product exists in the wishlist
@@ -61,7 +67,14 @@
     }
     
     // Adding product to cart
-    if (isset($_POST['add_to_cart'])) {
+    if (isset($_POST['add_to_cart'])) 
+    {
+        if (!isset($_SESSION['user_id'])) 
+        {
+            $warning_msg[] = 'Please login to add product to cart';
+            header("location: login.php");
+            exit();
+        }
         $product_id = $_POST['product_id'];
         $qty = filter_var($_POST['qty'], FILTER_SANITIZE_NUMBER_INT);
     

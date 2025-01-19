@@ -15,7 +15,7 @@ if (isset($_POST['logout'])) {
 
 // Adding product to wishlist
 if (isset($_POST['add_to_wishlist'])) {
-    if (empty($user_id)) {
+    if (!isset($user_id)) {
         $warning_msg[] = 'Please login to add product to wishlist';
         header("location: login.php");
         exit();
@@ -45,7 +45,7 @@ if (isset($_POST['add_to_wishlist'])) {
 
 // Adding product to cart
 if (isset($_POST['add_to_cart'])) {
-    if (empty($user_id)) {
+    if (!isset($user_id)) {
         $warning_msg[] = 'Please login to add product to cart';
         header("location: login.php");
         exit();

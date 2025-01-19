@@ -7,23 +7,29 @@ if (!isset($admin_id))
     header("location:../admin/login.php");
 
 // deleted message
-if(isset($_POST['delete']))
+if (isset($_POST['delete'])) 
 {
     $delete_id = $_POST['delete_id'];
-    $delete_id = filter_var($delete_id,FILTER_SANITIZE_STRING);
+    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
 
-    $verify_delete = $conn->prepare("SELECT * FROM `message` WHERE id = ?");
-    $verify_delete->execute([$delete_id]);
+    // Verify if the message exists
+    $verify_delete_query = "SELECT * FROM `message` WHERE id = '$delete_id'";
+    $verify_delete_result = mysqli_query($conn, $verify_delete_query);
 
-    if($verify_delete->num_rows>0)
+    if (mysqli_num_rows($verify_delete_result) > 0) 
     {
-        $delete_message = $conn->prepare("DELETE FROM `message` WHERE id = ?");
-        $delete_message -> execute([$delete_id]);
-        $success_msg[] = 'message deleted';
-    }
-    else
-        $warning_msg[]='message already deleted';
+        // Delete the message
+        $delete_message_query = "DELETE FROM `message` WHERE id = '$delete_id'";
+        if (mysqli_query($conn, $delete_message_query)) 
+            $success_msg[] = 'Message deleted';
+         else 
+            $warning_msg[] = 'Failed to delete the message';
+        
+    } 
+    else 
+        $warning_msg[] = 'Message already deleted';
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,31 +55,34 @@ if(isset($_POST['delete']))
             <h1 class="heading">Unread Messages</h1>
             <div class="box-container">
                 <?php
-                // Fetch all messages from the database
-                $select_message = $conn->prepare("SELECT * FROM `message`");
-                $select_message->execute();
-                $result = $select_message->get_result(); // Fetch result for MySQLi
+                    // Execute the SQL query
+                    $result = mysqli_query($conn, "SELECT * FROM `message` ORDER BY id DESC");
 
-                if ($result->num_rows > 0) {
-                    while ($fetch_message = $result->fetch_assoc()) {
-                        ?>
-                        <div class="box">
-                            <h3 class="name"><?= htmlspecialchars($fetch_message['name']); ?></h3>
-                            <h4><?= htmlspecialchars($fetch_message['subject']); ?></h4>
-                            <p><?= htmlspecialchars($fetch_message['message']); ?></p>
-                            <form action="" method="post" class="flex-btn">
-                                <input type="hidden" name="delete_id" value="<?= $fetch_message['id']; ?>">
-                                <a type="submit" name="delete" class="btn" onclick="return confirm('Delete this message?');">Delete Message</a>
-                            </form>
-                        </div>
-                        <?php
+                    if (mysqli_num_rows($result) > 0) 
+                    {
+                        while ($fetch_message = mysqli_fetch_assoc($result)) 
+                        {
+                            ?>
+                            <div class="box">
+                                <h3 class="name"><?= ($fetch_message['name']); ?></h3>
+                                <h4><?= ($fetch_message['subject']); ?></h4>
+                                <p><?= ($fetch_message['message']); ?></p>
+                                <form action="" method="post" class="flex-btn">
+                                    <input type="hidden" name="delete_id" value="<?= $fetch_message['id']; ?>">
+                                    <a type="submit" name="delete" class="btn" onclick="return confirm('Delete this message?');">Delete Message</a>
+                                </form>
+                            </div>
+                            <?php
+                        }
+                    } 
+                    else 
+                    {
+                        echo '<div class="empty">
+                                <p>No messages available</p>
+                            </div>';
                     }
-                } else {
-                    echo '<div class="empty">
-                            <p>No messages available</p>
-                        </div>';
-                }
                 ?>
+
             </div>
         </section>
     </div>
@@ -85,5 +94,4 @@ if(isset($_POST['delete']))
     <?php include '../components/alert.php'; ?>
 
 </body>
-
 </html>

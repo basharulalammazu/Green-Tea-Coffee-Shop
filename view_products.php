@@ -1,126 +1,81 @@
 <?php
     include 'components/connection.php';
 
-    session_start();
-    if (isset($_SESSION['user_id']))
-        $user_id = $_SESSION['user_id'];
-    else 
-        $user_id = '';
+    
+session_start();
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 
-    if (isset($_POST['logout']))
-    {
-        session_unset();
-        session_destroy();
+// Logout logic
+if (isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    header("location: login.php");
+    exit();
+}
+
+// Adding product to wishlist
+if (isset($_POST['add_to_wishlist'])) {
+    if (empty($user_id)) {
+        $warning_msg[] = 'Please login to add product to wishlist';
         header("location: login.php");
+        exit();
     }
 
-    // Adding product in wishlist
-    if (isset($_POST['add_to_wishlist'])) 
-    {
-        if (!isset($_SESSION['user_id'])) 
-        {
-            $warning_msg[] = 'Please login to add product to wishlist';
-            header("location: login.php");
-            exit();
-        }
-        $product_id = $_POST['product_id'];
-    
-        // Verify if the product exists in the wishlist
-        $verify_wishlist = $conn->prepare("SELECT * FROM wishlist WHERE user_id = ? AND product_id = ?");
-        $verify_wishlist->bind_param("ii", $user_id, $product_id);
-        $verify_wishlist->execute();
-        $result_wishlist = $verify_wishlist->get_result();
-    
-        // Verify if the product exists in the cart
-        $cart_num = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
-        $cart_num->bind_param("ii", $user_id, $product_id);
-        $cart_num->execute();
-        $result_cart = $cart_num->get_result();
-    
-        if ($result_wishlist->num_rows > 0) 
-            $warning_msg[] = 'Product already exists in your wishlist';
-        else if ($result_cart->num_rows > 0) 
-            $warning_msg[] = 'Product already exists in your cart';
-        else 
-        {
-            // Fetch the product price
-            $select_price = $conn->prepare("SELECT price FROM products WHERE id = ? LIMIT 1");
-            $select_price->bind_param("i", $product_id);
-            $select_price->execute();
-            $result_price = $select_price->get_result();
-            $fetch_price = $result_price->fetch_assoc();
-    
-            // Insert into wishlist
-            $insert_wishlist = $conn->prepare("INSERT INTO wishlist (user_id, product_id, price) VALUES (?, ?, ?)");
-            $insert_wishlist->bind_param("iid", $user_id, $product_id, $fetch_price['price']);
-            $insert_wishlist->execute();
-            $succcess_msg[] = 'Product added to wishlist successfully';
-    
-            // Close the prepared statements
-            $insert_wishlist->close();
-            $select_price->close(); // Safely closing after initialization
-        }
-    
-        // Close the prepared statements and results
-        $verify_wishlist->close();
-        $cart_num->close();
+    $product_id = (int)$_POST['product_id'];
+
+    // Check if the product exists in the wishlist
+    $verify_wishlist = mysqli_query($conn, "SELECT * FROM wishlist WHERE user_id = $user_id AND product_id = $product_id");
+    $verify_cart = mysqli_query($conn, "SELECT * FROM cart WHERE user_id = $user_id AND product_id = $product_id");
+
+    if (mysqli_num_rows($verify_wishlist) > 0) {
+        $warning_msg[] = 'Product already exists in your wishlist';
+    } elseif (mysqli_num_rows($verify_cart) > 0) {
+        $warning_msg[] = 'Product already exists in your cart';
+    } else {
+        // Fetch product price
+        $select_price = mysqli_query($conn, "SELECT price FROM products WHERE id = $product_id LIMIT 1");
+        $fetch_price = mysqli_fetch_assoc($select_price);
+
+        // Insert into wishlist
+        $price = $fetch_price['price'];
+        mysqli_query($conn, "INSERT INTO wishlist (user_id, product_id, price) VALUES ($user_id, $product_id, $price)");
+        $succcess_msg[] = 'Product added to wishlist successfully';
     }
-    
-    // Adding product to cart
-    if (isset($_POST['add_to_cart'])) 
-    {
-        if (!isset($_SESSION['user_id'])) 
-        {
-            $warning_msg[] = 'Please login to add product to cart';
-            header("location: login.php");
-            exit();
-        }
-        $product_id = $_POST['product_id'];
-        $qty = filter_var($_POST['qty'], FILTER_SANITIZE_NUMBER_INT);
-    
-        // Verify if the product already exists in the cart
-        $verify_cart = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ?");
-        $verify_cart->bind_param("ii", $user_id, $product_id);
-        $verify_cart->execute();
-        $result_cart = $verify_cart->get_result();
-    
-        // Check the cart item count for the user
-        $max_cart_items = $conn->prepare("SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = ?");
-        $max_cart_items->bind_param("i", $user_id);
-        $max_cart_items->execute();
-        $result_cart_count = $max_cart_items->get_result();
-        $cart_count = $result_cart_count->fetch_assoc()['cart_count'];
-    
-        if ($result_cart->num_rows > 0)
-            $warning_msg[] = 'Product already exists in your cart';
-        else if ($cart_count >= 20) 
-            $warning_msg[] = 'Cart is full';
-        else 
-        {
-            // Fetch the product price
-            $select_price = $conn->prepare("SELECT price FROM products WHERE id = ? LIMIT 1");
-            $select_price->bind_param("i", $product_id);
-            $select_price->execute();
-            $result_price = $select_price->get_result();
-            $fetch_price = $result_price->fetch_assoc();
-    
-            // Insert into cart
-            $insert_cart = $conn->prepare("INSERT INTO cart (user_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
-            $insert_cart->bind_param("iidi", $user_id, $product_id, $fetch_price['price'], $qty);
-            $insert_cart->execute();
-            $succcess_msg[] = 'Product added to cart successfully';
-    
-            // Close the prepared statements
-            $insert_cart->close();
-            $select_price->close(); // Safely closing after initialization
-            $max_cart_items->close();
-        }
-    
-        // Close the prepared statements and results
-        $verify_cart->close();
+}
+
+// Adding product to cart
+if (isset($_POST['add_to_cart'])) {
+    if (empty($user_id)) {
+        $warning_msg[] = 'Please login to add product to cart';
+        header("location: login.php");
+        exit();
     }
-    
-    
+
+    $product_id = (int)$_POST['product_id'];
+    $qty = (int)filter_var($_POST['qty'], FILTER_SANITIZE_NUMBER_INT);
+
+    // Check if product exists in the cart
+    $verify_cart = mysqli_query($conn, "SELECT * FROM cart WHERE user_id = $user_id AND product_id = $product_id");
+
+    // Check if the cart has 20 items already
+    $max_cart_items = mysqli_query($conn, "SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = $user_id");
+    $cart_count = mysqli_fetch_assoc($max_cart_items)['cart_count'];
+
+    if (mysqli_num_rows($verify_cart) > 0) {
+        $warning_msg[] = 'Product already exists in your cart';
+    } elseif ($cart_count >= 20) {
+        $warning_msg[] = 'Cart is full';
+    } else {
+        // Fetch product price
+        $select_price = mysqli_query($conn, "SELECT price FROM products WHERE id = $product_id LIMIT 1");
+        $fetch_price = mysqli_fetch_assoc($select_price);
+
+        // Insert into cart
+        $price = $fetch_price['price'];
+        mysqli_query($conn, "INSERT INTO cart (user_id, product_id, price, quantity) VALUES ($user_id, $product_id, $price, $qty)");
+        $succcess_msg[] = 'Product added to cart successfully';
+    }
+}
 ?>
 
 <style type = "text/css">

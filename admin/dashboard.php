@@ -167,7 +167,7 @@
                     ?>
                     <h3><?= $num_of_canceled_orders; ?></h3>
                     <p>Total canceled orders</p>
-                    <a href="../admin/order.php?status=canceled" class="btn">View canceled orders</a>
+                    <a href="../admin/order.php?status=cancel" class="btn">View canceled orders</a>
                 </div>
             </div>
         </section>

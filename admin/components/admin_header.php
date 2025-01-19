@@ -52,7 +52,7 @@ if (isset($_POST['logout'])) {
         <nav class="navbar">
             <a href="dashboard.php">Dashboard</a>
             <a href="add_products.php">Add Product</a>
-            <a href="view_product.php">View Product</a>
+            <a href="view_product.php?id=-1">View Product</a>
             <a href="user_account.php?user=all">Account</a>
             <a href = "register.php">Add New Admin</a>
         </nav>

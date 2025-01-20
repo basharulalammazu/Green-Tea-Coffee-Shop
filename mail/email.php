@@ -2,9 +2,9 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    require 'phpmailer/src/PHPMailer.php';
-    require 'phpmailer/src/Exception.php';
-    require 'phpmailer/src/SMTP.php';
+    include 'phpmailer/src/PHPMailer.php';
+    include 'phpmailer/src/Exception.php';
+    include 'phpmailer/src/SMTP.php';
 
 
     function sendEmail($userEmail, $otp, $type = "password_reset") 
@@ -18,13 +18,13 @@
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; 
             $mail->SMTPAuth = true;
-            $mail->Username = ''; // Your email address
-            $mail->Password = '';   // Your email app password
+            $mail->Username = 'basharulalamm@gmail.com'; // Your email address
+            $mail->Password = 'fvsh tirm iakk jkrk';   // Your email app password
             $mail->SMTPSecure = 'ssl'; // Encryption: 'ssl' 
             $mail->Port = 465; // SMTP port (465 for SSL)
 
             // Email headers
-            $mail->setFrom('', 'Green Tea Coffee Shop'); // Sender's email and name
+            $mail->setFrom('basharulalamm@gmail.com', 'Green Tea Coffee Shop'); // Sender's email and name
             $mail->addAddress($userEmail); // Recipient's email
             $mail->isHTML(true); // Enable HTML content
 
@@ -70,6 +70,9 @@
             
             // Send email
             $mail->send();
+
+            unset($mail);
+
             return true;
         } 
         catch (Exception $e) 

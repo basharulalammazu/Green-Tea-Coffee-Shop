@@ -26,7 +26,7 @@ if (isset($_POST['send_otp'])) {
 
         // Simulate sending OTP (In real application, use mail or SMS API)
         //$message[] = "OTP sent to your email: $otp (Mocked for demo).";
-        if (sendOTP($email, $otp)) 
+        if (sendEmail($email, $otp)) 
         {
             $otp_sent = true;
             $succcess_msg[] = "OTP sent to your email: $email. Check your email and verify the OTP.";

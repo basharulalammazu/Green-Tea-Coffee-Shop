@@ -99,7 +99,7 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="input-field">
                     <label>Product Name: </label>
-                    <input type="text" name="name" required placeholder="Add product name" value="<?php echo htmlspecialchars($name); ?>">
+                    <input type="text" name="name" required placeholder="Add product name" value="<?php echo ($name); ?>">
                 </div>
                 <div class="input-field">
                     <label>Product Category: </label>
@@ -108,19 +108,21 @@ if (isset($_POST['publish']) || isset($_POST['draft']))
                         <option value="Coffee" <?php echo ($product_category === 'Coffee') ? 'selected' : ''; ?>>Coffee</option>
                         <option value="Tea" <?php echo ($product_category === 'Tea') ? 'selected' : ''; ?>>Tea</option>
                         <option value="Drinks" <?php echo ($product_category === 'Drinks') ? 'selected' : ''; ?>>Drinks</option>
+                        <option value="Matcha" <?php echo ($product_category === 'Matcha') ? 'selected' : ''; ?>>Matcha</option>
+                        <option value="Others" <?php echo ($product_category === 'Others') ? 'selected' : ''; ?>>Others</option>
                     </select>
                 </div>
                 <div class="input-field">
                     <label>Product Size: </label>
-                    <input type="text" name="size" required placeholder="Add product size" value="<?php echo htmlspecialchars($size); ?>">
+                    <input type="text" name="size" required placeholder="Add product size" value="<?php echo ($size); ?>">
                 </div>
                 <div class="input-field">
                     <label>Product Price: </label>
-                    <input type="number" name="price" required placeholder="Add product price" value="<?php echo htmlspecialchars($price); ?>">
+                    <input type="number" name="price" required placeholder="Add product price" value="<?php echo ($price); ?>">
                 </div>
                 <div class="input-field">
                     <label>Product Details: </label>
-                    <textarea name="content" placeholder="Write product description" required><?php echo htmlspecialchars($content); ?></textarea>
+                    <textarea name="content" placeholder="Write product description" required><?php echo ($content); ?></textarea>
                 </div>
                 <div class="input-field">
                     <label>Product Image: </label>

@@ -4,16 +4,33 @@ const chatbotBtn = document.getElementById('chatbot-btn');
     const userInput = document.getElementById('user-input');
     const messages = document.getElementById('chatbot-messages');
 
-    async function fetchMenu() {
+    async function fetchMenu(data) {
         try {
             const response = await fetch('../chatbot/fetch_menu.php');
             if (!response.ok) throw new Error('Failed to fetch menu.');
             const menuData = await response.json();
             let menuMessage = "Here is our full menu:\n";
             menuData.forEach((item, index) => {
-                menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
+                if (data === "all") 
+                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
+                
+                else if (data === "coffee" && item.product_category === "Coffee") 
+                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
+
+                else if (data === "tea" && item.product_category === "Tea")
+                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
+
+                else if (data === "matcha" && item.product_category === "Matcha")
+                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
+
+                else if (data === "drinks" && item.product_category === "Drinks")
+                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
+
+                else if (data === "others" && item.product_category === "Other")
+                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
+
             });
-            return menuMessage;
+            return menuMessage + 'Would you like to order anything?';
         } catch (error) {
             console.error(error);
             return 'Sorry, there was an error fetching the menu.';
@@ -32,8 +49,26 @@ const chatbotBtn = document.getElementById('chatbot-btn');
         'ai': 'Yes! I am your AI assitant to help you through your needs.',
         'goodbye': 'Goodbye! Take care!',   
         'shop name': 'Our shop name is Green Tea Coffee Shop.',                        
-        'coffee': 'Here are our coffee options:\n1. Matcha Latte - $5.99 (250ml)\n2. Green Tea Cappuccino - $4.49 (200ml)\n3. Iced Matcha - $4.99 (350ml)\nWould you like to order any?',
-        'tea': 'Here are our tea options:\n1. Jasmine Green Tea - $3.99 (300ml)\n2. Green Tea Cappuccino - $4.49 (200ml)\nWould you like to order any?',
+        'coffee': async() => {
+            const menuMessage = await fetchMenu("coffee");
+            return menuMessage;
+        },
+        'tea': async() => {
+            const menuMessage = await fetchMenu("tea");
+            return menuMessage;
+            },
+        'matcha': async() => {
+            const menuMessage = await fetchMenu("matcha");
+            return menuMessage;
+        },
+        'drinks': async() => {
+            const menuMessage = await fetchMenu("drinks");
+            return menuMessage;
+        },
+        'other': async() => {
+            const menuMessage = await fetchMenu("others");
+            return menuMessage;
+        },
         'matcha latte': 'Our Matcha Latte is $5.99 for 250ml. It’s made with premium matcha and steamed milk for a smooth taste.',
         'green tea cappuccino': 'The Green Tea Cappuccino is $4.49 for 200ml. It blends green tea with a creamy cappuccino base.',
         'hours': 'Our shop is open from 8 AM to 8 PM every day.',
@@ -50,7 +85,7 @@ const chatbotBtn = document.getElementById('chatbot-btn');
         'e-commerce': 'We offer an e-commerce platform on our website, allowing you to order your favorite drinks online anytime.',
         'offer': 'We offer a variety of drinks, including coffee, tea, and matcha-based beverages. Would you like to see our menu?',
         'menu': async () => {
-            const menuMessage = await fetchMenu();
+            const menuMessage = await fetchMenu("all");
             return menuMessage;
         },
         'delivery': 'We offer delivery services! You can place an order through our website, and we’ll bring your drinks to your doorstep.',

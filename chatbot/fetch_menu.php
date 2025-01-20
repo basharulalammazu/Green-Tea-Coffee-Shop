@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch products from the database
-$sql = "SELECT name, price, size FROM products";
+$sql = "SELECT name, price, size, product_category FROM products";
 $result = $conn->query($sql);
 
 if ($result) {
@@ -26,9 +26,9 @@ if ($result) {
             $products[] = $row;
         }
         echo json_encode($products);
-    } else {
+    } else 
         echo json_encode(["message" => "No products found."]);
-    }
+    
 } else {
     echo json_encode(["error" => "SQL query failed: " . $conn->error]);
 }

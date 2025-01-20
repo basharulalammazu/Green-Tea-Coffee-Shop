@@ -6,29 +6,12 @@ const chatbotBtn = document.getElementById('chatbot-btn');
 
     async function fetchMenu(data) {
         try {
-            const response = await fetch('../chatbot/fetch_menu.php');
+            const response = await fetch(`../chatbot/fetch_menu.php?category=${data}`);
             if (!response.ok) throw new Error('Failed to fetch menu.');
             const menuData = await response.json();
-            let menuMessage = "Here is our full menu:\n";
+            let menuMessage = "Here is our menu:\n";
             menuData.forEach((item, index) => {
-                if (data === "all") 
-                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
-                
-                else if (data === "coffee" && item.product_category === "Coffee") 
-                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
-
-                else if (data === "tea" && item.product_category === "Tea")
-                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
-
-                else if (data === "matcha" && item.product_category === "Matcha")
-                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
-
-                else if (data === "drinks" && item.product_category === "Drinks")
-                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
-
-                else if (data === "others" && item.product_category === "Other")
-                    menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
-
+                menuMessage += `${index + 1}. ${item.name} - $${item.price}\n`;
             });
             return menuMessage + 'Would you like to order anything?';
         } catch (error) {
@@ -36,6 +19,7 @@ const chatbotBtn = document.getElementById('chatbot-btn');
             return 'Sorry, there was an error fetching the menu.';
         }
     }
+    
 
     const botReplies = {
         'hi': 'Hello! How can I help you today?',
@@ -50,23 +34,23 @@ const chatbotBtn = document.getElementById('chatbot-btn');
         'goodbye': 'Goodbye! Take care!',   
         'shop name': 'Our shop name is Green Tea Coffee Shop.',                        
         'coffee': async() => {
-            const menuMessage = await fetchMenu("coffee");
+            const menuMessage = await fetchMenu("Coffee");
             return menuMessage;
         },
         'tea': async() => {
-            const menuMessage = await fetchMenu("tea");
+            const menuMessage = await fetchMenu("Tea");
             return menuMessage;
             },
         'matcha': async() => {
-            const menuMessage = await fetchMenu("matcha");
+            const menuMessage = await fetchMenu("Matcha");
             return menuMessage;
         },
         'drinks': async() => {
-            const menuMessage = await fetchMenu("drinks");
+            const menuMessage = await fetchMenu("Drinks");
             return menuMessage;
         },
         'other': async() => {
-            const menuMessage = await fetchMenu("others");
+            const menuMessage = await fetchMenu("Others");
             return menuMessage;
         },
         'matcha latte': 'Our Matcha Latte is $5.99 for 250ml. It’s made with premium matcha and steamed milk for a smooth taste.',

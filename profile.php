@@ -134,7 +134,8 @@ if (isset($_POST['update_password']))
                         <div class="input-group">
                             <label for="phone">Phone:</label>
                             <input 
-                                type="text" 
+                                type="number" 
+                                class = "num"
                                 id="phone" 
                                 name="phone" 
                                 value="<?php echo htmlspecialchars($customer_data['phone_number'], ENT_QUOTES, 'UTF-8'); ?>" 

@@ -130,7 +130,7 @@ if (isset($_POST['register']))
                     </div>
                     <div class="input-field">
                         <label>Phone Number: </label>
-                        <input type="number" name="phone_number" placeholder="Enter your phone number" value="<?php echo isset($phone_number) ? ($phone_number) : ''; ?>" required>
+                        <input type="number" class = "num" name="phone_number" placeholder="Enter your phone number" value="<?php echo isset($phone_number) ? ($phone_number) : ''; ?>" required>
                     </div>
                     <div class="input-field">
                         <label>Select Profile</label>

@@ -101,7 +101,7 @@ if (isset($_POST['update_profile']))
                             </div>
                             <div class="input-group">
                                 <label>Phone:</label>
-                                <input type="text" name="phone" value="<?php echo $admin_data['phone_number']; ?>" oninput="checkFormChanges('<?php echo addslashes($admin_data['name']); ?>', '<?php echo addslashes($admin_data['email']); ?>', '<?php echo addslashes($admin_data['phone_number']); ?>')"  required>
+                                <input type="number" class ="num" name="phone" value="<?php echo $admin_data['phone_number']; ?>" oninput="checkFormChanges('<?php echo addslashes($admin_data['name']); ?>', '<?php echo addslashes($admin_data['email']); ?>', '<?php echo addslashes($admin_data['phone_number']); ?>')"  required>
                             </div>
                             <div class="input-group">
                                 <label>Profile Image:</label>

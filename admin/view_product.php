@@ -49,8 +49,14 @@
             <h1 class="heading">All Products</h1>
             <div class="box-container">
                 <?php
+                $query = "SELECT * FROM `products`";
+                if ($_GET['id'] == 1)
+                    $query .= " WHERE status = 'active'";
+                else if ($_GET['id'] == 0)
+                    $query .= " WHERE status = 'deactive'";
+
                 // Fetch all products from the database
-                $select_products = $conn->prepare("SELECT * FROM `products`");
+                $select_products = $conn->prepare($query);
                 $select_products->execute();
                 $result = $select_products->get_result();
 

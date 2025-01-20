@@ -31,6 +31,21 @@ body {
   min-height: 100vh; /* Ensures the body takes at least the full viewport height */
 }
 
+input[type="num"] {
+  appearance: none;
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  outline: none;
+  margin-bottom: 5px; /* Bottom margin of 5px */
+}
+
+/* To completely hide spinner buttons */
+input[type="num"]::-webkit-inner-spin-button, 
+input[type="num"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .main {
   width: 85vw;
   background: #fff;
@@ -106,6 +121,44 @@ sup{
   overflow: hidden;
   vertical-align: middle;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.btn {
+  position: relative; /* Ensures hover effect works properly */
+  line-height: 2;
+  background-color: #b0f783;
+  padding: 5px 35px;
+  display: inline-block;
+  border-radius: 30px;
+  color: #000;
+  text-transform: capitalize;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  vertical-align: middle;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.bttn {
+  position: relative; /* Ensures hover effect works properly */
+  line-height: 2;
+  background-color: #b0f783;
+  padding: 5px 35px;
+  display: inline-block;
+  border-radius: 30px;
+  color: #000;
+  text-transform: capitalize;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  vertical-align: middle;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  height: 4rem;
 }
 
 .product-button {
@@ -1117,7 +1170,7 @@ footer .bottom-footer {
 }
 
 .products .box:hover .img {
-  transform: scale(1.05); /* Subtle zoom effect */
+  transform: scale(0.95); /* Subtle zoom effect */
 }
 
 .products .box .content {
@@ -2434,6 +2487,23 @@ footer .bottom-footer {
     display: block;
   }
 }
+
+
+input[type="num"] {
+  appearance: none;
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  outline: none;
+  margin-bottom: 5px; /* Bottom margin of 5px */
+}
+
+/* To completely hide spinner buttons */
+input[type="num"]::-webkit-inner-spin-button, 
+input[type="num"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 
 @media (max-width: 991px){
 

@@ -190,7 +190,7 @@
                                 <div class="flex">
                                     <p class="price">Price $<?= $fetch_products['price']; ?>/-</p>
                                 </div>
-                                <a href="checkout.php?get_id=<?= $fetch_products['id']; ?>" class="btn"> Buy Now </a>
+                                <a href="checkout.php?get_id=<?= $fetch_products['id']; ?>" class="bttn"> Buy Now </a>
                             </form>
                 <?php
                             $grand_total += $fetch_wishlist['price'];

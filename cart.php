@@ -136,7 +136,7 @@ if (isset($_POST['empty_cart'])) {
                             <button type="submit" name="update_cart" class="bx bxs-edit fa-edit"></button>
                         </div>
                         <p class="sub-total">Sub Total: <span>$<?=($sub_total = $fetch_cart['quantity'] * $fetch_products['price']); ?></span></p>
-                        <button type="submit" name="delete_item" class="btn" onclick="return confirm('Delete this item')">Delete</button>
+                        <button type="submit" name="delete_item" class="bttn" onclick="return confirm('Delete this item')">Delete</button>
                     </form>
                     <?php
                     // Update the grand total after each iteration

@@ -133,7 +133,7 @@ if (isset($_POST['change_password']))
                         <!-- Step 2: Verify OTP -->
                         <div class="input-field">
                             <p>Enter OTP</p>
-                            <input type="number" name="otp" placeholder="Enter the OTP" maxlength="6" required>
+                            <input type="number" class = "num" name="otp" placeholder="Enter the OTP" maxlength="6" required>
                         </div>
                         <input type="submit" name="verify_otp" value="Verify OTP" class="btn">
                     <?php endif; ?>

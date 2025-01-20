@@ -14,8 +14,10 @@ if (isset($_POST['logout'])) {
 }
 
 // Adding product to wishlist
-if (isset($_POST['add_to_wishlist'])) {
-    if (!isset($user_id)) {
+if (isset($_POST['add_to_wishlist'])) 
+{
+    if (!isset($user_id) || empty($user_id)) 
+    {
         $warning_msg[] = 'Please login to add product to wishlist';
         header("location: login.php");
         exit();
@@ -45,7 +47,7 @@ if (isset($_POST['add_to_wishlist'])) {
 
 // Adding product to cart
 if (isset($_POST['add_to_cart'])) {
-    if (!isset($user_id)) {
+    if (!isset($user_id) || empty($user_id)) {
         $warning_msg[] = 'Please login to add product to cart';
         header("location: login.php");
         exit();
@@ -61,11 +63,11 @@ if (isset($_POST['add_to_cart'])) {
     $max_cart_items = mysqli_query($conn, "SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = $user_id");
     $cart_count = mysqli_fetch_assoc($max_cart_items)['cart_count'];
 
-    if (mysqli_num_rows($verify_cart) > 0) {
+    if (mysqli_num_rows($verify_cart) > 0) 
         $warning_msg[] = 'Product already exists in your cart';
-    } elseif ($cart_count >= 20) {
+    elseif ($cart_count >= 20) 
         $warning_msg[] = 'Cart is full';
-    } else {
+    else {
         // Fetch product price
         $select_price = mysqli_query($conn, "SELECT price FROM products WHERE id = $product_id LIMIT 1");
         $fetch_price = mysqli_fetch_assoc($select_price);

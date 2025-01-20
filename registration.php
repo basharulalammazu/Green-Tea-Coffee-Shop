@@ -103,7 +103,7 @@ if (isset($_POST['submit']))
             </div>
             <div class="input-field">
                 <p>Phone Number</p>
-                <input type="text" name="phone_number" placeholder="Enter your phone number" maxlength="14" required value="<?php echo isset($phoneNumber) ? ($phoneNumber) : ''; ?>">
+                <input type="number" name="phone_number" class = "num" placeholder="Enter your phone number" maxlength="14" required value="<?php echo isset($phoneNumber) ? ($phoneNumber) : ''; ?>">
             </div>
             <div class="input-field">
                 <p>Email</p>

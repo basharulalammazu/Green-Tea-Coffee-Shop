@@ -6,6 +6,8 @@ include '../validitycheck.php';
 
 
 session_start(); 
+if ($_SESSION['user_type'] !== 'Admin') 
+    header('Location: ../login.php');
 
 $warning_msg = []; // Initialize warning message array
 $succcess_msg = []; // Initialize success message array

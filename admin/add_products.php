@@ -1,6 +1,9 @@
 <?php
 include '../components/connection.php';
 session_start();
+if ($_SESSION['user_type'] !== 'Admin') 
+        header('Location: ../login.php');
+    
 $admin_id = $_SESSION['user_id'];
 
 if (!isset($admin_id)) 

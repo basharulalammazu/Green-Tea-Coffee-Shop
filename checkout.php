@@ -2,6 +2,16 @@
 include 'components/connection.php';
 
 session_start();
+if (isset($_SESSION['user_type'])) 
+    {
+        if ($_SESSION['user_type'] === 'Admin') 
+        {
+            // Redirect to admin dashboard if user is Admin
+            header('location: admin/dashboard.php');
+            exit();
+        }
+    }
+    
 if (!isset($_SESSION['user_id'])) {
     $warning_msg = 'Please login to checkout';
     header('Location: login.php');

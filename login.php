@@ -26,6 +26,7 @@ if (isset($_POST['login'])) {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['user_email'] = $row['email'];
+            $_SESSION['user_type'] = $row['user_type'];
 
             // Set a cookie if "Remember Me" is checked
             if (isset($_POST['remember_me'])) 
@@ -41,13 +42,13 @@ if (isset($_POST['login'])) {
             // Redirect based on User Type
             if (trim($row['user_type']) == "Admin") 
             {
-                $success_msg[] = 'Admin login successful';
+                $succcess_msg[] = 'Admin login successful';
                 header('Location: admin/dashboard.php');
                 exit();
             } 
             else if (trim($row['user_type']) == "Customer") 
             {
-                $success_msg[] = 'Customer login successful';
+                $succcess_msg[] = 'Customer login successful';
                 header('Location: home.php');
                 exit();
             } 

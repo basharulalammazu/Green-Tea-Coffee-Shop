@@ -6,6 +6,8 @@ include '../validitycheck.php';
 
 
 session_start();
+if ($_SESSION['user_type'] !== 'Admin') 
+    header('Location: ../login.php');
 
 // Check if the admin is logged in
 if (!isset($_SESSION['user_id'])) 

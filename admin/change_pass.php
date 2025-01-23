@@ -2,6 +2,9 @@
 include '../components/connection.php';
 include '../validitycheck.php';
 session_start();
+if ($_SESSION['user_type'] !== 'Admin') 
+    header('Location: ../login.php');
+
     if (isset($_POST['update_password'])) 
     {
         $old_password = filter_var($_POST['old_password'], FILTER_SANITIZE_STRING);

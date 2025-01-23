@@ -3,6 +3,8 @@ include '../components/connection.php';
 include '../validitycheck.php';
 
 session_start();
+if ($_SESSION['user_type'] !== 'Admin') 
+    header('Location: ../login.php');
 
 if (isset($_SESSION['user_id'])) 
     $user_id = $_SESSION['user_id'];

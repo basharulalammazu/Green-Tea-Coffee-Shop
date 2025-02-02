@@ -108,30 +108,45 @@ if (isset($_POST['empty_cart'])) {
         
         <div class = "box-container">
         <div class="box-container">
-    <?php
-        $grand_total = 0;
-        // Fetch the cart items for the logged-in user
-        $select_cart = "SELECT * FROM `cart` WHERE `user_id` = '$user_id'";
-        $cart_result = $conn->query($select_cart); // Execute query using mysqli
-        
-        // Check if the cart has items
-        if ($cart_result->num_rows > 0) {
-            while ($fetch_cart = $cart_result->fetch_assoc()) {
-                // Prepare a query to select products based on cart product_id
-                $select_products = "SELECT * FROM `products` WHERE `id` = '" . $fetch_cart['product_id'] . "'";
-                $product_result = $conn->query($select_products);  // Execute query to get product details
-                
-                if ($product_result->num_rows > 0) 
+        <?php
+            $grand_total = 0;
+            // Fetch the cart items for the logged-in user
+            $select_cart = "SELECT * FROM `cart` WHERE `user_id` = '$user_id'";
+            $cart_result = $conn->query($select_cart); // Execute query using mysqli
+
+            // Check if the cart has items
+            if ($cart_result->num_rows > 0) {
+                while ($fetch_cart = $cart_result->fetch_assoc()) 
                 {
-                    $image_formats = ['jpg', 'jpeg', 'png'];
-                    $fetch_products = $product_result->fetch_assoc();  // Fetch the product details
-                    foreach ($image_formats as $format) 
+                    // Prepare a query to select products based on cart product_id
+                    $select_products = "SELECT * FROM `products` WHERE `id` = '" . $fetch_cart['product_id'] . "' AND `status` = 'active'";
+                    $product_result = $conn->query($select_products);  // Execute query to get product details
+                    
+                    // Default values
+                    $image_path = "image/product_unavailable.png"; // Default image path
+                    $product_name = "Unavailable Product";
+                    $product_price = 0;
+                    $sub_total = 0;
+                    $show_controls = false; // Hide quantity update and edit button
+                    
+                    if ($product_result->num_rows > 0) 
                     {
-                        $temp_path = "image/product/{$fetch_products['id']}.$format";
-                        if (file_exists($temp_path)) 
+                        $fetch_products = $product_result->fetch_assoc();
+                        $product_name = $fetch_products['name'];
+                        $product_price = $fetch_products['price'];
+                        $sub_total = $fetch_cart['quantity'] * $product_price;
+                        $show_controls = true; // Show controls only if product exists
+                        
+                        // Check for available image formats
+                        $image_formats = ['jpg', 'jpeg', 'png'];
+                        foreach ($image_formats as $format) 
                         {
-                            $image_path = $temp_path;
-                            break;
+                            $temp_path = "image/product/{$fetch_products['id']}.$format";
+                            if (file_exists($temp_path)) 
+                            {
+                                $image_path = $temp_path;
+                                break;
+                            }
                         }
                     }
 
@@ -139,28 +154,27 @@ if (isset($_POST['empty_cart'])) {
                     <form class="box" action="" method="post">
                         <input type="hidden" name="cart_id" value="<?=$fetch_cart['id']; ?>">
                         <img src="<?= $image_path; ?>" class="img">
-                        <h3 class="name"><?=$fetch_products['name'];?></h3>
+                        <h3 class="name"><?=$product_name;?></h3>
                         <div class="flex">
-                            <p class="price">Price $<?=$fetch_products['price']; ?>/-</p>
-                            <input type="number" name="qty" min="1" value="<?=$fetch_cart['quantity'];?>" max="99" maxlength="2" class="qty" required>
-                            <button type="submit" name="update_cart" class="bx bxs-edit fa-edit"></button>
+                            <p class="price">Price $<?=$product_price; ?>/-</p>
+                            
+                            <?php if ($show_controls) { ?>
+                                <input type="number" name="qty" min="1" value="<?=$fetch_cart['quantity'];?>" max="99" class="qty" required>
+                                <button type="submit" name="update_cart" class="bx bxs-edit fa-edit"></button>
+                            <?php } ?>
                         </div>
-                        <p class="sub-total">Sub Total: <span>$<?=($sub_total = $fetch_cart['quantity'] * $fetch_products['price']); ?></span></p>
-                        <button type="submit" name="delete_item" class="bttn" onclick="return confirm('Delete this item')">Delete</button>
+                        <p class="sub-total">Sub Total: <span>$<?= $sub_total; ?></span></p>
+                        <button type="submit" name="delete_item" class="bttn" onclick="return confirm('Delete this item?')">Delete</button>
                     </form>
                     <?php
                     // Update the grand total after each iteration
                     $grand_total += $sub_total;
                 }
-                else {
-                    echo "<p class='empty'>Product not found</p>";
-                }
+            } else {
+                echo "<p class='empty'>No products added yet!</p>";
             }
-        } else {
-            echo "<p class='empty'>No products added yet!</p>";
-        }
-    ?>
-</div>
+            ?>
+        </div>
 
         <?php 
             if ($grand_total != 0)

@@ -198,7 +198,29 @@
                 }
             }
         ?>
+        <div class="comment-section">
+            <h2>Customer Reviews</h2>
+            
+            <?php if (isset($success_msg)) echo "<p class='success'>$success_msg</p>"; ?>
+            <?php if (isset($error_msg)) echo "<p class='error'>$error_msg</p>"; ?>
+            
+            <form action="" method="POST" class="comment-form">
+                <textarea name="comment" required placeholder="Write your review..."></textarea>
+                <button type="submit" name="submit_comment">Post Comment</button>
+            </form>
+            
+            <div class="comments-list">
+                <?php while ($row = $comments_result->fetch_assoc()) { ?>
+                    <div class="comment">
+                        <strong><?php echo $row['name']; ?></strong>
+                        <p><?php echo $row['comment']; ?></p>
+                        <span><?php echo date('F j, Y, g:i a', strtotime($row['date'])); ?></span>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
     </section>
+    
     
     <?php include 'components/footer.php'; ?>
         

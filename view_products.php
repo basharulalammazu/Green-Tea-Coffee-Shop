@@ -115,7 +115,7 @@ if (isset($_POST['add_to_cart'])) {
     <div class="box-container">
         <?php 
             // Fetch products from the database
-            $select_product = $conn->prepare("SELECT * FROM `products`");
+            $select_product = $conn->prepare("SELECT * FROM `products` WHERE status = 'active'");
             $select_product->execute();
             $result = $select_product->get_result();
 

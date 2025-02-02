@@ -159,7 +159,7 @@
                             $product_id = $fetch_wishlist['product_id'];
 
                             // Fetch product details
-                            $select_products = $conn->prepare("SELECT * FROM `products` WHERE `id` = ? AND `status` = 'active'");
+                            $select_products = $conn->prepare("SELECT * FROM `products` WHERE `id` = ? AND status = 'active'");
                             $select_products->bind_param("s", $product_id);
                             $select_products->execute();
                             $result_products = $select_products->get_result();

@@ -145,74 +145,81 @@
         <section class = "products">
             
             <div class = "box-container">
-            <?php
-                $grand_total = 0;
+                <?php
+                    $grand_total = 0;
 
-                // Use prepared statements with MySQLi
-                $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE `user_id` = ?");
-                $select_wishlist->bind_param("s", $user_id); // Bind the user_id parameter
-                $select_wishlist->execute();
-                $result_wishlist = $select_wishlist->get_result();
+                    // Use prepared statements with MySQLi
+                    $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE `user_id` = ?");
+                    $select_wishlist->bind_param("s", $user_id); // Bind the user_id parameter
+                    $select_wishlist->execute();
+                    $result_wishlist = $select_wishlist->get_result();
 
-                if ($result_wishlist->num_rows > 0) 
-                {
-                    while ($fetch_wishlist = $result_wishlist->fetch_assoc()) 
-                    {
-                        $product_id = $fetch_wishlist['product_id'];
-                        
-                        // Fetch product details
-                        $select_products = $conn->prepare("SELECT * FROM `products` WHERE `id` = ?");
-                        $select_products->bind_param("s", $product_id);
-                        $select_products->execute();
-                        $result_products = $select_products->get_result();
+                    if ($result_wishlist->num_rows > 0) {
+                        while ($fetch_wishlist = $result_wishlist->fetch_assoc()) {
+                            $product_id = $fetch_wishlist['product_id'];
 
-                        if ($result_products->num_rows > 0) 
-                        {
-                            $fetch_products = $result_products->fetch_assoc();
-                            
-                            // Check for image existence with different formats
-                            $image_formats = ['jpg', 'png', 'jpeg', 'gif'];
-                            $image_path = '';
-                            foreach ($image_formats as $format) {
-                                $potential_path = "image/product/" . $fetch_products['id'] . "." . $format;
-                                if (file_exists($potential_path)) 
+                            // Fetch product details
+                            $select_products = $conn->prepare("SELECT * FROM `products` WHERE `id` = ? AND `status` = 'active'");
+                            $select_products->bind_param("s", $product_id);
+                            $select_products->execute();
+                            $result_products = $select_products->get_result();
+
+                            // Default values if product is missing or inactive
+                            $product_found = false;
+                            $product_name = "Unavailable Product";
+                            $product_price = $fetch_wishlist['price'];
+                            $image_path = "image/product_unavailable.png"; // Default image path
+
+                            if ($result_products->num_rows > 0) 
+                            {
+                                $fetch_products = $result_products->fetch_assoc();
+                                $product_found = true;
+                                $product_name = $fetch_products['name'];
+                                $product_price = $fetch_products['price'];
+
+                                // Check for image existence with different formats
+                                $image_formats = ['jpg', 'png', 'jpeg', 'gif'];
+                                foreach ($image_formats as $format) 
                                 {
-                                    $image_path = $potential_path;
-                                    break;
+                                    $potential_path = "image/product/" . $fetch_products['id'] . "." . $format;
+                                    if (file_exists($potential_path)) {
+                                        $image_path = $potential_path;
+                                        break;
+                                    }
                                 }
                             }
-                            
-                            // Use a default image if no file is found
-                            if (empty($image_path)) 
-                                $image_path = "image/product/default.png";
                 ?>
                             <form class="box" action="" method="post">
                                 <input type="hidden" name="wishlist_id" value="<?= $fetch_wishlist['id']; ?>">
-                                <img src="<?= $image_path; ?>" alt="<?= $fetch_products['name']; ?>" class = "img">
+                                <img src="<?= $image_path; ?>" alt="<?= $product_name; ?>" class="img">
                                 <div class="button">
-                                    <button type="submit" name="add_to_cart"><i class="bx bx-cart"></i></button>
-                                    <a href="view_page.php?pid=<?= $fetch_products['id']; ?>" class="bx bxs-show"></a>
-                                    <button type="submit" name="delete_item" onclick="return confirm('Delete this item from your wishlist?');"><i class="bx bx-heart"></i></button>
+                                    <?php if ($product_found) { ?>
+                                        <button type="submit" name="add_to_cart"><i class="bx bx-cart"></i></button>
+                                        <a href="view_page.php?pid=<?= $fetch_products['id']; ?>" class="bx bxs-show"></a>
+                                    <?php } ?>
+                                    <button type="submit" name="delete_item" onclick="return confirm('Delete this item from your wishlist?');">
+                                        <i class="bx bx-heart"></i>
+                                    </button>
                                 </div>
-                                <h3 class="name"><?= $fetch_products['name']; ?></h3>
-                                <input type="hidden" name="product_id" value="<?= $fetch_products['id']; ?>">
+                                <h3 class="name"><?= $product_name; ?></h3>
+                                <input type="hidden" name="product_id" value="<?= $fetch_wishlist['product_id']; ?>">
                                 <div class="flex">
-                                    <p class="price">Price $<?= $fetch_products['price']; ?>/-</p>
+                                    <p class="price">Price $<?= $product_price; ?>/-</p>
                                 </div>
-                                <a href="checkout.php?get_id=<?= $fetch_products['id']; ?>" class="bttn"> Buy Now </a>
+                                <?php if ($product_found) { ?>
+                                    <a href="checkout.php?get_id=<?= $fetch_products['id']; ?>" class="bttn"> Buy Now </a>
+                                <?php } ?>
                             </form>
                 <?php
-                            $grand_total += $fetch_wishlist['price'];
+                            $grand_total += $product_price;
+                            $select_products->close();
                         }
-                        $select_products->close();
                     }
-                } 
-                else 
-                    echo "<p class='empty'>No Products added yet!</p>";
-                
-                $select_wishlist->close();
-                ?>
+                     else 
+                        echo "<p class='empty'>No Products added yet!</p>";
 
+                    $select_wishlist->close();
+                    ?>
             </div>
         </section>
         <?php include 'components/footer.php'; ?>

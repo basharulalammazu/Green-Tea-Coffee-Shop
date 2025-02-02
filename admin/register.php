@@ -77,7 +77,7 @@ if (isset($_POST['register']))
                         $email="";
                         $phone_number="";
 
-                    /*    if (sendConfirmationEmailWithCredentials($email, $pass)) // Send email to admin with credentials
+                        if (sendConfirmationEmailWithCredentials($email, $pass)) // Send email to admin with credentials
                             $success_msg[] = "Email sent to $email with login credentials.";
                         else 
                             $warning_msg[] = "Failed to send email."; */

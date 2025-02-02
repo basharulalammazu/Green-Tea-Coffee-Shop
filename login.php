@@ -76,6 +76,7 @@ if (isset($_POST['login'])) {
     <style type="text/css">
         <?php include 'style.css'; ?>
     </style>
+    <link rel = "stylesheet" href= "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="form-container">
@@ -94,7 +95,8 @@ if (isset($_POST['login'])) {
                 </div>
                 <div class="input-field">
                     <p>Password</p>
-                    <input type = "password" name = "pass" placeholder ="Enter the password" maxlength = "50" required>
+                    <input type="password" id="password" name="pass" placeholder="Enter the password" maxlength="50" required>
+                    <i class="fa fa-eye" id="toggleIcon" onclick="passwordToggle()"></i>
                     <a href="forgot_password.php" style="display: block; margin-top: 10px; font-size: 0.800em; text-align: left;">Forgot Password?</a>
                 </div>
                 <input type = "submit" name = "login" value = "Login" class="btn">

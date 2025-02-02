@@ -56,7 +56,8 @@ if (isset($_POST['update']))
         
     }
 
-    header("location:../admin/view_product.php");
+    header("location:../admin/edit_product.php?product_id=". $_POST['product_id']);
+    $succcess_msg[] = 'Product updated successfully';
 }
 
 
@@ -79,7 +80,7 @@ if (isset($_POST['delete']))
     $delete_product->execute([$p_id]);
 
     if ($delete_product->affected_rows > 0) 
-        $success_msg[] = 'Product deleted successfully.';
+        $succcess_msg[] = 'Product deleted successfully.';
     else 
         $warning_msg[] = 'Failed to delete product.';
 }
